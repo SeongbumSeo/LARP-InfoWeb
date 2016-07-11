@@ -1,0 +1,34 @@
+<?php
+/*header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); 
+header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); 
+header('Cache-Control: no-cache, must-revalidate'); 
+header('Pragma: no-cache');
+header('Content-Type: text/html');*/
+
+$rpath = $_SERVER['DOCUMENT_ROOT'].'/Launcher/'.$_GET['type'];
+$rarr = get_file_list($rpath);
+for($i = 0; $i < sizeof($rarr); $i++)
+{
+	$filename = substr($rarr[$i],strlen($rpath)+1);
+	$filehash = hash_file('md5','./'.$_GET['type'].'/'.$filename);
+	echo str_replace('/','\\',$filename).','.$filehash;
+	if($i != sizeof($rarr)-1)
+		echo '|';
+}
+
+function get_file_list($path,$arr=array())
+{
+	$dir = opendir($path);
+	while($file = readdir($dir))
+	{
+		if($file == '.' || $file == '..')
+			continue;
+		else if(is_dir($path.'/'.$file))
+			$arr = get_file_list($path.'/'.$file,$arr);
+		else
+			$arr[] = $path.'/'.$file;
+	}
+	closedir($dir);
+	return $arr;
+}
+?>
