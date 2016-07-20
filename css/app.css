@@ -92,7 +92,7 @@ body {
 }
 
 /* Content */
-#content-wrap {
+#content-wrapper {
 	position: relative;
 	z-index: 4;
 	width: 100%;
