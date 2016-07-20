@@ -71,6 +71,7 @@ body {
 	color: #FFF;
 	text-align: center;
 	border: 1px solid rgba(255, 255, 255, 0);
+	text-transform: uppercase;
 	transition: 2s;
 }
 .top-bar .menu li a:hover {
