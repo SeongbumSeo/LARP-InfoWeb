@@ -98,6 +98,11 @@ body {
 	width: 100%;
 	background: inherit;
 }
+#content-wrapper p,
+#content-wrapper a,
+#content-wrapper div {
+	color: #667777;
+}
 
 .content {
 	padding-bottom: 2rem;
@@ -112,11 +117,10 @@ body {
 	text-align: right;
 }
 #notice a {
-	color: #000;
 	transition: 1s;
 }
 #notice a:hover {
-	color: #557777;
+	color: #000;
 }
 
 /* Footer */
