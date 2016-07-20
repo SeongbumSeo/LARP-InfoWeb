@@ -1,0 +1,100 @@
+/* Document */
+body {
+  font-family: Roboto, 'Segoe UI', 'Helvetica Neue', Arial, 'Malgun Gothic', Dotum, sans-serif;
+  background: #EFF5FB;
+}
+
+/* Top Bar */
+@media screen and (max-width: 40em) {
+  .top-bar-background,
+  .top-bar {
+    height: 50px;
+  }
+  .top-bar-title {
+    width: 100%;
+  }
+  .top-bar-title img {
+    height: 30px;
+  }
+  .top-bar-right {
+    padding: 10px 0 0 0;
+  }
+  .top-bar .menu {
+    background: rgba(50, 50, 50, 0.5);
+  }
+  .top-bar .menu li {
+    display: block;
+  }
+}
+@media screen and (min-width: 40em) {
+  .top-bar-background,
+  .top-bar {
+    height: 100px;
+  }
+  .top-bar-title img {
+    height: 85px;
+  }
+  .top-bar-right {
+    padding: 20px 0;
+  }
+  .top-bar .menu {
+    background: transparent;
+  }
+}
+.top-bar-background {
+  position: fixed;
+  z-index: 5;
+  width: 100%;
+  background: rgb(52, 73, 94);
+  opacity: 0;
+}
+.top-bar {
+  position: fixed;
+  z-index: 6;
+  width: 100%;
+  padding: 10px 0;
+  background: transparent;
+}
+.top-bar-right {
+  width: 100%;
+}
+.top-bar-title img {
+  margin: 0 20px;
+}
+.top-bar .menu-icon-container {
+  float: right;
+}
+.top-bar .menu-icon {
+  margin: 0 20px 0 0;
+}
+.top-bar .menu li a {
+  color: #FFF;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0);
+  transition: 2s;
+}
+.top-bar .menu li a:hover {
+  border: 1px solid #FFF;
+}
+
+/* Top Orbit */
+.topOrbit {
+  position: fixed;
+  width: 100%;
+}
+.topOrbit video {
+  width: 100%;
+  background: #000;
+}
+.topOrbit button {
+  height: 50%;
+  font-size: 1.5em;
+}
+
+/* Content */
+#content {
+	position: relative;
+	z-index: 4;
+	width: 100%;
+	background: inherit;
+}

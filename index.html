@@ -10,6 +10,66 @@
 </head>
 
 <body>
+	<div class="top-bar-background"></div>
+	<div class="top-bar">
+		<div class="row full-width">
+			<div class="top-bar-title">
+				<a href="index.html"><img src="./images/logos/white_gray.png" /></a>
+				<span class="menu-icon-container" data-responsive-toggle="responsive-menu" data-hide-for="medium">
+					<button class="menu-icon" type="button" data-toggle></button>
+				</span>
+			</div>
+			<div id="responsive-menu">
+				<div class="top-bar-right">
+					<ul class="menu">
+						<li><a href="#">Notice</a></li>
+						<li><a href="#">World</a></li>
+						<li><a href="#">Admin</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="off-canvas-wrapper">
+		<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+			<div class="off-canvas position-left" id="player-info" data-off-canvas data-position="left">
+				<div class="row column">
+					<br>
+					<img class="thumbnail" src="http://placehold.it/550x350">
+					<h5>Player Name</h5>
+					<p>이 곳에 스테이터스를 출력합니다.</p>
+				</div>
+			</div>
+
+			<div class="off-canvas-content" data-off-canvas-content>
+				<div class="orbit topOrbit" role="region" data-orbit data-auto-play="false">
+					<ul class="orbit-container">
+						<button class="orbit-previous" aria-label="previous"><span class="show-for-sr">Previous Slide</span>&#9664;</button>
+						<button class="orbit-next" aria-label="next"><span class="show-for-sr">Next Slide</span>&#9654;</button>
+						<li class="orbit-slide is-active">
+							<video poster="images/posters/shining_sun.jpg">
+								<source src="videos/shining_sun.mp4" type="video/mp4" />
+							</video>
+						</li>
+						<li class="orbit-slide">
+							<video poster="images/posters/BADA - Flower (Teaser).jpg">
+								<source src="videos/BADA - Flower (Teaser).mp4" type="video/mp4" />
+							</video>
+						</li>
+						<li class="orbit-slide">
+							<video poster="images/posters/여자친구(GFRIEND) - 너 그리고 나 (NAVILLERA).jpg">
+								<source src="videos/여자친구(GFRIEND) - 너 그리고 나 (NAVILLERA).mp4" type="video/mp4" />
+							</video>
+						</li>
+					</ul>
+				</div>
+
+				<div id="content" class="topAnchor" style="height: 1000px;">
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<script src="./js/vendor/jquery.js"></script>
 	<script src="./js/vendor/foundation.js"></script>
@@ -19,6 +79,145 @@
 </body>
 
 <script>
+var topbarOpacityFixed = false;
+var topvideoMuted = true;
+var topvideoVolume = 1;
+var isMobile = {
+	Android: function () {
+		return navigator.userAgent.match(/Android/i);
+	},
+	BlackBerry: function () {
+		return navigator.userAgent.match(/BlackBerry/i);
+	},
+	iOS: function () {
+		return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+	},
+	Opera: function () {
+		return navigator.userAgent.match(/Opera Mini/i);
+	},
+	Windows: function () {
+		return navigator.userAgent.match(/IEMobile/i);
+	},
+	Any: function () {
+		return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+	}
+};
+
+$(window).scroll(function() {
+	setTopSectionDisplay();
+});
+$(window).resize(function() {
+	if(topbarOpacityFixed && parseInt($('.top-bar').css('height')) == 100)
+		topbarOpacityFixed = false;
+
+	setOrbitHeight();
+	setTopSectionDisplay();
+});
+$(document).ready(function () {
+	setTopSectionDisplay();
+
+	if(!isMobile.Any())
+		$.each($('.orbit-slide.is-active video'), function() {
+			this.muted = topvideoMuted;
+			this.volume = topvideoVolume;
+			this.play();
+		});
+	else {
+		$('.topOrbit').css('position', 'static');
+		$('#content').css('position', 'static');
+	}
+
+	$('[data-toggle]').on('click.zf.responsiveToggle', function() {
+		if($('#responsive-menu').css('display') != 'none') {
+			$('.top-bar-background').css('opacity', 1);
+			topbarOpacityFixed = true;
+		} else {
+			topbarOpacityFixed = false;
+			setTopSectionDisplay();
+		}
+	});
+
+	$('.topOrbit').on('slidechange.zf.orbit', function(event) {
+		var playingCnt = 0;
+
+		$.each($('video'), function() {
+			if(!this.paused) {
+				this.pause();
+				playingCnt++;
+			}
+		});
+		if(playingCnt > 0)
+			$.each($('.orbit-slide.is-active video'), function() {
+				this.muted = topvideoMuted;
+				this.volume = topvideoVolume;
+				this.play();
+			});
+
+		setOrbitHeight();
+		setTopSectionDisplay();
+	});
+
+	$('video').on('loadeddata', function() {
+		setOrbitHeight();
+		setTopSectionDisplay();
+	});
+	$('video').on('click', function() {
+		if(this.paused)
+			this.play();
+		else
+			this.pause();
+	});
+	$('video').on('volumechange', function() {
+		topvideoMuted = this.muted;
+		topvideoVolume = this.volume;
+	});
+	$('video').on('play', function() {
+		setOrbitHeight();
+		setTopSectionDisplay();
+	});
+	$('video').on('ended', function() {
+		var slides = $('.orbit-slide');
+			activeSlide = slides.filter('.is-active'),
+			activeIndex = slides.index(activeSlide)+1,
+			activeNum = activeIndex == slides.length ? 0 : activeIndex;
+		
+		$('.orbit-next').click();
+		$.each($('.orbit-slide').eq(activeNum).children('video'), function() {
+			this.muted = topvideoMuted;
+			this.volume = topvideoVolume;
+			this.play();
+		});
+	});
+});
+
+function setOrbitHeight() {
+	var videoHeight = videoHeight = $('.orbit-slide.is-active video').height();
+
+	if(parseInt(videoHeight) == 0)
+		setTimeout("setOrbitHeight()", 10);
+	else {
+		$('.topOrbit').css('height', videoHeight);
+		$('.topOrbit ul').css('height', videoHeight);
+		$('.topOrbit ul li').css('height', videoHeight);
+	}
+}
+function setTopSectionDisplay() {
+	var anchorTop = $('.topOrbit').height();
+	var scrollTop = $(document).scrollTop();
+	var topbarOpacity = 1-(anchorTop-scrollTop)/anchorTop;
+
+	if(!isMobile.Any()) {
+		$('.topOrbit').css('top', -scrollTop/5);
+		$('.topAnchor').css('top', anchorTop);
+		$('.off-canvas-content').css('height', anchorTop + $('.topAnchor').height());
+	}
+
+	if(!topbarOpacityFixed)
+		if(topbarOpacity >= 1)
+			$('.top-bar-background').css('opacity', 1);
+		else
+			$('.top-bar-background').css('opacity', topbarOpacity);
+}
 </script>
 
 </html>
