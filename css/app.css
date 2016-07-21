@@ -168,10 +168,10 @@ body {
 	max-width: 55rem;
 }
 #profile .img {
-	min-height: 10rem;
+	height: 17rem;
 	background-position: center;
 	background-repeat: no-repeat;
-	background-size: auto 100%;
+	background-size: cover;
 }
 #profile .progress {
 	margin: 0 auto;
