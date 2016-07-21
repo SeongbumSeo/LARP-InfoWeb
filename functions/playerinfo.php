@@ -10,9 +10,10 @@ if(!isset($_SESSION['id']) || !isset($_SESSION['password'])) {
 
 $id = $_SESSION['id'];
 $password = $_SESSION['password'];
-$result = $db_samp->query("
+
+$presult = $db_samp->query("
 	SELECT
-		*,
+		a.*,
 		IF (b.Name != \"\",
 			b.Name,
 			\"무직\"
@@ -28,10 +29,22 @@ $result = $db_samp->query("
 		AND a.Password = '$password'
 	ORDER BY a.CreatedTime ASC
 	LIMIT 1");
-if($data = $result->fetch_array()) {
-	$pnumber = ($data['PhoneNumber'] == 0) ? "없음" : $data['PhoneNumber'];
+$cresult = $db_samp->query("
+	SELECT
+		a.*
+	FROM
+		car_data a
+	JOIN
+		user_data b
+		ON a.OwnerID = b.ID
+	WHERE
+		a.OwnerType = 1
+		AND b.Username = '$id'
+	ORDER BY CreatedTime ASC");
+if($data = $presult->fetch_array()) {
+	$pnumber = $data['PhoneNumber'] == 0 ? "없음" : $data['PhoneNumber'];
 	$origins = Array("미국", "한국", "이탈리아", "일본", "스페인", "러시아", "프랑스", "중국", "이라크", "독일", "영국");
-	$origin = ($data['Origin'] < 0 || $data['Origin'] > count($origins)) ? "알수없음" : $origins[$data['Origin']];
+	$origin = $data['Origin'] < 0 || $data['Origin'] > count($origins) ? "알수없음" : $origins[$data['Origin']];
 	$money = '$'.number_format($data['Money']);
 	$bank = '$'.number_format($data['Bank']);
 	$bankbook = sprintf("%03d-%03d", $data['Bankbook']/1000, $data['Bankbook']%1000);
@@ -68,6 +81,31 @@ if($data = $result->fetch_array()) {
 	$returns .="<div>\n";
 	$returns .= addData("위치", getLocationName($data['LastPos']));
 	$returns .= "</div>\n";
+
+	unset($data);
+
+	$returns .= "|".$cresult->num_rows;
+	while($data = $cresult->fetch_array()) {
+		$engine = $data['Engine'] ? "켜져있음" : "꺼져있음";
+		$active = $data['Active'] ? "꺼내져있음" : "넣어져있음";
+		$locked = $data['Locked'] ? "잠겨있음" : "열려있음";
+
+		$returns .= "|";
+
+		$returns .= getVehicleModelName($data['Model'])."|";
+		$returns .= $data['Model']."|";
+		$returns .= ($data['Health']/10)."|";
+		$returns .= ($data['Fuel']/100000)."|";
+
+		$returns .= addData("번호판", $data['NumberPlate']);
+		$returns .= addData("시동", $engine);
+		$returns .= addData("상태", $active);
+		$returns .= addData("잠금여부", $locked);
+		$returns .= addData("블로우", $data['BlowedCnt']."회");
+		$returns .= addData("위치", getLocationName($data['LastPos']));
+
+		unset($data);
+	}
 
 	print($returns);
 }
@@ -109,6 +147,224 @@ function getJobName($jobid) {
 			break;
 	}
 	return $job;
+}
+
+function getVehicleModelName($modelid) {
+	$vehiclelist = array(
+		"Landstalker",
+		"Bravura",
+		"Buffalo",
+		"Linerunner",
+		"Perenniel",
+		"Sentinel",
+		"Dumper",
+		"Firetruck",
+		"Trashmaster",
+		"Unique Vehicles",
+		"Manana",
+		"Infernus",
+		"Lowriders",
+		"Pony",
+		"Mule",
+		"Cheetah",
+		"Ambulance",
+		"Leviathan",
+		"Moonbeam",
+		"Esperanto",
+		"Taxi",
+		"Washington",
+		"Bobcat",
+		"Mr Whoopee",
+		"BF Injection",
+		"Hunter",
+		"Premier",
+		"Enforcer",
+		"Securicar",
+		"Banshee",
+		"Predator",
+		"Bus",
+		"Rhino",
+		"Barracks",
+		"Hotknife",
+		"Article Trailer",
+		"Previon",
+		"Coach",
+		"Cabbie",
+		"Stallion",
+		"Rumpo",
+		"RC Bandit",
+		"Romero",
+		"Packer",
+		"Monster",
+		"Admiral",
+		"Squallo",
+		"Seasparrow",
+		"Pizzaboy",
+		"Tram",
+		"Article Trailer 2",
+		"Turismo",
+		"Speeder",
+		"Reefer",
+		"Tropic",
+		"Flatbed",
+		"Yankee",
+		"Caddy",
+		"Solair",
+		"RC Van",
+		"Skimmer",
+		"PCJ-600",
+		"Faggio",
+		"Freeway",
+		"RC Baron",
+		"RC Raider",
+		"Glendale",
+		"Oceanic",
+		"Sanchez",
+		"Sparrow",
+		"Patriot",
+		"Quad",
+		"Coastguard",
+		"Dinghy",
+		"Hermes",
+		"Sabre",
+		"Rustler",
+		"ZR-350",
+		"Walton",
+		"Regina",
+		"Comet",
+		"BMX",
+		"Burrito",
+		"Camper",
+		"Marquis",
+		"Baggage",
+		"Dozer",
+		"Maverick",
+		"SAN News Maverick",
+		"Rancher",
+		"FBI Rancher",
+		"Virgo",
+		"Greenwood",
+		"Jetmax",
+		"Hotring Racer",
+		"Sandking",
+		"Blista Compact",
+		"Police Maverick",
+		"Boxville",
+		"Benson",
+		"Mesa",
+		"RC Goblin",
+		"Hotring Racer",
+		"Hotring Racer",
+		"Bloodring Banger",
+		"Rancher",
+		"Super GT",
+		"Elegant",
+		"Journey",
+		"Bike",
+		"Mountain Bike",
+		"Beagle",
+		"Cropduster",
+		"Stuntplane",
+		"Tanker",
+		"Roadtrain",
+		"Nebula",
+		"Majestic",
+		"Buccaneer",
+		"Shamal",
+		"Hydra",
+		"FCR-900",
+		"NRG-500",
+		"HPV1000",
+		"Cement Truck",
+		"Towtruck",
+		"Fortune",
+		"Cadrona",
+		"FBI Truck",
+		"Willard",
+		"Forklift",
+		"Tractor",
+		"Combine Harvester",
+		"Feltzer",
+		"Remington",
+		"Slamvan",
+		"Blade",
+		"Train Freight",
+		"Train Brownstreak",
+		"Vortex",
+		"Vincent",
+		"Bullet",
+		"Clover",
+		"Sadler",
+		"Firetruck LA",
+		"Hustler",
+		"Intruder",
+		"Primo",
+		"Cargobob",
+		"Tampa",
+		"Sunrise",
+		"Merit",
+		"Utility Van",
+		"Nevada",
+		"Yosemite",
+		"Windsor",
+		"Monster A",
+		"Monster B",
+		"Uranus",
+		"Jester",
+		"Sultan",
+		"tratum",
+		"Elegy",
+		"Raindance",
+		"RC Tiger",
+		"Flash",
+		"Tahoma",
+		"Savanna",
+		"Bandito",
+		"Train Freight Flat Trailer",
+		"Train Streak Trailer",
+		"Kart",
+		"Mower",
+		"Dune",
+		"Sweeper",
+		"Broadway",
+		"Tornado",
+		"AT400",
+		"DFT-30",
+		"Huntley",
+		"Stafford",
+		"BF-400",
+		"Newsvan",
+		"Tug",
+		"Petrol Trailer",
+		"Emperor",
+		"Wayfarer",
+		"Euros",
+		"Hotdog",
+		"Club",
+		"Train Freight Box Trailer",
+		"Article Trailer 3",
+		"Andromada",
+		"Dodo",
+		"RC Cam",
+		"Launch",
+		"LSPD Police Car",
+		"SFPD Police Car",
+		"LVPD Police Car",
+		"Police Ranger",
+		"Picador",
+		"S.W.A.T.",
+		"Alpha",
+		"Phoenix",
+		"Glendale Shit",
+		"Sadler Shit",
+		"Baggage Trailer A",
+		"Baggage Trailer B",
+		"Tug Stairs Trailer",
+		"Boxville",
+		"Farm Trailer",
+		"Utility Trailer"
+	);
+	return $vehiclelist[intval($modelid)-400];
 }
 
 function GetLocationName($position) {

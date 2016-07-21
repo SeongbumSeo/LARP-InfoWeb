@@ -141,10 +141,10 @@
 						<div class="small-9 medium-8 columns">
 							<h3></h3>
 							<div class="success progress">
-								<div class="progress-meter health"></div>
+								<div class="progress-meter hunger"></div>
 							</div>
 							<div class="alert progress">
-								<div class="progress-meter hunger"></div>
+								<div class="progress-meter health"></div>
 							</div>
 							<div class="status-details-wrapper">
 								<div class="status-details">
@@ -156,29 +156,30 @@
 			</div>
 		</div>
 
-		<div id="vehicles" class="row content show-signedin hide">
-			<div class="column">
-				<h1>Vehicles</h1>
-				<div class="row">
-					<div class="row small-12 large-6 columns">
-						<div class="row">
-							<div class="small-3 medium-4 columns">
-								<div class="img"
-								style="background-image: url('http://weedarr.wdfiles.com/local--files/veh/521.png');">
-								</div>
+		<div id="vehicles" class="content show-signedin hide">
+			<div class="row">
+				<div class="column">
+					<h1>Vehicles</h1>
+				</div>
+			</div>
+			<div class="row each-vehicle">
+				<div class="small-12 large-6 columns hide">
+					<div class="row">
+						<div class="small-3 medium-4 columns">
+							<div class="img">
 							</div>
+						</div>
 
-							<div class="small-9 medium-8 columns">
-								<h3>FCR-900</h3>
-								<div class="status-details-wrapper">
-									<div class="status-details">
-										<span><b>번호판</b>LA 3654</span>
-										<span><b>시동</b>꺼져있음</span>
-										<span><b>상태</b>꺼내져있음</span>
-										<span><b>잠금여부</b>열려있음</span>
-										<span><b>블로우</b>4회</span>
-										<span><b>위치</b>Commerce, Los Angeles</span>
-									</div>
+						<div class="small-9 medium-8 columns">
+							<h3></h3>
+							<div class="progress">
+								<div class="progress-meter fuel"></div>
+							</div>
+							<div class="alert progress">
+								<div class="progress-meter health"></div>
+							</div>
+							<div class="status-details-wrapper">
+								<div class="status-details">
 								</div>
 							</div>
 						</div>
@@ -479,6 +480,24 @@ function loadPlayerInformation() {
 			$('#profile .health').css('width', data_splited[3] + '%');
 			$('#profile .hunger').css('width', data_splited[4] + '%');
 			$('#profile .status-details').html(data_splited[5]);
+
+			var max_vehs = parseInt(data_splited[6]);
+			var cnt = 1;
+			for(var i = 7; data_splited[i] != null; cnt++) {
+				var block = $('.each-vehicle .hide').clone().appendTo('.each-vehicle').removeClass('hide');
+
+				if(max_vehs == 1)
+					block.addClass('large-centered').css('float', 'none');
+				else if(cnt == max_vehs)
+					block.addClass('end');
+
+				block.find('h3').html(data_splited[i++]);
+				block.find('.img')
+					.css('background-image', 'url(\'http://weedarr.wdfiles.com/local--files/veh/' + data_splited[i++] + '.png\')');
+				block.find('.health').css('width', data_splited[i++] + '%');
+				block.find('.fuel').css('width', data_splited[i++] + '%');
+				block.find('.status-details').html(data_splited[i++]);
+			}
 		}
 		else if(data_splited[0] == 2)
 			setTimeout("loadPlayerInformation()", 1000);
