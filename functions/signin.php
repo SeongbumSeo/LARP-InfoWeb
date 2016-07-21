@@ -24,7 +24,8 @@ switch((int)$_POST['cmd']) {
 					OR (AdminName = '$id' AND Admin > 0)
 				)
 				AND Password = SHA1('$password')
-			ORDER BY CreatedTime ASC");
+			ORDER BY CreatedTime ASC
+			LIMIT 1");
 		if(isset($_SESSION['logintry']) && $_SESSION['logintry'] > 3)
 			print("0|로그인을 3회 이상 실패하였습니다.");
 		else if(strlen($id) < 1 && strlen($password) < 1)

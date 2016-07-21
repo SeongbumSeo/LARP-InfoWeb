@@ -135,51 +135,19 @@
 				<h1>Profile</h1>
 				<div class="row">
 					<div class="row column">
-						<div class="small-3 medium-4 columns img"
-							style="background-image: url('images/skins/217.png');">
+						<div class="small-3 medium-4 columns img">
 						</div>
 
 						<div class="small-9 medium-8 columns">
-							<h3>Vladimir Horowitz</h3>
+							<h3></h3>
 							<div class="success progress">
-								<div class="progress-meter" style="width: 90%"></div>
+								<div class="progress-meter health"></div>
 							</div>
 							<div class="alert progress">
-								<div class="progress-meter" style="width: 75%"></div>
+								<div class="progress-meter hunger"></div>
 							</div>
 							<div class="status-details-wrapper">
 								<div class="status-details">
-									<div>
-										<span><b>나이</b>20세</span>
-										<span><b>전화번호</b>34013</span>
-										<span><b>국적</b>러시아</span>
-									</div>
-
-									<div>
-										<span><b>소지금</b>$7,036</span>
-										<span><b>은행</b>$126,857</span>
-										<span><b>계좌번호</b>327-868</span>
-									</div>
-
-									<div>
-										<span><b>팩션</b>미가입</span>
-										<span><b>직업</b>차량정비사</span>
-									</div>
-
-									<div>
-										<span><b>레벨</b>12</span>
-										<span><b>존경치</b>22/52</span>
-										<span><b>업글포인트</b>8</span>
-									</div>
-
-									<div>
-										<span><b>경고</b>2/7</span>
-										<span><b>칭찬</b>1/3</span>
-									</div>
-
-									<div>
-										<span><b>위치</b>추적불가</span>
-									</div>
 								</div>
 							</div>
 						</div>
@@ -485,6 +453,7 @@ function setTopSectionDisplay() {
 
 function setSignedDisplay() {
 	if(signedin) {
+		loadPlayerInformation();
 		$('.signin-button').html("Sign out");
 		$('.show-signedin').removeClass('hide');
 		$('.hide-signedin').addClass('hide');
@@ -493,6 +462,27 @@ function setSignedDisplay() {
 		$('.show-signedin').addClass('hide');
 		$('.hide-signedin').removeClass('hide');
 	}
+}
+
+function loadPlayerInformation() {
+	$.ajax({
+		type: "get",
+		url: "functions/playerinfo.php",
+		cache: false
+	}).done(function(data) {
+		data_splited = data.split('|');
+		if(data_splited[0] == 0)
+			alert(data_splited[1]);
+		else if(data_splited[0] == 1) {
+			$('#profile h3').html(data_splited[1]);
+			$('#profile .img').css('background-image', 'url(\'images/skins/' + data_splited[2] + '.png\')');
+			$('#profile .health').css('width', data_splited[3] + '%');
+			$('#profile .hunger').css('width', data_splited[4] + '%');
+			$('#profile .status-details').html(data_splited[5]);
+		}
+		else if(data_splited[0] == 2)
+			setTimeout("loadPlayerInformation()", 1000);
+	});
 }
 </script>
 
