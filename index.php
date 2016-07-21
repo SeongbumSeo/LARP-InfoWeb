@@ -23,9 +23,10 @@
 				<div class="top-bar-right">
 					<ul class="menu" data-magellan data-bar-offset="30">
 						<li><a href="#notice">Notice</a></li>
-						<li><a href="#profile">Profile</a></li>
+						<li class="show-signedin hide"><a href="#profile">Profile</a></li>
 						<li><a href="#world">World</a></li>
-						<li><a href="#admin">Admin</a></li>
+						<li class="show-signedin"><a href="#admin">Admin</a></li>
+						<li><a class="signin-button" href="#signin"></a></li>
 					</ul>
 				</div>
 			</div>
@@ -102,7 +103,34 @@
 
 		<hr />
 
-		<div id="profile" class="row content">
+		<div id="signin" class="content hide-signedin hide">
+			<div class="row">
+				<div class="column">
+					<h1>Sign in with your <u>Nickname</u></h1>
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-12 medium-9 large-7 medium-centered columns">
+					<div class="input-group">
+						<span class="input-group-label">Nickname</span>
+						<input class="input-group-field id" type="text" />
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-12 medium-9 large-7 medium-centered columns">
+					<div class="input-group">
+						<span class="input-group-label">Password</span>
+						<input class="input-group-field password" type="password" />
+						<div class="input-group-button">
+							<input type="submit" class="button signin-submit" value="Sign in" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="profile" class="row content show-signedin hide">
 			<div class="column">
 				<h1>Profile</h1>
 				<div class="row">
@@ -160,7 +188,7 @@
 			</div>
 		</div>
 
-		<div id="vehicles" class="row content">
+		<div id="vehicles" class="row content show-signedin hide">
 			<div class="column">
 				<h1>Vehicles</h1>
 				<div class="row">
@@ -224,6 +252,10 @@
 		</footer>
 	</div>
 
+	<div class="blackscreen">
+		<div></div>
+	</div>
+
 	<script src="js/vendor/jquery.js"></script>
 	<script src="js/vendor/foundation.js"></script>
 	<script>
@@ -235,6 +267,7 @@
 var topbarOpacityFixed = false;
 var topvideoMuted = true;
 var topvideoVolume = 1;
+var signedin = false;
 var isMobile = {
 	Android: function () {
 		return navigator.userAgent.match(/Android/i);
@@ -341,6 +374,85 @@ $(document).ready(function () {
 			this.play();
 		});
 	});
+
+	$('.signin-submit').on('click', function() {
+		if(!signedin) {
+			var id = $('input.id').val(),
+				password = $('input.password').val();
+
+			$('input.id').val("");
+			$('input.password').val("");
+
+			$('.signin-submit').css('disabled', true);
+			$('.blackscreen > div').html("로그인 처리중입니다.");
+			$('.blackscreen').css('display', 'block');
+			$('.blackscreen').fadeTo('slow', 1, function() {	
+				$.ajax({
+					type: "post",
+					url: "functions/signin.php",
+					cache: false,
+					data: {
+						cmd: 1,
+						id: id,
+						password: password
+					}
+				}).done(function(data) {
+					data_splited = data.split('|');
+					if(data_splited[0] == 0)
+						alert(data_splited[1]);
+					else if(data_splited[0] == 1) {
+						signedin = true;
+						setSignedDisplay();
+					}
+				}).always(function() {
+					$(document).scrollTop($('#profile').offset().top-$('.top-bar').height());
+					$('.blackscreen').fadeTo('slow', 0, function() {
+						$('.blackscreen').css('display', 'none');
+					});
+				});
+			});
+		}
+	});
+	$('.signin-button').on('click', function() {
+		if(signedin) {
+			$('.signin-submit').prop('disabled', true);
+			$('.blackscreen > div').html("로그아웃 처리중입니다.");
+			$('.blackscreen').css('display', 'block');
+			$('.blackscreen').fadeTo('slow', 1, function() {	
+				$.ajax({
+					type: "post",
+					url: "functions/signin.php",
+					cache: false,
+					data: {
+						cmd: 2
+					}
+				}).done(function(data) {
+					if(data == 1) {
+						signedin = false;
+						setSignedDisplay();
+					}
+				}).always(function() {
+					$(document).scrollTop($('#signin').offset().top-$('.top-bar').height());
+					$('.blackscreen').fadeTo('slow', 0, function() {
+						$('.signin-submit').prop('disabled', false);
+						$('.blackscreen').css('display', 'none');
+					});
+				});
+			});
+		}
+	});
+
+	$.ajax({
+		type: "post",
+		url: "functions/signin.php",
+		cache: false,
+		data: {
+			cmd: 0
+		}
+	}).done(function(data) {
+		signedin = (data == 1) ? true : false;
+		setSignedDisplay();
+	});
 });
 
 function setOrbitHeight() {
@@ -369,6 +481,18 @@ function setTopSectionDisplay() {
 			$('.top-bar-background').css('opacity', 1);
 		else
 			$('.top-bar-background').css('opacity', topbarOpacity);
+}
+
+function setSignedDisplay() {
+	if(signedin) {
+		$('.signin-button').html("Sign out");
+		$('.show-signedin').removeClass('hide');
+		$('.hide-signedin').addClass('hide');
+	} else {
+		$('.signin-button').html("Sign in");
+		$('.show-signedin').addClass('hide');
+		$('.hide-signedin').removeClass('hide');
+	}
 }
 </script>
 

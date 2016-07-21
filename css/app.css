@@ -4,6 +4,30 @@ body {
 	background: #EFF5FB;
 }
 
+.blackscreen {
+	position: fixed;
+	display: none;
+	z-index: 7;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #222;
+	opacity: 0;
+}
+.blackscreen > div {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	height: 3em;
+	width: 20em;
+	margin-top: -1.5em;
+	margin-left: -10em;
+	color: #CCC;
+	text-align: center;
+	font-size: 1.5em;
+}
+
 /* Top Bar */
 @media screen and (max-width: 40em) {
 	.top-bar-background,
@@ -67,6 +91,9 @@ body {
 .top-bar .menu-icon {
 	margin: 0 20px 0 0;
 }
+.top-bar .menu .signin-button {
+	color: #D9D9FF;
+}
 .top-bar .menu li a {
 	color: #FFF;
 	text-align: center;
@@ -128,6 +155,15 @@ body {
 }
 #notice a:hover {
 	color: #000;
+}
+
+#signin .input-group-label {
+	width: 7rem;
+	color: #667777;
+	background: rgb(230, 240, 240);
+}
+#signin .input-group-field {
+	color: #445555;
 }
 
 .status-details-wrapper {
