@@ -173,7 +173,7 @@ body {
 	margin-top: 2.5rem;
 }
 .footer i img {
-	height: 5rem;
+	max-height: 5rem;
 }
 .footer h4 {
 	color: #666;
