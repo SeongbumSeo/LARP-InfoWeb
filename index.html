@@ -5,8 +5,8 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>LA:RP Information Website</title>
-	<link rel="stylesheet" href="./css/foundation.min.css">
-	<link rel="stylesheet" href="./css/app.css">
+	<link rel="stylesheet" href="css/foundation.min.css">
+	<link rel="stylesheet" href="css/app.css">
 </head>
 
 <body>
@@ -14,7 +14,7 @@
 	<div class="top-bar">
 		<div class="row">
 			<div class="top-bar-title">
-				<a href="index.html"><img src="./images/logos/white_gray.png" /></a>
+				<a href="index.html"><img src="images/logos/white_gray.png" /></a>
 				<span class="menu-icon-container" data-responsive-toggle="responsive-menu" data-hide-for="medium">
 					<button class="menu-icon" type="button" data-toggle></button>
 				</span>
@@ -103,7 +103,21 @@
 		<hr />
 
 		<div id="profile" class="row content">
-			<h1>Profile</h1>
+			<div class="small-24 columns">
+				<h1>Profile</h1>
+				<div class="row">
+					<div class="small-3 columns skin" style="background-image: url('images/skins/217.png');"></div>
+					<div class="small-9 columns">
+						<h3>Vladimir Horowitz</h3>
+						<div class="success progress">
+							<div class="progress-meter" style="width: 90%"></div>
+						</div>
+						<div class="alert progress">
+							<div class="progress-meter" style="width: 75%"></div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<div class="row debug">
@@ -139,8 +153,8 @@
 		</footer>
 	</div>
 
-	<script src="./js/vendor/jquery.js"></script>
-	<script src="./js/vendor/foundation.js"></script>
+	<script src="js/vendor/jquery.js"></script>
+	<script src="js/vendor/foundation.js"></script>
 	<script>
 	$(document).foundation();
 	</script>
