@@ -158,9 +158,15 @@ body {
 }
 #profile .progress:first-of-type {
 	margin-bottom: 0;
+	border-radius: 10px 10px 0 0;
 }
 #profile .progress:nth-of-type(2) {
 	margin-bottom: .5rem;
+	border-radius: 0 0 10px 10px;
+}
+#profile .progress:first-of-type .progress-meter,
+#profile .progress:nth-of-type(2) .progress-meter {
+	border-radius: 10px;
 }
 #profile .profile-details-wrapper {
 	text-align: center;
