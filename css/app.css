@@ -127,9 +127,11 @@ body {
 	background: inherit;
 }
 
-.content {
-	padding-bottom: 2rem;
+hr {
+	margin-top: 2rem;
+	margin-bottom: 0;
 }
+
 .content h1 {
 	margin: 2rem 0 2rem 1rem;
 	font-weight: 800;
@@ -204,7 +206,7 @@ body {
 	max-width: 55rem;
 }
 #profile .img {
-	height: 17rem;
+	min-height: 15rem;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -258,6 +260,7 @@ body {
 	//background: #2980B9;
 	background: #333;
 	//background: #29B980;
+	margin-top: 2rem;
 	padding: 2rem 4rem;
 	text-align: center;
 	//color: #6A6A6A;
