@@ -108,6 +108,11 @@ body {
 	font-weight: 800;
 	color: #AACCCC;
 }
+.content h3 {
+	font-weight: 800;
+	color: #77AAAA;
+	text-align: center;
+}
 .content p,
 .content a,
 .content div {
@@ -125,6 +130,36 @@ body {
 	color: #000;
 }
 
+.status-details-wrapper {
+	text-align: center;
+}
+.status-details {
+	display: inline-block;
+	text-align: left;
+	padding-left: 1rem;
+}
+.status-details span {
+	white-space: nowrap;
+}
+@media screen and (max-width: 40em) {
+	.status-details span:nth-child(n+1) {
+		margin-right: 1rem;
+	}
+}
+@media screen and (min-width: 40em) and (max-width: 64em) {
+	.status-details span:nth-child(n+1) {
+		margin-right: 1.2rem;
+	}
+}
+@media screen and (min-width: 64em) {
+	.status-details span:nth-child(n+1) {
+		margin-right: 2rem;
+	}
+}
+.status-details span b {
+	margin-right: .5rem;
+}
+
 #profile > div > .row {
 	text-align: center;
 }
@@ -132,15 +167,11 @@ body {
 	display: inline-block;
 	max-width: 55rem;
 }
-#profile .skin {
-	min-height: 15rem;
+#profile .img {
+	min-height: 10rem;
 	background-position: center;
+	background-repeat: no-repeat;
 	background-size: auto 100%;
-}
-#profile h3 {
-	font-weight: 800;
-	color: #77AAAA;
-	text-align: center;
 }
 #profile .progress {
 	margin: 0 auto;
@@ -168,34 +199,22 @@ body {
 #profile .progress:nth-of-type(2) .progress-meter {
 	border-radius: 10px;
 }
-#profile .profile-details-wrapper {
+
+#vehicles > div > .row {
 	text-align: center;
 }
-#profile .profile-details {
+#vehicles > div > .row > .columns {
 	display: inline-block;
-	text-align: left;
-	padding-left: 1rem;
 }
-#profile .profile-details span {
-	white-space: nowrap;
+#vehicles > div > .row > .columns:nth-of-type(n+2) {
+	float: left;
 }
-@media screen and (max-width: 40em) {
-	#profile .profile-details span:nth-child(n+1) {
-		margin-right: 1rem;
-	}
-}
-@media screen and (min-width: 40em) and (max-width: 64em) {
-	#profile .profile-details span:nth-child(n+1) {
-		margin-right: 1.2rem;
-	}
-}
-@media screen and (min-width: 64em) {
-	#profile .profile-details span:nth-child(n+1) {
-		margin-right: 2rem;
-	}
-}
-#profile .profile-details span b {
-	margin-right: .5rem;
+#vehicles .img {
+	min-height: 10rem;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	margin: 1rem;
 }
 
 /* Footer */
