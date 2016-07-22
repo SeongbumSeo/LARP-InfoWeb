@@ -135,10 +135,10 @@
 				<h1>Profile</h1>
 				<div class="row">
 					<div class="row column">
-						<div class="small-3 medium-4 columns img">
+						<div class="small-12 medium-4 columns img">
 						</div>
 
-						<div class="small-9 medium-8 columns">
+						<div class="small-12 medium-8 columns">
 							<h3></h3>
 							<div class="success progress">
 								<div class="progress-meter hunger"></div>
@@ -165,12 +165,12 @@
 			<div class="row each-vehicle">
 				<div class="small-12 large-6 columns hide">
 					<div class="row">
-						<div class="small-3 medium-4 columns">
+						<div class="small-12 medium-4 columns">
 							<div class="img">
 							</div>
 						</div>
 
-						<div class="small-9 medium-8 columns">
+						<div class="small-12 medium-8 columns">
 							<h3></h3>
 							<div class="progress">
 								<div class="progress-meter fuel"></div>

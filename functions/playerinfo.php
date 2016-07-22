@@ -79,7 +79,7 @@ if($data = $presult->fetch_array()) {
 	$returns .= "</div>\n";
 
 	$returns .="<div>\n";
-	$returns .= addData("위치", getLocationName($data['LastPos']));
+	$returns .= addData("위치", getLocationName($data['LastPos']), "white-space: normal;");
 	$returns .= "</div>\n";
 
 	unset($data);
@@ -102,7 +102,7 @@ if($data = $presult->fetch_array()) {
 		$returns .= addData("상태", $active);
 		$returns .= addData("잠금여부", $locked);
 		$returns .= addData("블로우", $data['BlowedCnt']."회");
-		$returns .= addData("위치", getLocationName($data['LastPos']));
+		$returns .= addData("위치", getLocationName($data['LastPos']), "white-space: normal;");
 
 		unset($data);
 	}
@@ -112,7 +112,9 @@ if($data = $presult->fetch_array()) {
 else
 	print("2");
 
-function addData($key, $value) {
+function addData($key, $value, $style=null) {
+	if($style != null)
+		return "<span style=\"$style\"><b>$key</b>$value</span></b>";
 	return "<span><b>$key</b>$value</span>\n";
 }
 

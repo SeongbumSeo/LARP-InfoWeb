@@ -239,11 +239,20 @@ hr {
 }
 
 #vehicles .img {
-	min-height: 10rem;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: contain;
 	margin: 1rem;
+}
+@media screen and (max-width: 40em) {
+	#vehicles .img {
+		min-height: 7rem;
+	}
+}
+@media screen and (min-width: 40em) {
+	#vehicles .img {
+		min-height: 10rem;
+	}
 }
 #vehicles .progress {
 	margin: 0 auto;
