@@ -139,11 +139,11 @@
 			<div class="row">
 				<div class="small-12 medium-9 medium-centered columns">
 					<div class="row">
-						<div class="small-12 medium-4 columns img">
+						<div class="small-12 large-4 columns img">
 							<img />
 						</div>
 
-						<div class="small-12 medium-8 columns">
+						<div class="small-12 large-8 columns">
 							<h3></h3>
 							<div class="success progress">
 								<div class="progress-meter hunger"></div>
