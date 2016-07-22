@@ -19,13 +19,13 @@ body {
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	height: 3em;
-	width: 20em;
-	margin-top: -1.5em;
-	margin-left: -10em;
+	height: 3rem;
+	width: 20rem;
+	margin-top: -1.5rem;
+	margin-left: -10rem;
 	color: #CCC;
 	text-align: center;
-	font-size: 1.5em;
+	font-size: 1.5rem;
 }
 
 /* Top Bar */
@@ -198,18 +198,8 @@ hr {
 	margin-right: .5rem;
 }
 
-#profile > div > .row {
-	text-align: center;
-}
-#profile > div > .row > .row {
-	display: inline-block;
-	max-width: 55rem;
-}
 #profile .img {
-	min-height: 15rem;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
+	text-align: center;
 }
 #profile .progress {
 	margin: 0 auto;
@@ -217,12 +207,12 @@ hr {
 }
 @media screen and (max-width: 40em) {
 	#profile .progress {
-		height: .7em;
+		height: .7rem;
 	}
 }
 @media screen and (min-width: 40em) {
 	#profile .progress {
-		height: 1em;
+		height: 1rem;
 	}
 }
 #profile .progress:first-of-type {
@@ -239,20 +229,10 @@ hr {
 }
 
 #vehicles .img {
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: contain;
-	margin: 1rem;
+	text-align: center;
 }
-@media screen and (max-width: 40em) {
-	#vehicles .img {
-		min-height: 7rem;
-	}
-}
-@media screen and (min-width: 40em) {
-	#vehicles .img {
-		min-height: 10rem;
-	}
+#vehicles .vmargin {
+	height: 2rem;
 }
 #vehicles .progress {
 	margin: 0 auto;

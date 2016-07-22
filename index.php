@@ -130,12 +130,17 @@
 			</div>
 		</div>
 
-		<div id="profile" class="row content show-signedin hide">
-			<div class="column">
-				<h1>Profile</h1>
-				<div class="row">
-					<div class="row column">
+		<div id="profile" class="content show-signedin hide">
+			<div class="row">
+				<div class="column">
+					<h1>Profile</h1>
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-12 medium-9 medium-centered columns">
+					<div class="row">
 						<div class="small-12 medium-4 columns img">
+							<img />
 						</div>
 
 						<div class="small-12 medium-8 columns">
@@ -163,11 +168,10 @@
 				</div>
 			</div>
 			<div class="row each-vehicle">
-				<div class="small-12 large-6 columns hide">
+				<div class="small-12 large-6 columns hide vblock">
 					<div class="row">
-						<div class="small-12 medium-4 columns">
-							<div class="img">
-							</div>
+						<div class="small-12 medium-4 columns img">
+							<img />
 						</div>
 
 						<div class="small-12 medium-8 columns">
@@ -184,6 +188,8 @@
 							</div>
 						</div>
 					</div>
+				</div>
+				<div class="small-12 hide-for-large columns hide vmargin">
 				</div>
 			</div>
 		</div>
@@ -476,7 +482,7 @@ function loadPlayerInformation() {
 			alert(data_splited[1]);
 		else if(data_splited[0] == 1) {
 			$('#profile h3').html(data_splited[1]);
-			$('#profile .img').css('background-image', 'url(\'images/skins/' + data_splited[2] + '.png\')');
+			$('#profile .img img').attr('src', 'images/skins/' + data_splited[2] + '.png');
 			$('#profile .health').css('width', data_splited[3] + '%');
 			$('#profile .hunger').css('width', data_splited[4] + '%');
 			$('#profile .status-details').html(data_splited[5]);
@@ -484,16 +490,18 @@ function loadPlayerInformation() {
 			var max_vehs = parseInt(data_splited[6]);
 			var cnt = 1;
 			for(var i = 7; data_splited[i] != null; cnt++) {
-				var block = $('.each-vehicle .hide').clone().appendTo('.each-vehicle').removeClass('hide');
+				var block = $('.each-vehicle div.vblock.hide').clone().appendTo('.each-vehicle').removeClass('hide');
 
 				if(max_vehs == 1)
 					block.addClass('large-centered').css('float', 'none');
 				else if(cnt == max_vehs)
 					block.addClass('end');
+				else
+					$('.each-vehicle div.vmargin.hide').clone().appendTo('.each-vehicle').removeClass('hide');
 
 				block.find('h3').html(data_splited[i++]);
-				block.find('.img')
-					.css('background-image', 'url(\'http://weedarr.wdfiles.com/local--files/veh/' + data_splited[i++] + '.png\')');
+				block.find('.img img')
+					.attr('src', 'http://weedarr.wdfiles.com/local--files/veh/' + data_splited[i++] + '.png');
 				block.find('.health').css('width', data_splited[i++] + '%');
 				block.find('.fuel').css('width', data_splited[i++] + '%');
 				block.find('.status-details').html(data_splited[i++]);
