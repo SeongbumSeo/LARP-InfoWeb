@@ -57,6 +57,7 @@ if($data = $presult->fetch_array()) {
 	$returns = "1|";
 
 	$returns .= str_replace('_', ' ', $data['Username'])."|";
+	$returns .= $data['Level']."|";
 	$returns .= $data['Skin']."|";
 	$returns .= $data['Health']."|";
 	$returns .= $data['Hunger']."|";

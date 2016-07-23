@@ -154,7 +154,10 @@
 						</div>
 
 						<div class="small-12 large-8 columns">
-							<h3></h3>
+							<h3>
+								<span class="username"></span>
+								<span class="badge level"></span>
+							</h3>
 							<div class="success progress">
 								<div class="progress-meter hunger"></div>
 							</div>
@@ -501,16 +504,18 @@ function loadPlayerInformation() {
 		if(data_splited[0] == 0)
 			checkSignedStatus();
 		else if(data_splited[0] == 1) {
-			$('#profile h3').html(data_splited[1]);
-			$('#profile .img img').attr('src', 'images/skins/' + data_splited[2] + '.png');
-			$('#profile .health').css('width', data_splited[3] + '%');
-			$('#profile .hunger').css('width', data_splited[4] + '%');
-			$('#profile .status-details').html(data_splited[5]);
+			var i = 1;
 
-			var max_vehs = parseInt(data_splited[6]);
-			var cnt = 1;
+			$('#profile .username').html(data_splited[i++]);
+			$('#profile .badge.level').html(data_splited[i++]);
+			$('#profile .img img').attr('src', 'images/skins/' + data_splited[i++] + '.png');
+			$('#profile .health').css('width', data_splited[i++] + '%');
+			$('#profile .hunger').css('width', data_splited[i++] + '%');
+			$('#profile .status-details').html(data_splited[i++]);
+
+			var max_vehs = parseInt(data_splited[i++]);
 			$('.each-vehicle > div').not($('.hide')).remove();
-			for(var i = 7; data_splited[i] != null; cnt++) {
+			for(var cnt = 1; data_splited[i] != null; cnt++) {
 				var block = $('.each-vehicle div.vblock.hide').clone().appendTo('.each-vehicle').removeClass('hide');
 
 				if(max_vehs == 1)
