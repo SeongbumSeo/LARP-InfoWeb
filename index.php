@@ -509,6 +509,7 @@ function loadPlayerInformation() {
 
 			var max_vehs = parseInt(data_splited[6]);
 			var cnt = 1;
+			$('.each-vehicle > div').not($('.hide')).remove();
 			for(var i = 7; data_splited[i] != null; cnt++) {
 				var block = $('.each-vehicle div.vblock.hide').clone().appendTo('.each-vehicle').removeClass('hide');
 
