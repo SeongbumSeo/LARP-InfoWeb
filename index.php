@@ -106,7 +106,7 @@
 		<div id="signin" class="content hide-signedin hide">
 			<div class="row">
 				<div class="column">
-					<h1>Sign in with your <u>Nickname</u></h1>
+					<h1>Sign in with your <u>nickname</u></h1>
 				</div>
 			</div>
 			<div class="row">

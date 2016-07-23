@@ -15,7 +15,8 @@ $password = $_SESSION['password'];
 $presult = $db_samp->query("
 	SELECT
 		a.*,
-		IF (b.Name != \"\",
+		IF(
+			b.Name != \"\",
 			b.Name,
 			\"무직\"
 		) FactionName
@@ -23,8 +24,7 @@ $presult = $db_samp->query("
 		user_data a
 	LEFT JOIN
 		faction_data b
-	ON
-		a.Faction = b.ID
+		ON a.Faction = b.ID
 	WHERE
 		a.ID = $id
 		AND a.Password = '$password'
@@ -32,12 +32,16 @@ $presult = $db_samp->query("
 	LIMIT 1");
 $cresult = $db_samp->query("
 	SELECT
-		a.*
+		a.*,
+		c.Name ParkingLot
 	FROM
 		car_data a
 	JOIN
 		user_data b
-		ON a.OwnerID = b.ID
+		ON b.ID = a.OwnerID
+	LEFT JOIN
+		parkinglot_data c
+		ON c.ID = SUBSTRING_INDEX(a.LastPos, ',', -1)-40000
 	WHERE
 		a.OwnerType = 1
 		AND b.ID = $id
@@ -90,6 +94,14 @@ if($data = $presult->fetch_array()) {
 		$engine = $data['Engine'] ? "켜져있음" : "꺼져있음";
 		$active = $data['Active'] ? "꺼내져있음" : "넣어져있음";
 		$locked = $data['Locked'] ? "잠겨있음" : "열려있음";
+		if($data['Towed'])
+			$location = "<u>견인 차량 보관소</u>";
+		else if($data['Blowed'])
+			$location = "<u>파괴 차량 보관소</u>";
+		else if($data['ParkingLot'] != null)
+			$location = $data['ParkingLot'];
+		else
+			$location = getLocationName($data['LastPos']);
 
 		$returns .= "|";
 
@@ -103,7 +115,7 @@ if($data = $presult->fetch_array()) {
 		$returns .= addData("상태", $active);
 		$returns .= addData("잠금여부", $locked);
 		$returns .= addData("블로우", $data['BlowedCnt']."회");
-		$returns .= addData("위치", getLocationName($data['LastPos']), "white-space: normal;");
+		$returns .= addData("위치", $location, "white-space: normal;");
 
 		unset($data);
 	}
