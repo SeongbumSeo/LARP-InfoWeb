@@ -5,14 +5,34 @@ require('mysqli.php');
 
 switch((int)$_POST['cmd']) {
 	case 0:
-		print((int)(isset($_SESSION['id']) && isset($_SESSION['password'])));
+		if(!isset($_SESSION['id']))
+			print("0");
+		else {
+			$id = $_SESSION['id'];
+			$username = $_SESSION['username'];
+			$password = $_SESSION['password'];
+
+			$result = $db_samp->query("
+				SELECT
+					NULL
+				FROM
+					user_data
+				WHERE
+					ID = $id
+					AND Username = '$username'
+					AND Password = '$password'
+				ORDER BY CreatedTime ASC
+				LIMIT 1");
+			print($result->num_rows);
+		}
 		break;
 	case 1:
-		$id = $db_samp->real_escape_string(str_replace(' ', '_', $_POST['id']));
+		$username = $db_samp->real_escape_string(str_replace(' ', '_', $_POST['username']));
 		$password = $db_samp->real_escape_string($_POST['password']);
 
 		$result = $db_samp->query("
 			SELECT
+				ID,
 				Username,
 				Password
 			FROM
@@ -20,22 +40,23 @@ switch((int)$_POST['cmd']) {
 			WHERE
 				Deprecated = 0
 				AND (
-					Username = '$id'
-					OR (AdminName = '$id' AND Admin > 0)
+					Username = '$username'
+					OR (AdminName = '$username' AND Admin > 0)
 				)
 				AND Password = SHA1('$password')
 			ORDER BY CreatedTime ASC
 			LIMIT 1");
 		if(isset($_SESSION['logintry']) && $_SESSION['logintry'] > 3)
 			print("0|로그인을 3회 이상 실패하였습니다.");
-		else if(strlen($id) < 1 && strlen($password) < 1)
+		else if(strlen($username) < 1 && strlen($password) < 1)
 			print("0|닉네임과 비밀번호를 입력하십시오.");
-		else if(strlen($id) < 1)
+		else if(strlen($username) < 1)
 			print("0|닉네임을 입력하십시오.");
 		else if(strlen($password) < 1)
 			print("0|비밀번호를 입력하십시오.");
 		else if($data = $result->fetch_array()) {
-			$_SESSION['id'] = $data['Username'];
+			$_SESSION['id'] = $data['ID'];
+			$_SESSION['username'] = $data['Username'];
 			$_SESSION['password'] = $data['Password'];
 			print("1");
 		}
@@ -48,6 +69,7 @@ switch((int)$_POST['cmd']) {
 		break;
 	case 2:
 		unset($_SESSION['id']);
+		unset($_SESSION['username']);
 		unset($_SESSION['password']);
 		print("1");
 		break;

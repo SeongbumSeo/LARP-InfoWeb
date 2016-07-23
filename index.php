@@ -110,10 +110,20 @@
 				</div>
 			</div>
 			<div class="row">
+				<div class="small-12 medium-9 large-7 medium-centered columns" style="text-align: center;">
+					<div class="signin-alert alert callout" data-closable="slide-out-right" style="display: none;">
+						<p>여기에 메시지가 출력됩니다.</p>
+						<button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="row">
 				<div class="small-12 medium-9 large-7 medium-centered columns">
 					<div class="input-group">
 						<span class="input-group-label">Nickname</span>
-						<input class="input-group-field id" type="text" />
+						<input class="input-group-field username" type="text" />
 					</div>
 				</div>
 			</div>
@@ -275,6 +285,8 @@ $(window).resize(function() {
 	setTopSectionDisplay();
 });
 $(document).ready(function () {
+	checkSignedStatus();
+	setInterval("checkSignedStatus()", 60000);
 	setTopSectionDisplay();
 
 	if(!isMobile.Any())
@@ -352,10 +364,10 @@ $(document).ready(function () {
 
 	$('.signin-submit').on('click', function() {
 		if(!signedin) {
-			var id = $('input.id').val(),
+			var username = $('input.username').val(),
 				password = $('input.password').val();
 
-			$('input.id').val("");
+			$('input.username').val("");
 			$('input.password').val("");
 
 			$('.signin-submit').css('disabled', true);
@@ -368,13 +380,15 @@ $(document).ready(function () {
 					cache: false,
 					data: {
 						cmd: 1,
-						id: id,
+						username: username,
 						password: password
 					}
 				}).done(function(data) {
 					data_splited = data.split('|');
-					if(data_splited[0] == 0)
-						alert(data_splited[1]);
+					if(data_splited[0] == 0) {
+						$('.signin-alert p').html(data_splited[1]);
+						$('.signin-alert').css('display', 'block');
+					}
 					else if(data_splited[0] == 1) {
 						signedin = true;
 						setSignedDisplay();
@@ -416,7 +430,9 @@ $(document).ready(function () {
 			});
 		}
 	});
+});
 
+function checkSignedStatus() {
 	$.ajax({
 		type: "post",
 		url: "functions/signin.php",
@@ -425,10 +441,27 @@ $(document).ready(function () {
 			cmd: 0
 		}
 	}).done(function(data) {
+		if(signedin && data != 1) {
+			$('.signin-alert p').html("닉네임 혹은 비밀번호가 변경되어 로그아웃되었습니다.");
+			$('.signin-alert').css('display', 'block');
+		}
 		signedin = (data == 1) ? true : false;
 		setSignedDisplay();
 	});
-});
+}
+
+function setSignedDisplay() {
+	if(signedin) {
+		loadPlayerInformation();
+		$('.signin-button').html("Sign out");
+		$('.show-signedin').removeClass('hide');
+		$('.hide-signedin').addClass('hide');
+	} else {
+		$('.signin-button').html("Sign in");
+		$('.show-signedin').addClass('hide');
+		$('.hide-signedin').removeClass('hide');
+	}
+}
 
 function setOrbitHeight() {
 	var videoHeight = videoHeight = $('.orbit-slide.is-active video').height();
@@ -458,19 +491,6 @@ function setTopSectionDisplay() {
 			$('.top-bar-background').css('opacity', topbarOpacity);
 }
 
-function setSignedDisplay() {
-	if(signedin) {
-		loadPlayerInformation();
-		$('.signin-button').html("Sign out");
-		$('.show-signedin').removeClass('hide');
-		$('.hide-signedin').addClass('hide');
-	} else {
-		$('.signin-button').html("Sign in");
-		$('.show-signedin').addClass('hide');
-		$('.hide-signedin').removeClass('hide');
-	}
-}
-
 function loadPlayerInformation() {
 	$.ajax({
 		type: "get",
@@ -479,7 +499,7 @@ function loadPlayerInformation() {
 	}).done(function(data) {
 		data_splited = data.split('|');
 		if(data_splited[0] == 0)
-			alert(data_splited[1]);
+			checkSignedStatus();
 		else if(data_splited[0] == 1) {
 			$('#profile h3').html(data_splited[1]);
 			$('#profile .img img').attr('src', 'images/skins/' + data_splited[2] + '.png');

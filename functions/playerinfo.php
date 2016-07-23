@@ -3,12 +3,13 @@ session_start();
 
 require('mysqli.php');
 
-if(!isset($_SESSION['id']) || !isset($_SESSION['password'])) {
-	print("0|먼저 로그인을 하십시오.");
+if(!isset($_SESSION['id'])) {
+	print("0");
 	exit;
 }
 
 $id = $_SESSION['id'];
+$username = $_SESSION['username'];
 $password = $_SESSION['password'];
 
 $presult = $db_samp->query("
@@ -25,7 +26,7 @@ $presult = $db_samp->query("
 	ON
 		a.Faction = b.ID
 	WHERE
-		a.Username = '$id'
+		a.ID = $id
 		AND a.Password = '$password'
 	ORDER BY a.CreatedTime ASC
 	LIMIT 1");
@@ -39,7 +40,7 @@ $cresult = $db_samp->query("
 		ON a.OwnerID = b.ID
 	WHERE
 		a.OwnerType = 1
-		AND b.Username = '$id'
+		AND b.ID = $id
 	ORDER BY CreatedTime ASC");
 if($data = $presult->fetch_array()) {
 	$pnumber = $data['PhoneNumber'] == 0 ? "없음" : $data['PhoneNumber'];
