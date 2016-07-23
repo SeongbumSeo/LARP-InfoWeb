@@ -208,6 +208,34 @@
 			</div>
 		</div>
 
+		<div id="items" class="content show-signedin hide">
+			<div class="row">
+				<div class="column">
+					<h1>Items</h1>
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-12 large-8 large-centered columns">
+					<table>
+						<thead>
+							<tr>
+								<th width="15%">ID</th>
+								<th width="15%">소지량</th>
+								<th width="70%">이름</th>
+							</tr>
+						</thead>
+						<tbody class="item-data">
+							<tr class="hide">
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
 		<div class="row debug">
 		</div>
 
@@ -506,6 +534,7 @@ function loadPlayerInformation() {
 			checkSignedStatus();
 		else if(data_splited[0] == 1) {
 			var i = 1;
+			var cnt;
 
 			$('#profile .username').html(data_splited[i++]);
 			$('#profile .badge.level').html(data_splited[i++]);
@@ -518,14 +547,15 @@ function loadPlayerInformation() {
 			$('#profile .hunger').css('width', data_splited[i++] + '%');
 			$('#profile .status-details').html(data_splited[i++]);
 
-			var max_vehs = parseInt(data_splited[i++]);
+			var num_vehs = parseInt(data_splited[i++]);
 			$('.each-vehicle > div').not($('.hide')).remove();
-			for(var cnt = 1; data_splited[i] != null; cnt++) {
+			for(cnt = 1; data_splited[i] == 'vehicle'; cnt++) {
+				i++;
 				var block = $('.each-vehicle div.vblock.hide').clone().appendTo('.each-vehicle').removeClass('hide');
 
-				if(max_vehs == 1)
+				if(num_vehs == 1)
 					block.addClass('large-centered').css('float', 'none');
-				else if(cnt == max_vehs)
+				else if(cnt == num_vehs)
 					block.addClass('end');
 				else
 					$('.each-vehicle div.vmargin.hide').clone().appendTo('.each-vehicle').removeClass('hide');
@@ -537,6 +567,18 @@ function loadPlayerInformation() {
 				block.find('.fuel').css('width', data_splited[i++] + '%');
 				block.find('.status-details').html(data_splited[i++]);
 			}
+
+			var num_items = parseInt(data_splited[i++]);
+			$('.item-data > tr').not($('.hide')).remove();
+			for(cnt = 1; data_splited[i] == 'item'; cnt++) {
+				i++;
+				var block = $('.item-data tr.hide').clone().appendTo('.item-data').removeClass('hide');
+
+				block.find('td:first-child').html(data_splited[i++]);
+				block.find('td:nth-child(2)').html(data_splited[i++]);
+				block.find('td:nth-child(3)').html(data_splited[i++]);
+			}
+
 		}
 		else if(data_splited[0] == 2)
 			setTimeout("loadPlayerInformation()", 1000);

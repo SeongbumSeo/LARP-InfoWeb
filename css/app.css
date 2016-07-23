@@ -287,6 +287,30 @@ hr {
 	border-radius: 10px;
 }
 
+#items th,
+#items td:first-of-type,
+#items td:nth-of-type(2) {
+	text-align: center;
+}
+#items thead tr {
+	color: #FAFFFF;
+	background: #557799;
+}
+#items tbody tr {
+	background: #FCFFFF;
+}
+#items tbody tr td {
+	padding: .3rem .625rem;
+	font-size: 1rem;
+}
+#items tbody tr:nth-last-of-type(n+1) {
+	border-bottom: 1px solid #DDEEEE;
+}
+#items .hidden {
+	color: #AABBBB;
+	font-size: .9rem;
+}
+
 /* Footer */
 .footer {
 	//background: #2980B9;
