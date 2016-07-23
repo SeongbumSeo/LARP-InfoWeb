@@ -157,6 +157,7 @@
 							<h3>
 								<span class="username"></span>
 								<span class="badge level"></span>
+								<span class="secondary label party hide"></span>
 							</h3>
 							<div class="success progress">
 								<div class="progress-meter hunger"></div>
@@ -508,6 +509,10 @@ function loadPlayerInformation() {
 
 			$('#profile .username').html(data_splited[i++]);
 			$('#profile .badge.level').html(data_splited[i++]);
+			if(data_splited[i++].length > 0)
+				$('#profile .label.party').removeClass('hide').html(data_splited[i-1]);
+			else
+				$('#profile .label.party').addClass('hide');
 			$('#profile .img img').attr('src', 'images/skins/' + data_splited[i++] + '.png');
 			$('#profile .health').css('width', data_splited[i++] + '%');
 			$('#profile .hunger').css('width', data_splited[i++] + '%');

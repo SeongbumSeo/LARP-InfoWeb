@@ -16,15 +16,22 @@ $presult = $db_samp->query("
 	SELECT
 		a.*,
 		IF(
-			b.Name != \"\",
+			b.Name != NULL,
 			b.Name,
-			\"무직\"
-		) FactionName
+			\"미가입\"
+		) FactionName,
+		d.Title Party
 	FROM
 		user_data a
 	LEFT JOIN
 		faction_data b
-		ON a.Faction = b.ID
+		ON b.ID = a.Faction
+	LEFT JOIN
+		party_members c
+		ON c.UserID = a.ID
+	LEFT JOIN
+		party_list d
+		ON d.ID = c.PartyID 
 	WHERE
 		a.ID = $id
 		AND a.Password = '$password'
@@ -58,6 +65,7 @@ if($data = $presult->fetch_array()) {
 
 	$returns .= str_replace('_', ' ', $data['Username'])."|";
 	$returns .= $data['Level']."|";
+	$returns .= $data['Party']."|";
 	$returns .= $data['Skin']."|";
 	$returns .= $data['Health']."|";
 	$returns .= $data['Hunger']."|";

@@ -214,6 +214,9 @@ hr {
 	margin-right: .5rem;
 }
 
+#profile > .row:nth-of-type(2) > .columns > .row > .columns:nth-of-type(2) {
+	text-align: center;
+}
 #profile .img {
 	text-align: center;
 }
@@ -221,6 +224,10 @@ hr {
 	width: 100%;
 	max-width: 25rem;
 }
+/*#profile .party {
+	padding-left: 2rem;
+	padding-right: 2rem;
+}*/
 #profile .progress {
 	margin: 0 auto;
 	max-width: 35rem;
