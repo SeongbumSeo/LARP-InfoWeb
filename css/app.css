@@ -224,10 +224,20 @@ hr {
 	width: 100%;
 	max-width: 25rem;
 }
-/*#profile .party {
-	padding-left: 2rem;
-	padding-right: 2rem;
-}*/
+#profile .party {
+	background: transparent;
+	color: #99BBBB;
+	font-weight: 700;
+	/*text-shadow:
+		0px 1px 0 #557777,
+		0px -1px 0 #557777,
+		1px 0px 0 #557777,
+		-1px 0px 0 #557777,
+		1px 1px 0 #557777,
+		-1px -1px 0 #557777,
+		1px -1px 0 #557777,
+		-1px 1px 0 #557777;*/
+}
 #profile .progress {
 	margin: 0 auto;
 	max-width: 35rem;

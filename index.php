@@ -154,10 +154,10 @@
 						</div>
 
 						<div class="small-12 large-8 columns">
+							<span class="secondary label party hide"></span>
 							<h3>
 								<span class="username"></span>
 								<span class="badge level"></span>
-								<span class="secondary label party hide"></span>
 							</h3>
 							<div class="success progress">
 								<div class="progress-meter hunger"></div>
