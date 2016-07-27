@@ -112,7 +112,7 @@
 			<div class="row">
 				<div class="small-12 medium-9 large-7 medium-centered columns" style="text-align: center;">
 					<div class="signin-alert alert callout" data-closable="slide-out-right" style="display: none;">
-						<p>여기에 메시지가 출력됩니다.</p>
+						<p></p>
 						<button class="close-button" aria-label="Dismiss alert" type="button" data-close>
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -138,6 +138,29 @@
 					</div>
 				</div>
 			</div>
+		</div>
+
+		<div id="items" class="reveal show-signedin hide" data-reveal>
+			<h1></h1>
+			<table>
+				<thead>
+					<tr>
+						<th width="15%">ID</th>
+						<th width="15%">소지량</th>
+						<th width="70%">이름</th>
+					</tr>
+				</thead>
+				<tbody class="item-data">
+					<tr class="hide">
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+			<button class="close-button" data-close type="button">
+				<span aria-hidden="true">&times;</span>
+			</button>
 		</div>
 
 		<div id="profile" class="content show-signedin hide">
@@ -167,6 +190,10 @@
 							</div>
 							<div class="status-details-wrapper">
 								<div class="status-details">
+								</div>
+								<div class="expanded button-group">
+									<button type="button" class="show-item-list button">아이템 목록</button>
+									<button type="button" class="show-map button">상세 위치</button>
 								</div>
 							</div>
 						</div>
@@ -199,39 +226,15 @@
 							<div class="status-details-wrapper">
 								<div class="status-details">
 								</div>
+								<div class="expanded button-group">
+									<button type="button" class="show-item-list button">아이템 목록</button>
+									<button type="button" class="show-map button">상세 위치</button>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="small-12 hide-for-large columns hide vmargin">
-				</div>
-			</div>
-		</div>
-
-		<div id="items" class="content show-signedin hide">
-			<div class="row">
-				<div class="column">
-					<h1>Items</h1>
-				</div>
-			</div>
-			<div class="row">
-				<div class="small-12 large-8 large-centered columns">
-					<table>
-						<thead>
-							<tr>
-								<th width="15%">ID</th>
-								<th width="15%">소지량</th>
-								<th width="70%">이름</th>
-							</tr>
-						</thead>
-						<tbody class="item-data">
-							<tr class="hide">
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-						</tbody>
-					</table>
 				</div>
 			</div>
 		</div>
@@ -462,6 +465,11 @@ $(document).ready(function () {
 			});
 		}
 	});
+
+	$('#profile .show-item-list').on('click', function() {
+		showItemData(2);
+	});
+
 });
 
 function checkSignedStatus() {
@@ -560,6 +568,10 @@ function loadPlayerInformation() {
 				else
 					$('.each-vehicle div.vmargin.hide').clone().appendTo('.each-vehicle').removeClass('hide');
 
+				block.find('.show-item-list').attr('vid', data_splited[i++]);
+				block.find('.show-item-list').on('click', function() {
+					showItemData(3, $(this).attr('vid'));
+				});
 				block.find('h3').html(data_splited[i++]);
 				block.find('.img img')
 					.attr('src', 'http://weedarr.wdfiles.com/local--files/veh/' + data_splited[i++] + '.png');
@@ -567,8 +579,37 @@ function loadPlayerInformation() {
 				block.find('.fuel').css('width', data_splited[i++] + '%');
 				block.find('.status-details').html(data_splited[i++]);
 			}
+		}
+		else if(data_splited[0] == 2)
+			setTimeout("loadPlayerInformation()", 1000);
+	});
+}
 
+function showItemData(status, statusdata=null) {
+	var cmd;
+
+	if(status == 2)
+		cmd = 0;
+	else if(status == 3)
+		cmd = 1;
+
+	$.ajax({
+		type: "post",
+		url: "functions/item.php",
+		cache: false,
+		data: {
+			cmd: cmd,
+			vid: statusdata
+		}
+	}).done(function(data) {
+		data_splited = data.split('|');
+		if(data_splited[0] == 0)
+			checkSignedStatus();
+		else if(data_splited[0] == 1) {
+			var i = 1;
+			var cnt;
 			var num_items = parseInt(data_splited[i++]);
+
 			$('.item-data > tr').not($('.hide')).remove();
 			for(cnt = 1; data_splited[i] == 'item'; cnt++) {
 				i++;
@@ -579,9 +620,8 @@ function loadPlayerInformation() {
 				block.find('td:nth-child(3)').html(data_splited[i++]);
 			}
 
+			$("#items").foundation('open');
 		}
-		else if(data_splited[0] == 2)
-			setTimeout("loadPlayerInformation()", 1000);
 	});
 }
 </script>

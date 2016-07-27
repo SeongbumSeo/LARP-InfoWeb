@@ -1,10 +1,14 @@
 <?php
 session_start();
 
+define("CMD_GET_SIGNED_STATUS",	0);
+define("CMD_REQUEST_SIGN_IN",	1);
+define("CMD_SIGN_OUT",			2);
+
 require('mysqli.php');
 
 switch((int)$_POST['cmd']) {
-	case 0:
+	case CMD_GET_SIGNED_STATUS:
 		if(!isset($_SESSION['id']))
 			print("0");
 		else {
@@ -26,7 +30,7 @@ switch((int)$_POST['cmd']) {
 			print($result->num_rows);
 		}
 		break;
-	case 1:
+	case CMD_REQUEST_SIGN_IN:
 		$username = $db_samp->real_escape_string(str_replace(' ', '_', $_POST['username']));
 		$password = $db_samp->real_escape_string($_POST['password']);
 
@@ -67,7 +71,7 @@ switch((int)$_POST['cmd']) {
 			printf("0|닉네임 혹은 비밀번호를 확인하십시오. (%d/3회)", $_SESSION['logintry']);
 		}
 		break;
-	case 2:
+	case CMD_SIGN_OUT:
 		unset($_SESSION['id']);
 		unset($_SESSION['username']);
 		unset($_SESSION['password']);
