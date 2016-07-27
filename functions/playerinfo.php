@@ -100,6 +100,8 @@ if($data = $presult->fetch_array()) {
 
 	$returns .= "|".$cresult->num_rows;
 	while($data = $cresult->fetch_array()) {
+		$model = getVehicleModelName($data['Model']);
+		$caption = sprintf("%s <span>(%s)</span>", $model, $data['NumberPlate']);
 		$engine = $data['Engine'] ? "켜져있음" : "꺼져있음";
 		$active = $data['Active'] ? "꺼내져있음" : "넣어져있음";
 		$locked = $data['Locked'] ? "잠겨있음" : "열려있음";
@@ -115,7 +117,8 @@ if($data = $presult->fetch_array()) {
 		$returns .= "|vehicle|";
 
 		$returns .= $data['ID']."|";
-		$returns .= getVehicleModelName($data['Model'])."|";
+		$returns .= $caption."|";
+		$returns .= $model."|";
 		$returns .= $data['Model']."|";
 		$returns .= ($data['Health']/10)."|";
 		$returns .= ($data['Fuel']/100000)."|";

@@ -141,7 +141,7 @@
 		</div>
 
 		<div id="items" class="reveal show-signedin hide" data-reveal>
-			<h1></h1>
+			<h3></h3>
 			<table>
 				<thead>
 					<tr>
@@ -467,7 +467,7 @@ $(document).ready(function () {
 	});
 
 	$('#profile .show-item-list').on('click', function() {
-		showItemData(2);
+		showItemData("내 아이템", 2);
 	});
 
 });
@@ -569,8 +569,9 @@ function loadPlayerInformation() {
 					$('.each-vehicle div.vmargin.hide').clone().appendTo('.each-vehicle').removeClass('hide');
 
 				block.find('.show-item-list').attr('vid', data_splited[i++]);
+				block.find('.show-item-list').attr('vname', data_splited[i++]);
 				block.find('.show-item-list').on('click', function() {
-					showItemData(3, $(this).attr('vid'));
+					showItemData($(this).attr('vname'), 3, $(this).attr('vid'));
 				});
 				block.find('h3').html(data_splited[i++]);
 				block.find('.img img')
@@ -585,7 +586,7 @@ function loadPlayerInformation() {
 	});
 }
 
-function showItemData(status, statusdata=null) {
+function showItemData(caption, status, statusdata=null) {
 	var cmd;
 
 	if(status == 2)
@@ -609,6 +610,8 @@ function showItemData(status, statusdata=null) {
 			var i = 1;
 			var cnt;
 			var num_items = parseInt(data_splited[i++]);
+
+			$('#items > h3').html(caption);
 
 			$('.item-data > tr').not($('.hide')).remove();
 			for(cnt = 1; data_splited[i] == 'item'; cnt++) {

@@ -303,7 +303,16 @@ hr {
 #items {
 	max-height: 75%;
 	overflow-y: scroll;
-	padding-top: 2.5rem;
+}
+#items h3 {
+	font-weight: 800;
+	color: #77AAAA;
+	padding-left: .5rem;
+}
+#items h3 span {
+	font-weight: 600;
+	color: #99CCCC;
+	font-size: 1.5rem;
 }
 #items th,
 #items td:first-of-type,
