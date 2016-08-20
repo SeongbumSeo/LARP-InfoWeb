@@ -613,14 +613,18 @@ function showItemData(caption, status, statusdata=null) {
 
 			$('#items > h3').html(caption);
 
-			$('.item-data > tr').not($('.hide')).remove();
-			for(cnt = 1; data_splited[i] == 'item'; cnt++) {
-				i++;
-				var block = $('.item-data tr.hide').clone().appendTo('.item-data').removeClass('hide');
+			if(num_items) {
+				$('.item-data > tr').not($('.hide')).remove();
+				for(cnt = 1; data_splited[i] == 'item'; cnt++) {
+					i++;
+					var block = $('.item-data tr.hide').clone().appendTo('.item-data').removeClass('hide');
 
-				block.find('td:first-child').html(data_splited[i++]);
-				block.find('td:nth-child(2)').html(data_splited[i++]);
-				block.find('td:nth-child(3)').html(data_splited[i++]);
+					block.find('td:first-child').html(data_splited[i++]);
+					block.find('td:nth-child(2)').html(data_splited[i++]);
+					block.find('td:nth-child(3)').html(data_splited[i++]);
+				}
+			} else {
+				var block = $('.item-data tr.hide').clone
 			}
 
 			$("#items").foundation('open');
