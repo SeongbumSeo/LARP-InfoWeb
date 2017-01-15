@@ -1,3 +1,7 @@
+<?php
+require("config.php");
+require("classes/Notice.class.php");
+?>
 <!doctype html>
 <html class="no-js" lang="ko">
 
@@ -38,9 +42,6 @@
 			<button class="orbit-previous" aria-label="previous"><span class="show-for-sr">Previous Slide</span>&#9664;</button>
 			<button class="orbit-next" aria-label="next"><span class="show-for-sr">Next Slide</span>&#9654;</button>
 			<li class="orbit-slide is-active">
-				<img src="images/posters/black.jpg" class="poster" />
-			</li>
-			<!--<li class="orbit-slide is-active">
 				<video poster="images/posters/shining_sun.jpg" class="poster">
 					<source src="videos/shining_sun.mp4" type="video/mp4" />
 				</video>
@@ -54,7 +55,7 @@
 				<video poster="images/posters/Adam Levine - Lost Stars.jpg" class="poster">
 					<source src="videos/Adam Levine - Lost Stars.mp4" type="video/mp4" />
 				</video>
-			</li>-->
+			</li>
 		</ul>
 	</div>
 
@@ -62,45 +63,43 @@
 		<div id="notice" class="row content">
 			<div class="small-12 medium-6 columns">
 				<h1>Notice</h1>
+<?php
+$notice_array = new Notice(URL_NOTICE, DATE_INDEX_NOTICE, MAX_NOTICES);
+for($i = 0; $i < MAX_NOTICES; $i++) {
+	$subject = $notice_array->getNotice()[$i]['subject'];
+	$date = $notice_array->getNotice()[$i]['date'];
+	if(strcmp($subject, "&nbsp;") != 0 && strlen($subject) > 0) {
+?>
 				<div class="row">
 					<div class="small-9 columns">
-						<a>제목</a>
+						<a><?=$subject?></a>
 					</div>
-					<div class="small-3 columns">16.07.20</div>
+					<div class="small-3 columns"><?=$date?></div>
 				</div>
-				<div class="row">
-					<div class="small-9 columns">
-						<a>제목</a>
-					</div>
-					<div class="small-3 columns">16.07.20</div>
-				</div>
-				<div class="row">
-					<div class="small-9 columns">
-						<a>제목</a>
-					</div>
-					<div class="small-3 columns">16.07.20</div>
-				</div>
+<?php
+	}
+}
+?>
 			</div>
 			<div class="small-12 medium-6 columns">
 				<h1>Events</h1>
+<?php
+$event_array = new Notice(URL_EVENT, DATE_INDEX_EVENT, MAX_NOTICES);
+for($i = 0; $i < MAX_NOTICES; $i++) {
+	$subject = $event_array->getNotice()[$i]['subject'];
+	$date = $event_array->getNotice()[$i]['date'];
+	if(strcmp($subject, "&nbsp;") != 0 && strlen($subject) > 0) {
+?>
 				<div class="row">
 					<div class="small-9 columns">
-						<a>제목</a>
+						<a><?=$subject?></a>
 					</div>
-					<div class="small-3 columns">16.07.20</div>
+					<div class="small-3 columns"><?=$date?></div>
 				</div>
-				<div class="row">
-					<div class="small-9 columns">
-						<a>제목</a>
-					</div>
-					<div class="small-3 columns">16.07.20</div>
-				</div>
-				<div class="row">
-					<div class="small-9 columns">
-						<a>제목</a>
-					</div>
-					<div class="small-3 columns">16.07.20</div>
-				</div>
+<?php
+	}
+}
+?>
 			</div>
 		</div>
 

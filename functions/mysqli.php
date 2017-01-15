@@ -1,5 +1,5 @@
 <?php
-require("../config/db.php");
+require("../config.php");
 
 $db_samp = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_LARP);
 if($db_samp->connect_error)

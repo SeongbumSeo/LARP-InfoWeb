@@ -1,5 +1,5 @@
 # Config files
-config/db.php
+config.php
 
 # Windows image file caches
 Thumbs.db
