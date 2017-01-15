@@ -256,18 +256,18 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 				<div class="small-6 medium-3 large-2 columns">
 				<h4>Links</h4>
 					<ul class="footer-links">
-						<li><a href="#">Forum</a></li>
+						<li><a href="http://la-rp.co.kr">Forum</a></li>
 						<li><a href="#">Information Website</a></li>
-						<li><a href="#">Official Teamspeak</a></li>
-						<li><a href="#">Support Ticket</a></li>
+						<li><a href="http://invite.teamspeak.com/la-rp.co.kr/?port=9988">Official Teamspeak</a></li>
+						<li><a href="http://support.la-rp.co.kr/">Support Ticket</a></li>
 					</ul>
 				</div>
 				<div class="small-6 medium-3 large-2 columns">
 				<h4>Factions</h4>
 					<ul class="footer-links">
-						<li><a href="#">L.A.P.D</a></li>
-						<li><a href="#">L.A.F.D</a></li>
-						<li><a href="#">C.N.N</a></li>
+						<li><a href="http://cafe.daum.net/LAPD-website">L.A.P.D</a></li>
+						<li><a href="http://cafe.daum.net/lafdwebsite">L.A.F.D</a></li>
+						<li><a href="http://cafe.daum.net/LADAEMYUNG">대명회(大命會)</a></li>
 					</ul>
 				</div>
 			</div>
