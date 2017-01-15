@@ -241,6 +241,38 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 			</div>
 		</div>
 
+		<div id="world" class="content show-signedin hide">
+			<div class="row">
+				<div class="column">
+					<h1>World</h1>
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-12 medium-7 large-5 medium-centered columns">
+					<div class="serverstatus-loading hide">Loading...</div>
+					<div class="serverstatus-offline hide">게임 서버 점검중</div>
+					<div class="serverstatus-online hide">
+						<table class="serverinfo">
+							<tr>
+								<th>주소</th>
+								<td><?=GAME_HOST?>:<?=GAME_PORT?></td>
+							</tr>
+							<tr>
+								<th>인원</th>
+								<td class="gameplayers"></td>
+							</tr>
+							<tr>
+								<th>버전</th>
+								<td class="gamemode"></td>
+							</tr>
+						</table>
+						<table class="playerlist">
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="row debug">
 		</div>
 
@@ -267,7 +299,7 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 					<ul class="footer-links">
 						<li><a href="http://cafe.daum.net/LAPD-website">L.A.P.D</a></li>
 						<li><a href="http://cafe.daum.net/lafdwebsite">L.A.F.D</a></li>
-						<li><a href="http://cafe.daum.net/LADAEMYUNG">대명회(大命會)</a></li>
+						<li><a href="http://cafe.daum.net/LADAEMYUNG">대명회</a></li>
 					</ul>
 				</div>
 			</div>

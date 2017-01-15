@@ -2,6 +2,14 @@ var topbarOpacityFixed = false;
 var topposterMuted = true;
 var topposterVolume = 1;
 var signedin = false;
+
+var gamePlayers = 0;
+var gameMode = null;
+var playerList = null;
+var playerIdArr = new Array();
+var playerNameArr = new Array();
+var playerPingArr = new Array();
+
 var isMobile = {
 	Android: function () {
 		return navigator.userAgent.match(/Android/i);
@@ -34,8 +42,10 @@ $(window).resize(function() {
 	setTopSectionDisplay();
 });
 $(document).ready(function () {
-	checkSignedStatus();
-	setInterval("checkSignedStatus()", 60000);
+	updateSignedStatus();
+	updateServerStatus();
+	setInterval("updateSignedStatus()", 60000);
+	setInterval("updateServerStatus()", 2500);
 	setTopSectionDisplay();
 
 	if(!isMobile.Any())
@@ -186,7 +196,7 @@ $(document).ready(function () {
 
 });
 
-function checkSignedStatus() {
+function updateSignedStatus() {
 	$.ajax({
 		type: "post",
 		url: "functions/signin.php",
@@ -202,6 +212,46 @@ function checkSignedStatus() {
 		signedin = (data == 1) ? true : false;
 		setSignedDisplay();
 	});
+}
+
+function updateServerStatus() {
+	$.ajax({
+		type: "get",
+		url: "functions/serverstatus.php",
+		cache: false
+	}).done(function(data) {
+		var statusdata = data.split('|');
+		if(statusdata.length != 2) {
+			gamePlayers = statusdata[0];
+			gameMode = statusdata[1];
+			playerList = "<tr><th>ID</th><th>닉네임</th><th>핑</th></tr>";
+			for(var i = 2; i < statusdata.length; i++) {
+				var playerdata = statusdata[i].split(',');
+				playerIdArr[i] = playerdata[0];
+				playerNameArr[i] = playerdata[1];
+				playerPingArr[i] = playerdata[2];
+				playerList += "<tr><td>" + playerIdArr[i] + "</td><td>" + playerNameArr[i] + "</td><td>" + playerPingArr[i] + "</td></tr>";
+			}
+		}
+	});
+
+	if(gamePlayers == "closed") {
+		$('.serverstatus-loading').addClass('hide');
+		$('.serverstatus-offline').removeClass('hide');
+		$('.serverstatus-online').addClass('hide');
+	} else if(!gameMode) {
+		$('.serverstatus-loading').removeClass('hide');
+		$('.serverstatus-offline').addClass('hide');
+		$('.serverstatus-online').addClass('hide');
+	} else {
+		$("td.gameplayers").html(gamePlayers);
+		$("td.gamemode").html(gameMode);
+		$("table.playerlist").html(playerList);
+
+		$('.serverstatus-loading').addClass('hide');
+		$('.serverstatus-offline').addClass('hide');
+		$('.serverstatus-online').removeClass('hide');
+	}
 }
 
 function setSignedDisplay() {
@@ -253,7 +303,7 @@ function loadPlayerInformation() {
 	}).done(function(data) {
 		data_splited = data.split('|');
 		if(data_splited[0] == 0)
-			checkSignedStatus();
+			updateSignedStatus();
 		else if(data_splited[0] == 1) {
 			var i = 1;
 			var cnt;
@@ -319,7 +369,7 @@ function showItemData(caption, status, statusdata=null) {
 	}).done(function(data) {
 		data_splited = data.split('|');
 		if(data_splited[0] == 0)
-			checkSignedStatus();
+			updateSignedStatus();
 		else if(data_splited[0] == 1) {
 			var i = 1;
 			var cnt;

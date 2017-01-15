@@ -227,15 +227,20 @@ hr {
 }
 
 @media screen and (max-width: 63.9375em) {
-	#profile {
+	#profile,
+	#vehicles,
+	#world {
 		font-size: .9rem;
 	}
 }
 @media screen and (min-width: 64em) {
-	#profile {	
+	#profile,
+	#vehicles,
+	#world {	
 		font-size: 1rem;
 	}
 }
+
 #profile > .row:nth-of-type(2) > .columns > .row > .columns:nth-of-type(2) {
 	text-align: center;
 }
@@ -287,16 +292,6 @@ hr {
 	border-radius: 10px;
 }
 
-@media screen and (max-width: 63.9375em) {
-	#vehicles {
-		font-size: .9rem;
-	}
-}
-@media screen and (min-width: 64em) {
-	#vehicles {	
-		font-size: 1rem;
-	}
-}
 #vehicles .img {
 	text-align: center;
 }
@@ -327,6 +322,36 @@ hr {
 #vehicles .progress:first-of-type .progress-meter,
 #vehicles .progress:nth-of-type(2) .progress-meter {
 	border-radius: 10px;
+}
+
+#world .serverstatus-loading,
+#world .serverstatus-offline {
+	font-size: 1.5rem;
+	text-align: center;
+}
+#world table th {
+	color: #FAFFFF;
+	background: #557799;
+	text-align: center;
+}
+#world table tr {
+	background: #FCFFFF;
+}
+#world table tr td {
+	padding: .3rem .625rem;
+	font-size: 1rem;
+}
+#world table.serverinfo tr td {
+	text-align: left;
+}
+#world table.playerlist tr td {
+	text-align: center;
+}
+#world table.playerlist tr td:nth-of-type(2) {
+	text-align: left;
+}
+#world table tr:nth-last-of-type(n+1) {
+	border-bottom: 1px solid #DDEEEE;
 }
 
 .reveal-overlay {
