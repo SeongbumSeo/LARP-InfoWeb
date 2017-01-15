@@ -126,7 +126,7 @@ body {
 	position: fixed;
 	width: 100%;
 }
-.topOrbit video {
+.topOrbit .poster {
 	width: 100%;
 	background: #000;
 }
@@ -186,6 +186,9 @@ hr {
 
 .status-details-wrapper {
 	text-align: center;
+}
+.status-details-wrapper .button-group {
+	margin-top: .5rem;
 }
 .status-details {
 	display: inline-block;
