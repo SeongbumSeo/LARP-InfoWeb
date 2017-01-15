@@ -8,6 +8,7 @@ require("classes/Notice.class.php");
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />
 	<title>LA:RP Information Website</title>
 	<link rel="stylesheet" href="css/foundation.min.css">
 	<link rel="stylesheet" href="css/app.css">
