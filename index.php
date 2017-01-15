@@ -19,7 +19,7 @@ require("classes/Notice.class.php");
 	<div class="top-bar">
 		<div class="row">
 			<div class="top-bar-title">
-				<a href="index.html"><img src="images/logos/white_gray.png" /></a>
+				<a href="#"><img src="images/logos/white_gray.png" /></a>
 				<span class="menu-icon-container" data-responsive-toggle="responsive-menu" data-hide-for="medium">
 					<button class="menu-icon" type="button" data-toggle></button>
 				</span>
@@ -28,9 +28,9 @@ require("classes/Notice.class.php");
 				<div class="top-bar-right">
 					<ul class="menu" data-magellan data-bar-offset="30">
 						<li><a href="#notice">Notice</a></li>
-						<li class="show-signedin hide"><a href="#profile">Profile</a></li>
-						<li><a href="#world">World</a></li>
-						<li class="show-signedin"><a href="#admin">Admin</a></li>
+						<li class="show-signedin"><a href="#profile">Profile</a></li>
+						<li class="show-signedin"><a href="#world">World</a></li>
+						<li class="show-signedin"><a href="./old/admin.php">Admin</a></li>
 						<li><a class="signin-button" href="#signin"></a></li>
 					</ul>
 				</div>
@@ -61,6 +61,19 @@ require("classes/Notice.class.php");
 	</div>
 
 	<div id="content-wrapper" class="topAnchor">
+
+		<div class="row content">
+			<div class="small-12 medium-9 large-7 medium-centered columns" style="margin-top: 2rem; font-size: .9rem;">
+				<div class="primary callout" data-closable="slide-out-right">
+					<p>인포웹2가 베타 오픈하였습니다.</p>
+					<p>2017.01.16</p>
+					<button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			</div>
+		</div>
+
 		<div id="notice" class="row content">
 			<div class="small-12 medium-6 columns">
 				<h1>Notice</h1>
@@ -196,7 +209,7 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 								</div>
 								<div class="expanded button-group">
 									<button type="button" class="show-item-list button">아이템 목록</button>
-									<button type="button" class="show-map button">상세 위치</button>
+									<button type="button" class="show-map button disabled">상세 위치</button>
 								</div>
 							</div>
 						</div>
@@ -231,7 +244,7 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 								</div>
 								<div class="expanded button-group">
 									<button type="button" class="show-item-list button">아이템 목록</button>
-									<button type="button" class="show-map button">상세 위치</button>
+									<button type="button" class="show-map button disabled">상세 위치</button>
 								</div>
 							</div>
 						</div>
@@ -291,6 +304,7 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 					<ul class="footer-links">
 						<li><a href="http://la-rp.co.kr">Forum</a></li>
 						<li><a href="#">Information Website</a></li>
+						<li><a href="./old">InfoWeb (OLD)</a></li>
 						<li><a href="http://invite.teamspeak.com/la-rp.co.kr/?port=9988">Official Teamspeak</a></li>
 						<li><a href="http://support.la-rp.co.kr/">Support Ticket</a></li>
 					</ul>
