@@ -108,7 +108,7 @@ $(document).ready(function() {
 			this.play();
 		});
 	});
-}
+});
 
 function setOrbitHeight() {
 	var posterHeight = posterHeight = $('.orbit-slide.is-active .poster').height();

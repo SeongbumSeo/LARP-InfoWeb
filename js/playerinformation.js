@@ -2,7 +2,7 @@ $(document).ready(function () {
 	$('#profile .show-item-list').on('click', function() {
 		showItemData("내 아이템", 2);
 	});
-}
+});
 
 function loadPlayerInformation() {
 	$.ajax({

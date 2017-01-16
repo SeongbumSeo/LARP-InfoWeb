@@ -72,7 +72,7 @@ $(document).ready(function () {
 			});
 		}
 	});
-}
+});
 
 function updateSignedStatus() {
 	$.ajax({
