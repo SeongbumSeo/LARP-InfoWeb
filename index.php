@@ -332,6 +332,9 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 	</script>
 </body>
 
-<script src="js/app.js"></script>
+<script src="js/size.js"></script>
+<script src="js/signin.js"></script>
+<script src="js/playerinformation.js"></script>
+<script src="js/serverstatus.js"></script>
 
 </html>
