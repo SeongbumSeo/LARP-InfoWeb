@@ -16,7 +16,7 @@ $presult = $db_samp->query("
 	SELECT
 		a.*,
 		IF(
-			b.Name != NULL,
+			b.Name != \"\",
 			b.Name,
 			\"미가입\"
 		) FactionName,
