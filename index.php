@@ -270,6 +270,8 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 			</div>
 		</div>
 
+		<hr />
+
 		<div id="world" class="content show-signedin hide">
 			<div class="row">
 				<div class="column">
