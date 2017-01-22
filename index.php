@@ -62,18 +62,6 @@ require("classes/Notice.class.php");
 
 	<div id="content-wrapper" class="topAnchor">
 
-		<div class="row content">
-			<div class="small-12 medium-9 large-7 medium-centered columns" style="margin-top: 2rem; font-size: .9rem;">
-				<div class="primary callout" data-closable="slide-out-right">
-					<p>인포웹2가 베타 오픈하였습니다.</p>
-					<p>2017.01.16</p>
-					<button class="close-button" aria-label="Dismiss alert" type="button" data-close>
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-			</div>
-		</div>
-
 		<div id="notice" class="row content">
 			<div class="small-12 medium-6 columns">
 				<h1>Notice</h1>
@@ -179,6 +167,29 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 			</button>
 		</div>
 
+		<div id="usagelog" class="reveal show-signedin hide" data-reveal>
+			<h3>이용 로그</h3>
+			<table>
+				<thead>
+					<tr>
+						<th>분류</th>
+						<th>사유</th>
+						<th>날짜</th>
+					</tr>
+				</thead>
+				<tbody class="usagelog-data">
+					<tr class="hide">
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+			<button class="close-button" data-close type="button">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+
 		<div id="profile" class="content show-signedin hide">
 			<div class="row">
 				<div class="column">
@@ -210,6 +221,7 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 								<div class="expanded button-group">
 									<button type="button" class="show-item-list button">아이템 목록</button>
 									<button type="button" class="show-map button disabled">상세 위치</button>
+									<button type="button" class="show-usagelog button">이용 로그</button>
 								</div>
 							</div>
 						</div>

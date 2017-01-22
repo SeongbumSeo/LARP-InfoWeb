@@ -2,6 +2,10 @@ $(document).ready(function () {
 	$('#profile .show-item-list').on('click', function() {
 		showItemData("내 아이템", 2);
 	});
+
+	$('#profile .show-usagelog').on('click', function() {
+		showUsageLog();
+	});
 });
 
 function loadPlayerInformation() {
@@ -59,6 +63,33 @@ function loadPlayerInformation() {
 	});
 }
 
+function showUsageLog() {
+	$.ajax({
+		type: "get",
+		url: "functions/usagelog.php",
+		cache: false
+	}).done(function(data) {
+		data_splited = data.split('|');
+		if(data_splited[0] == 0)
+			updateSignedStatus();
+		else if(data_splited[0] == 1) {
+			var i = 1;
+
+			$('.usagelog-data > tr').not($('.hide')).remove();
+			while(data_splited.length > i+3) {
+				var block = $('.usagelog-data tr.hide').clone().appendTo('.usagelog-data').removeClass('hide');
+
+				block.find('td:first-child').css('color', data_splited[i++]);
+				block.find('td:first-child').html(data_splited[i++]);
+				block.find('td:nth-child(2)').html(data_splited[i++]);
+				block.find('td:nth-child(3)').html(data_splited[i++]);
+			}
+
+			$('#usagelog').foundation('open');
+		}
+	});
+}
+
 function showItemData(caption, status, statusdata=null) {
 	var cmd;
 
@@ -96,7 +127,7 @@ function showItemData(caption, status, statusdata=null) {
 				block.find('td:nth-child(3)').html(data_splited[i++]);
 			}
 
-			$("#items").foundation('open');
+			$('#items').foundation('open');
 		}
 	});
 }
