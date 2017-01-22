@@ -40,7 +40,10 @@ require("classes/Notice.class.php");
 
 	<div class="orbit topOrbit" role="region" data-orbit data-auto-play="false">
 		<ul class="orbit-container">
-			<button class="orbit-previous" aria-label="previous"><span class="show-for-sr">Previous Slide</span>&#9664;</button>
+			<li class="orbit-slide is-active">
+				<img src="images/posters/Nightsky.jpg" class="poster" />
+			</li>
+			<!--<button class="orbit-previous" aria-label="previous"><span class="show-for-sr">Previous Slide</span>&#9664;</button>
 			<button class="orbit-next" aria-label="next"><span class="show-for-sr">Next Slide</span>&#9654;</button>
 			<li class="orbit-slide is-active">
 				<video poster="images/posters/shining_sun.jpg" class="poster">
@@ -56,7 +59,7 @@ require("classes/Notice.class.php");
 				<video poster="images/posters/Adam Levine - Lost Stars.jpg" class="poster">
 					<source src="videos/Adam Levine - Lost Stars.mp4" type="video/mp4" />
 				</video>
-			</li>
+			</li>-->
 		</ul>
 	</div>
 
