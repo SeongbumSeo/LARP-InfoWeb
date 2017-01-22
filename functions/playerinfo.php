@@ -1,7 +1,8 @@
 <?php
 session_start();
 
-require('mysqli.php');
+require_once('../config.php');
+require_once('mysqli.php');
 
 if(!isset($_SESSION['id'])) {
 	print("0");
@@ -12,7 +13,7 @@ $id = $_SESSION['id'];
 $username = $_SESSION['username'];
 $password = $_SESSION['password'];
 
-$presult = $db_samp->query("
+$presult = $mysqli->query("
 	SELECT
 		a.*,
 		IF(
@@ -22,32 +23,32 @@ $presult = $db_samp->query("
 		) FactionName,
 		d.Title Party
 	FROM
-		user_data a
+		".DB_LARP.".user_data a
 	LEFT OUTER JOIN
-		faction_data b
+		".DB_LARP.".faction_data b
 		ON b.ID = a.Faction
 	LEFT OUTER JOIN
-		party_members c
+		".DB_LARP.".party_members c
 		ON c.UserID = a.ID
 	LEFT OUTER JOIN
-		party_list d
+		".DB_LARP.".party_list d
 		ON d.ID = c.PartyID 
 	WHERE
 		a.ID = $id
 		AND a.Password = '$password'
 	ORDER BY a.CreatedTime ASC
 	LIMIT 1");
-$cresult = $db_samp->query("
+$cresult = $mysqli->query("
 	SELECT
 		a.*,
 		c.Name ParkingLot
 	FROM
-		car_data a
+		".DB_LARP.".car_data a
 	INNER JOIN
-		user_data b
+		".DB_LARP.".user_data b
 		ON b.ID = a.OwnerID
 	LEFT OUTER JOIN
-		parkinglot_data c
+		".DB_LARP.".parkinglot_data c
 		ON c.ID = SUBSTRING_INDEX(a.LastPos, ',', -1)-40000
 	WHERE
 		a.OwnerType = 1

@@ -177,7 +177,7 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 				<thead>
 					<tr>
 						<th>분류</th>
-						<th>사유</th>
+						<th>내용</th>
 						<th>날짜</th>
 					</tr>
 				</thead>

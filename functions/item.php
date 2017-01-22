@@ -1,13 +1,14 @@
 <?php
 session_start();
 
+require_once('../config.php');
+require_once('mysqli.php');
+
 define("CMD_PLAYER",			0);
 define("CMD_VEHICLE",			1);
 
 define("ITEM_STATUS_PLAYER",	2);
 define("ITEM_STATUS_VEHICLE",	3);
-
-require('mysqli.php');
 
 if(!isset($_SESSION['id'])) {
 	print("0");
@@ -18,9 +19,9 @@ $cmd = (int)$_POST['cmd'];
 $id = $_SESSION['id'];
 
 if($cmd == CMD_PLAYER)
-	$result = getItemListSQL($db_samp, ITEM_STATUS_PLAYER, $id);
+	$result = itemListSQL($mysqli, ITEM_STATUS_PLAYER, $id);
 else if($cmd == CMD_VEHICLE)
-	$result = getItemListSQL($db_samp, ITEM_STATUS_VEHICLE, (int)$_POST['vid']);
+	$result = itemListSQL($mysqli, ITEM_STATUS_VEHICLE, (int)$_POST['vid']);
 
 $returns = "1|".$result->num_rows;
 while($data = $result->fetch_array()) {
@@ -98,7 +99,7 @@ while($data = $result->fetch_array()) {
 }
 print($returns);
 
-function getItemListSQL($db, $status, $statusdata) {
+function itemListSQL($db, $status, $statusdata) {
 	$result = $db->query("
 		SELECT
 			a.ID, Name, Unit, Amount,
@@ -106,7 +107,7 @@ function getItemListSQL($db, $status, $statusdata) {
 				a.Type IN (108, 109, 110),
 				CONCAT(
 					TIMESTAMPDIFF(SECOND, NOW(), (
-						SELECT Timestamp FROM item_expire WHERE ItemID = a.ID
+						SELECT Timestamp FROM ".DB_LARP.".item_expire WHERE ItemID = a.ID
 					)),
 					'|',
 					SUBSTRING_INDEX(Data, '|', -1)
@@ -119,12 +120,12 @@ function getItemListSQL($db, $status, $statusdata) {
 				\"INVALID\"
 			) NumberPlate
 		FROM
-			item_data a
+			".DB_LARP.".item_data a
 		INNER JOIN
-			item_list b
+			".DB_LARP.".item_list b
 			ON a.Type = b.Type
 		LEFT OUTER JOIN
-			car_data c
+			".DB_LARP.".car_data c
 			ON c.ID = SUBSTRING_INDEX(a.Data, '|', 1)
 		WHERE
 			Status = $status

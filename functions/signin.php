@@ -1,11 +1,12 @@
 <?php
 session_start();
 
+require_once('../config.php');
+require_once('mysqli.php');
+
 define("CMD_GET_SIGNED_STATUS",	0);
 define("CMD_REQUEST_SIGN_IN",	1);
 define("CMD_SIGN_OUT",			2);
-
-require('mysqli.php');
 
 switch((int)$_POST['cmd']) {
 	case CMD_GET_SIGNED_STATUS:
@@ -16,11 +17,11 @@ switch((int)$_POST['cmd']) {
 			$username = $_SESSION['username'];
 			$password = $_SESSION['password'];
 
-			$result = $db_samp->query("
+			$result = $mysqli->query("
 				SELECT
 					NULL
 				FROM
-					user_data
+					".DB_LARP.".user_data
 				WHERE
 					ID = $id
 					AND Username = '$username'
@@ -31,16 +32,16 @@ switch((int)$_POST['cmd']) {
 		}
 		break;
 	case CMD_REQUEST_SIGN_IN:
-		$username = $db_samp->real_escape_string(str_replace(' ', '_', $_POST['username']));
-		$password = $db_samp->real_escape_string($_POST['password']);
+		$username = $mysqli->real_escape_string(str_replace(' ', '_', $_POST['username']));
+		$password = $mysqli->real_escape_string($_POST['password']);
 
-		$result = $db_samp->query("
+		$result = $mysqli->query("
 			SELECT
 				ID,
 				Username,
 				Password
 			FROM
-				user_data
+				".DB_LARP.".user_data
 			WHERE
 				Deprecated = 0
 				AND (
