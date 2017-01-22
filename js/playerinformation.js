@@ -20,6 +20,7 @@ function loadPlayerInformation() {
 		else if(data_splited[0] == 1) {
 			var i = 1;
 			var cnt;
+			var skinid;
 
 			$('#profile .username').html(data_splited[i++]);
 			$('#profile .badge.level').html(data_splited[i++]);
@@ -27,16 +28,19 @@ function loadPlayerInformation() {
 				$('#profile .label.party').removeClass('hide').html(data_splited[i-1]);
 			else
 				$('#profile .label.party').addClass('hide');
-			$('#profile .img img').attr('src', 'images/skins/' + data_splited[i++] + '.png');
+			$('#profile .img img').attr('src', 'images/skins/' + (skinid = data_splited[i++]) + '.png');
 			$('#profile .health').css('width', data_splited[i++] + '%');
 			$('#profile .hunger').css('width', data_splited[i++] + '%');
 			$('#profile .status-details').html(data_splited[i++]);
+
+			new Foundation.Tooltip($('#profile .img img'), { tipText: "스킨 " + skinid });
 
 			var num_vehs = parseInt(data_splited[i++]);
 			$('.each-vehicle > div').not($('.hide')).remove();
 			for(cnt = 1; data_splited[i] == 'vehicle'; cnt++) {
 				i++;
 				var block = $('.each-vehicle div.vblock.hide').clone().appendTo('.each-vehicle').removeClass('hide');
+				var modelname;
 
 				if(num_vehs == 1)
 					block.addClass('large-centered').css('float', 'none');
@@ -50,12 +54,22 @@ function loadPlayerInformation() {
 				block.find('.show-item-list').on('click', function() {
 					showItemData($(this).attr('vname'), 3, $(this).attr('vid'));
 				});
-				block.find('h3').html(data_splited[i++]);
+				block.find('h3').html(modelname = data_splited[i++]);
 				block.find('.img img')
 					.attr('src', 'http://weedarr.wdfiles.com/local--files/veh/' + data_splited[i++] + '.png');
 				block.find('.health').css('width', data_splited[i++] + '%');
 				block.find('.fuel').css('width', data_splited[i++] + '%');
 				block.find('.status-details').html(data_splited[i++]);
+
+				var obj;
+				obj = block.find('img');
+				new Foundation.Tooltip(obj, { tipText: modelname });
+				obj = block.find('h3').addClass('top');
+				new Foundation.Tooltip(obj, { tipText: "기종" });
+				obj = block.find('.fuel').parent().addClass('top');
+				new Foundation.Tooltip(obj, { tipText: "연료" });
+				obj = block.find('.health').parent();
+				new Foundation.Tooltip(obj, { tipText: "체력" });
 			}
 		}
 		else if(data_splited[0] == 2)

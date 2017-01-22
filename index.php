@@ -10,7 +10,7 @@ require("classes/Notice.class.php");
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />
 	<title>LA:RP Information Website</title>
-	<link rel="stylesheet" href="css/foundation.min.css">
+	<link rel="stylesheet" href="css/foundation.css">
 	<link rel="stylesheet" href="css/app.css">
 </head>
 
@@ -208,15 +208,15 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 						</div>
 
 						<div class="small-12 large-8 columns">
-							<span class="secondary label party hide"></span>
+							<span class="secondary label party hide top" data-tooltip title="파티"></span>
 							<h3>
-								<span class="username"></span>
-								<span class="badge level"></span>
+								<span class="username left" data-tooltip title="닉네임"></span>
+								<span class="badge level right" data-tooltip title="레벨"></span>
 							</h3>
-							<div class="success progress">
+							<div class="success progress top" data-tooltip title="허기">
 								<div class="progress-meter hunger"></div>
 							</div>
-							<div class="alert progress">
+							<div class="alert progress" data-tooltip title="체력">
 								<div class="progress-meter health"></div>
 							</div>
 							<div class="status-details-wrapper">
@@ -271,7 +271,6 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 			</div>
 		</div>
 
-		<hr />
 		<hr class="show-signedin" />
 
 		<div id="world" class="content show-signedin hide">
