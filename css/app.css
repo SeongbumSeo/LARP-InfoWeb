@@ -15,7 +15,6 @@ table tbody tr:nth-child(n) {
 }
 table tbody tr td {
 	padding: .3rem .625rem;
-	font-size: 1rem;
 }
 table tbody tr:nth-last-of-type(n+1) {
 	border-bottom: 1px solid #DDEEEE;
@@ -398,6 +397,16 @@ hr {
 .reveal {
 	max-height: 75%;
 	overflow-y: scroll;
+}
+@media screen and (max-width: 39.9375em) {
+	.reveal {
+		font-size: .8rem;
+	}
+}
+@media screen and (min-width: 40em) {
+	.reveal {
+		font-size: .9rem;
+	}
 }
 .reveal h3 {
 	font-weight: 800;
