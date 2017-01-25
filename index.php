@@ -321,7 +321,7 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 					</p>
 				</div>
 				<div class="small-6 medium-3 large-2 columns">
-					<h4>링크</h4>
+					<h4>Links</h4>
 					<ul class="footer-links">
 						<li><a href="http://la-rp.co.kr">LA:RP</a></li>
 						<li><a href="#">인포웹</a></li>

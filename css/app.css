@@ -129,6 +129,7 @@ table tbody tr:nth-last-of-type(n+1) {
 }
 .top-bar .menu li a {
 	color: #FFF;
+	font-weight: bold;
 	text-align: center;
 	border: 1px solid rgba(255, 255, 255, 0);
 	text-transform: uppercase;
