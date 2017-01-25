@@ -224,9 +224,18 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 									<!--js/playerinformation.js-->
 								</div>
 								<div class="expanded button-group">
-									<button type="button" class="show-item-list button">아이템 목록</button>
-									<button type="button" class="show-map button disabled">상세 위치</button>
-									<button type="button" class="show-usagelog button">이용 로그</button>
+									<button type="button" class="show-item-list button">
+										<img src="images/icons/backpack.png" />
+										<span>아이템</span>
+									</button>
+									<button type="button" class="show-map button disabled">
+										<img src="images/icons/map.png" />
+										<span>위치</span>
+									</button>
+									<button type="button" class="show-usagelog button">
+										<img src="images/icons/calendar.png" />
+										<span>이용 로그</span>
+									</button>
 								</div>
 							</div>
 						</div>
@@ -261,8 +270,14 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 									<!--js/playerinformation.js-->
 								</div>
 								<div class="expanded button-group">
-									<button type="button" class="show-item-list button">아이템 목록</button>
-									<button type="button" class="show-map button disabled">상세 위치</button>
+									<button type="button" class="show-item-list button">
+										<img src="images/icons/backpack.png" />
+										<span>아이템</span>
+									</button>
+									<button type="button" class="show-map button disabled">
+										<img src="images/icons/map.png" />
+										<span>위치</span>
+									</button>
 								</div>
 							</div>
 						</div>
