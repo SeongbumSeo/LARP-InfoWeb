@@ -1,6 +1,6 @@
 $(document).ready(function () {
 	$('#profile .show-item-list').on('click', function() {
-		showItemData("내 아이템", 2);
+		showItemData("내 아이템", 2, null);
 	});
 
 	$('#profile .show-usagelog').on('click', function() {
@@ -14,66 +14,70 @@ function loadPlayerInformation() {
 		url: "functions/playerinfo.php",
 		cache: false
 	}).done(function(data) {
-		data_splited = data.split('|');
-		if(data_splited[0] == 0)
-			updateSignedStatus();
-		else if(data_splited[0] == 1) {
-			var i = 1;
-			var cnt;
-			var skinid;
+		switch(parseInt(data)) {
+			case 0:
+				updateSignedStatus();
+				break;
+			case 1:
+				var i = 1;
+				var cnt;
+				var skinid;
+				var data_splited = data.split('|');
 
-			$('#profile .username').html(data_splited[i++]);
-			$('#profile .badge.level').html(data_splited[i++]);
-			if(data_splited[i++].length > 0)
-				$('#profile .label.party').removeClass('hide').html(data_splited[i-1]);
-			else
-				$('#profile .label.party').addClass('hide');
-			$('#profile .img img').attr('src', 'images/skins/' + (skinid = data_splited[i++]) + '.png');
-			$('#profile .health').css('width', data_splited[i++] + '%');
-			$('#profile .hunger').css('width', data_splited[i++] + '%');
-			$('#profile .status-details').html(data_splited[i++]);
-
-			new Foundation.Tooltip($('#profile .img img'), { tipText: "스킨 " + skinid });
-
-			var num_vehs = parseInt(data_splited[i++]);
-			$('.each-vehicle > div').not($('.hide')).remove();
-			for(cnt = 1; data_splited[i] == 'vehicle'; cnt++) {
-				i++;
-				var block = $('.each-vehicle div.vblock.hide').clone().appendTo('.each-vehicle').removeClass('hide');
-				var modelname;
-
-				if(num_vehs == 1)
-					block.addClass('large-centered').css('float', 'none');
-				else if(cnt == num_vehs)
-					block.addClass('end');
+				$('#profile .username').html(data_splited[i++]);
+				$('#profile .badge.level').html(data_splited[i++]);
+				if(data_splited[i++].length > 0)
+					$('#profile .label.party').removeClass('hide').html(data_splited[i-1]);
 				else
-					$('.each-vehicle div.vmargin.hide').clone().appendTo('.each-vehicle').removeClass('hide');
+					$('#profile .label.party').addClass('hide');
+				$('#profile .img img').attr('src', 'images/skins/' + (skinid = data_splited[i++]) + '.png');
+				$('#profile .health').css('width', data_splited[i++] + '%');
+				$('#profile .hunger').css('width', data_splited[i++] + '%');
+				$('#profile .status-details').html(data_splited[i++]);
 
-				block.find('.show-item-list').attr('vid', data_splited[i++]);
-				block.find('.show-item-list').attr('vname', data_splited[i++]);
-				block.find('.show-item-list').on('click', function() {
-					showItemData($(this).attr('vname'), 3, $(this).attr('vid'));
-				});
-				block.find('h3').html(modelname = data_splited[i++]);
-				block.find('.img img')
-					.attr('src', 'http://weedarr.wdfiles.com/local--files/veh/' + data_splited[i++] + '.png');
-				block.find('.health').css('width', data_splited[i++] + '%');
-				block.find('.fuel').css('width', data_splited[i++] + '%');
-				block.find('.status-details').html(data_splited[i++]);
+				new Foundation.Tooltip($('#profile .img img'), { tipText: "스킨 " + skinid });
 
-				var obj;
-				obj = block.find('img');
-				new Foundation.Tooltip(obj, { tipText: modelname });
-				obj = block.find('h3').addClass('top');
-				new Foundation.Tooltip(obj, { tipText: "기종" });
-				obj = block.find('.fuel').parent().addClass('top');
-				new Foundation.Tooltip(obj, { tipText: "연료" });
-				obj = block.find('.health').parent();
-				new Foundation.Tooltip(obj, { tipText: "체력" });
-			}
+				var num_vehs = parseInt(data_splited[i++]);
+				$('.each-vehicle > div').not($('.hide')).remove();
+				for(cnt = 1; data_splited[i] == 'vehicle'; cnt++) {
+					i++;
+					var block = $('.each-vehicle div.vblock.hide').clone().appendTo('.each-vehicle').removeClass('hide');
+					var modelname;
+
+					if(num_vehs == 1)
+						block.addClass('large-centered').css('float', 'none');
+					else if(cnt == num_vehs)
+						block.addClass('end');
+					else
+						$('.each-vehicle div.vmargin.hide').clone().appendTo('.each-vehicle').removeClass('hide');
+
+					block.find('.show-item-list').attr('vid', data_splited[i++]);
+					block.find('.show-item-list').attr('vname', data_splited[i++]);
+					block.find('.show-item-list').on('click', function() {
+						showItemData($(this).attr('vname'), 3, $(this).attr('vid'));
+					});
+					block.find('h3').html(modelname = data_splited[i++]);
+					block.find('.img img')
+						.attr('src', 'http://weedarr.wdfiles.com/local--files/veh/' + data_splited[i++] + '.png');
+					block.find('.health').css('width', data_splited[i++] + '%');
+					block.find('.fuel').css('width', data_splited[i++] + '%');
+					block.find('.status-details').html(data_splited[i++]);
+
+					var obj;
+					obj = block.find('img');
+					new Foundation.Tooltip(obj, { tipText: modelname });
+					obj = block.find('h3').addClass('top');
+					new Foundation.Tooltip(obj, { tipText: "기종" });
+					obj = block.find('.fuel').parent().addClass('top');
+					new Foundation.Tooltip(obj, { tipText: "연료" });
+					obj = block.find('.health').parent();
+					new Foundation.Tooltip(obj, { tipText: "체력" });
+				}
+				break;
+			case 2:
+				setTimeout("loadPlayerInformation()", 1000);
+				break;
 		}
-		else if(data_splited[0] == 2)
-			setTimeout("loadPlayerInformation()", 1000);
 	});
 }
 
@@ -83,28 +87,31 @@ function showUsageLog() {
 		url: "functions/usagelog.php",
 		cache: false
 	}).done(function(data) {
-		data_splited = data.split('|');
-		if(data_splited[0] == 0)
-			updateSignedStatus();
-		else if(data_splited[0] == 1) {
-			var i = 1;
+		switch(parseInt(data)) {
+			case 0:
+				updateSignedStatus();
+				break;
+			case 1:
+				var i = 1;
+				var data_splited = data.split('|');
 
-			$('.usagelog-data > tr').not($('.hide')).remove();
-			while(data_splited.length > i+3) {
-				var block = $('.usagelog-data tr.hide').clone().appendTo('.usagelog-data').removeClass('hide');
+				$('.usagelog-data > tr').not($('.hide')).remove();
+				while(data_splited.length > i+3) {
+					var block = $('.usagelog-data tr.hide').clone().appendTo('.usagelog-data').removeClass('hide');
 
-				block.find('td:first-child').css('color', data_splited[i++]);
-				block.find('td:first-child').html(data_splited[i++]);
-				block.find('td:nth-child(2)').html(data_splited[i++]);
-				block.find('td:nth-child(3)').html(data_splited[i++]);
-			}
+					block.find('td:first-child').css('color', data_splited[i++]);
+					block.find('td:first-child').html(data_splited[i++]);
+					block.find('td:nth-child(2)').html(data_splited[i++]);
+					block.find('td:nth-child(3)').html(data_splited[i++]);
+				}
 
-			$('#usagelog').foundation('open');
+				$('#usagelog').foundation('open');
+				break;
 		}
 	});
 }
 
-function showItemData(caption, status, statusdata=null) {
+function showItemData(caption, status, statusdata) {
 	var cmd;
 
 	if(status == 2)
@@ -121,27 +128,30 @@ function showItemData(caption, status, statusdata=null) {
 			vid: statusdata
 		}
 	}).done(function(data) {
-		data_splited = data.split('|');
-		if(data_splited[0] == 0)
-			updateSignedStatus();
-		else if(data_splited[0] == 1) {
-			var i = 1;
-			var cnt;
-			var num_items = parseInt(data_splited[i++]);
+		switch(parseInt(data)) {
+			case 0:
+				updateSignedStatus();
+				break;
+			case 1:
+				var i = 1;
+				var cnt;
+				var data_splited = data.split('|');
+				var num_items = parseInt(data_splited[i++]);
 
-			$('#items > h3').html(caption);
+				$('#items > h3').html(caption);
 
-			$('.item-data > tr').not($('.hide')).remove();
-			for(cnt = 1; data_splited[i] == 'item'; cnt++) {
-				i++;
-				var block = $('.item-data tr.hide').clone().appendTo('.item-data').removeClass('hide');
+				$('.item-data > tr').not($('.hide')).remove();
+				for(cnt = 1; data_splited[i] == 'item'; cnt++) {
+					i++;
+					var block = $('.item-data tr.hide').clone().appendTo('.item-data').removeClass('hide');
 
-				block.find('td:first-child').html(data_splited[i++]);
-				block.find('td:nth-child(2)').html(data_splited[i++]);
-				block.find('td:nth-child(3)').html(data_splited[i++]);
-			}
+					block.find('td:first-child').html(data_splited[i++]);
+					block.find('td:nth-child(2)').html(data_splited[i++]);
+					block.find('td:nth-child(3)').html(data_splited[i++]);
+				}
 
-			$('#items').foundation('open');
+				$('#items').foundation('open');
+				break;
 		}
 	});
 }

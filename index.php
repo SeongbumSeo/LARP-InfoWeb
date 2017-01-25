@@ -27,11 +27,11 @@ require("classes/Notice.class.php");
 			<div id="responsive-menu">
 				<div class="top-bar-right">
 					<ul class="menu" data-magellan data-bar-offset="30">
-						<li><a href="#notice">Notice</a></li>
-						<li class="show-signedin"><a href="#profile">Profile</a></li>
-						<li class="show-signedin"><a href="#world">World</a></li>
-						<li class="show-signedin"><a href="./old/admin.php">Admin</a></li>
-						<li><a class="signin-button" href="#signin"></a></li>
+						<li><a href="#notice">공지사항</a></li>
+						<li class="show-signedin"><a href="#profile">프로필</a></li>
+						<li class="show-signedin"><a href="#world">월드</a></li>
+						<li class="show-signedin"><a href="./old/admin.php">관리</a></li>
+						<li><a class="signin-button" href="#signin"><!--js/signin.js--></a></li>
 					</ul>
 				</div>
 			</div>
@@ -68,7 +68,7 @@ require("classes/Notice.class.php");
 
 		<div id="notice" class="row content">
 			<div class="small-12 medium-6 columns">
-				<h1>Notice</h1>
+				<h1>공지사항</h1>
 <?php
 $notice_array = new Notice(URL_NOTICE, DATE_INDEX_NOTICE, MAX_NOTICES);
 for($i = 0; $i < MAX_NOTICES; $i++) {
@@ -88,7 +88,7 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 ?>
 			</div>
 			<div class="small-12 medium-6 columns">
-				<h1>Events</h1>
+				<h1>이벤트</h1>
 <?php
 $event_array = new Notice(URL_EVENT, DATE_INDEX_EVENT, MAX_NOTICES);
 for($i = 0; $i < MAX_NOTICES; $i++) {
@@ -114,13 +114,13 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 		<div id="signin" class="content hide-signedin hide">
 			<div class="row">
 				<div class="column">
-					<h1>Sign in with your <u>nickname</u></h1>
+					<h1><center>로그인</center></h1>
 				</div>
 			</div>
 			<div class="row">
 				<div class="small-12 medium-9 large-7 medium-centered columns" style="text-align: center;">
 					<div class="signin-alert alert callout" data-closable="slide-out-right" style="display: none;">
-						<p></p>
+						<p><!--js/signin.js--></p>
 						<button class="close-button" aria-label="Dismiss alert" type="button" data-close>
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -130,7 +130,7 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 			<div class="row">
 				<div class="small-12 medium-9 large-7 medium-centered columns">
 					<div class="input-group">
-						<span class="input-group-label">Nickname</span>
+						<span class="input-group-label">닉네임</span>
 						<input class="input-group-field username" type="text" />
 					</div>
 				</div>
@@ -138,10 +138,10 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 			<div class="row">
 				<div class="small-12 medium-9 large-7 medium-centered columns">
 					<div class="input-group">
-						<span class="input-group-label">Password</span>
+						<span class="input-group-label">비밀번호</span>
 						<input class="input-group-field password" type="password" />
 						<div class="input-group-button">
-							<input type="submit" class="button signin-submit" value="Sign in" />
+							<input type="submit" class="button signin-submit" value="로그인" />
 						</div>
 					</div>
 				</div>
@@ -149,7 +149,7 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 		</div>
 
 		<div id="items" class="reveal show-signedin hide" data-reveal>
-			<h3></h3>
+			<h3><!--js/playerinformation.js--></h3>
 			<table>
 				<thead>
 					<tr>
@@ -160,9 +160,9 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 				</thead>
 				<tbody class="item-data">
 					<tr class="hide">
-						<td></td>
-						<td></td>
-						<td></td>
+						<td><!--js/playerinformation.js--></td>
+						<td><!--js/playerinformation.js--></td>
+						<td><!--js/playerinformation.js--></td>
 					</tr>
 				</tbody>
 			</table>
@@ -183,9 +183,9 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 				</thead>
 				<tbody class="usagelog-data">
 					<tr class="hide">
-						<td></td>
-						<td></td>
-						<td></td>
+						<td><!--js/playerinformation.js--></td>
+						<td><!--js/playerinformation.js--></td>
+						<td><!--js/playerinformation.js--></td>
 					</tr>
 				</tbody>
 			</table>
@@ -197,30 +197,31 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 		<div id="profile" class="content show-signedin hide">
 			<div class="row">
 				<div class="column">
-					<h1>Profile</h1>
+					<h1>프로필</h1>
 				</div>
 			</div>
 			<div class="row">
 				<div class="small-12 medium-9 medium-centered columns">
 					<div class="row">
 						<div class="small-12 large-4 columns img">
-							<img />
+							<img /><!--js/playerinformation.js-->
 						</div>
 
 						<div class="small-12 large-8 columns">
-							<span class="secondary label party hide top" data-tooltip title="파티"></span>
+							<span class="secondary label party hide top" data-tooltip title="파티"><!--js/playerinformation.js--></span>
 							<h3>
-								<span class="username left" data-tooltip title="닉네임"></span>
-								<span class="badge level right" data-tooltip title="레벨"></span>
+								<span class="username left" data-tooltip title="닉네임"><!--js/playerinformation.js--></span>
+								<span class="badge level right" data-tooltip title="레벨"><!--js/playerinformation.js--></span>
 							</h3>
 							<div class="success progress top" data-tooltip title="허기">
-								<div class="progress-meter hunger"></div>
+								<div class="progress-meter hunger"><!--js/playerinformation.js--></div>
 							</div>
 							<div class="alert progress" data-tooltip title="체력">
-								<div class="progress-meter health"></div>
+								<div class="progress-meter health"><!--js/playerinformation.js--></div>
 							</div>
 							<div class="status-details-wrapper">
 								<div class="status-details">
+									<!--js/playerinformation.js-->
 								</div>
 								<div class="expanded button-group">
 									<button type="button" class="show-item-list button">아이템 목록</button>
@@ -237,26 +238,27 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 		<div id="vehicles" class="content show-signedin hide">
 			<div class="row">
 				<div class="column">
-					<h1>Vehicles</h1>
+					<h1>차량</h1>
 				</div>
 			</div>
 			<div class="row each-vehicle">
 				<div class="small-12 large-6 columns hide vblock">
 					<div class="row">
 						<div class="small-12 medium-4 columns img">
-							<img />
+							<img /><!--js/playerinformation.js-->
 						</div>
 
 						<div class="small-12 medium-8 columns">
-							<h3></h3>
+							<h3><!--js/playerinformation.js--></h3>
 							<div class="progress">
-								<div class="progress-meter fuel"></div>
+								<div class="progress-meter fuel"><!--js/playerinformation.js--></div>
 							</div>
 							<div class="alert progress">
-								<div class="progress-meter health"></div>
+								<div class="progress-meter health"><!--js/playerinformation.js--></div>
 							</div>
 							<div class="status-details-wrapper">
 								<div class="status-details">
+									<!--js/playerinformation.js-->
 								</div>
 								<div class="expanded button-group">
 									<button type="button" class="show-item-list button">아이템 목록</button>
@@ -276,12 +278,12 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 		<div id="world" class="content show-signedin hide">
 			<div class="row">
 				<div class="column">
-					<h1>World</h1>
+					<h1>월드</h1>
 				</div>
 			</div>
 			<div class="row">
 				<div class="small-12 medium-7 large-5 medium-centered columns">
-					<div class="serverstatus-loading hide">Loading...</div>
+					<div class="serverstatus-loading hide">로딩중</div>
 					<div class="serverstatus-offline hide">게임 서버 점검중</div>
 					<div class="serverstatus-online hide">
 						<table class="serverinfo">
@@ -291,14 +293,15 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 							</tr>
 							<tr>
 								<th>인원</th>
-								<td class="gameplayers"></td>
+								<td class="gameplayers"><!--js/serverstatus.js--></td>
 							</tr>
 							<tr>
 								<th>버전</th>
-								<td class="gamemode"></td>
+								<td class="gamemode"><!--js/serverstatus.js--></td>
 							</tr>
 						</table>
 						<table class="playerlist">
+							<!--js/serverstatus.js-->
 						</table>
 					</div>
 				</div>
@@ -318,17 +321,17 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 					</p>
 				</div>
 				<div class="small-6 medium-3 large-2 columns">
-				<h4>Links</h4>
+					<h4>링크</h4>
 					<ul class="footer-links">
-						<li><a href="http://la-rp.co.kr">Forum</a></li>
-						<li><a href="#">Information Website</a></li>
-						<li><a href="./old">InfoWeb (OLD)</a></li>
-						<li><a href="http://invite.teamspeak.com/la-rp.co.kr/?port=9988">Official Teamspeak</a></li>
-						<li><a href="http://support.la-rp.co.kr/">Support Ticket</a></li>
+						<li><a href="http://la-rp.co.kr">LA:RP</a></li>
+						<li><a href="#">인포웹</a></li>
+						<li><a href="./old">인포웹 (구버전)</a></li>
+						<li><a href="http://invite.teamspeak.com/la-rp.co.kr/?port=9988">공식 팀스피크</a></li>
+						<li><a href="http://support.la-rp.co.kr/">서포트 티켓</a></li>
 					</ul>
 				</div>
 				<div class="small-6 medium-3 large-2 columns">
-				<h4>Factions</h4>
+					<h4>Factions</h4>
 					<ul class="footer-links">
 						<li><a href="http://cafe.daum.net/LAPD-website">L.A.P.D</a></li>
 						<li><a href="http://cafe.daum.net/lafdwebsite">L.A.F.D</a></li>
