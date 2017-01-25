@@ -19,7 +19,7 @@ require("classes/Notice.class.php");
 	<div class="top-bar">
 		<div class="row">
 			<div class="top-bar-title">
-				<a href="#"><img src="images/logos/white_gray.png" /></a>
+				<a href="."><img src="images/logos/white_gray.png" /></a>
 				<span class="menu-icon-container" data-responsive-toggle="responsive-menu" data-hide-for="medium">
 					<button class="menu-icon" type="button" data-toggle></button>
 				</span>
@@ -339,7 +339,7 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 					<h4>Links</h4>
 					<ul class="footer-links">
 						<li><a href="http://la-rp.co.kr">LA:RP</a></li>
-						<li><a href="#">인포웹</a></li>
+						<li><a href=".">인포웹</a></li>
 						<li><a href="./old">인포웹 (구버전)</a></li>
 						<li><a href="http://invite.teamspeak.com/la-rp.co.kr/?port=9988">공식 팀스피크</a></li>
 						<li><a href="http://support.la-rp.co.kr/">서포트 티켓</a></li>
