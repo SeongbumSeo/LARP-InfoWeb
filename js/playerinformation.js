@@ -1,15 +1,19 @@
+var profile_show_map_tooltip = null;
+
 $(document).ready(function () {
 	$('#profile .show-item-list').on('click', function() {
 		showItemData("내 아이템", 2, null);
 	});
 
 	$('#profile .show-map').on('click', function() {
-		var x = $(this).attr('x');
-		var y = $(this).attr('y');
-		var map = showMap("내 위치");
+		if(!$('#profile .show-map').hasClass('disabled')) {
+			var x = $(this).attr('x');
+			var y = $(this).attr('y');
+			var map = showMap("내 위치");
 
-		map.setCenter(SanMap.getLatLngFromPos(x, y));
-		addMarker(map, x, y, null, null);
+			map.setCenter(SanMap.getLatLngFromPos(x, y));
+			addMarker(map, x, y, null, null);
+		}
 	});
 
 	$('#profile .show-usagelog').on('click', function() {
@@ -31,6 +35,7 @@ function loadPlayerInformation() {
 				var i = 1;
 				var cnt;
 				var skinid;
+				var trackable;
 				var data_splited = data.split('|');
 
 				$('#profile .username').html(data_splited[i++]);
@@ -42,9 +47,15 @@ function loadPlayerInformation() {
 				$('#profile .img img').attr('src', 'images/skins/' + (skinid = data_splited[i++]) + '.png');
 				$('#profile .health').css('width', data_splited[i++] + '%');
 				$('#profile .hunger').css('width', data_splited[i++] + '%');
+				trackable = data_splited[i++];
 				$('#profile .show-map').attr('x', data_splited[i++]);
 				$('#profile .show-map').attr('y', data_splited[i++]);
 				$('#profile .status-details').html(data_splited[i++]);
+
+				if(trackable != 1)
+					$('#profile .show-map').addClass('disabled');
+				else if($('#profile .show-map').hasClass('disabled'))
+					$('#profile .show-map').removeClass('disabled');
 
 				new Foundation.Tooltip($('#profile .img img'), { tipText: "스킨 " + skinid });
 
@@ -54,7 +65,6 @@ function loadPlayerInformation() {
 					i++;
 					var block = $('.each-vehicle div.vblock.hide').clone().appendTo('.each-vehicle').removeClass('hide');
 					var modelname;
-					var gps;
 
 					if(num_vehs == 1)
 						block.addClass('large-centered').css('float', 'none');
@@ -70,7 +80,7 @@ function loadPlayerInformation() {
 						.attr('src', 'http://weedarr.wdfiles.com/local--files/veh/' + data_splited[i++] + '.png');
 					block.find('.health').css('width', data_splited[i++] + '%');
 					block.find('.fuel').css('width', data_splited[i++] + '%');
-					gps = data_splited[i++];
+					trackable = data_splited[i++];
 					block.find('.show-map').attr('x', data_splited[i++]);
 					block.find('.show-map').attr('y', data_splited[i++]);
 					block.find('.status-details').html(data_splited[i++]);
@@ -79,18 +89,25 @@ function loadPlayerInformation() {
 						showItemData($(this).attr('vcaption'), 3, $(this).attr('vid'));
 					});
 
-					if(gps == 1){
-						block.find('.show-map').on('click', function() {
-							var x = $(this).attr('x');
-							var y = $(this).attr('y');
-							var map = showMap($(this).attr('vcaption'));
+					switch(parseInt(trackable)) {
+						case 1:
+							block.find('.show-map').on('click', function() {
+								var x = $(this).attr('x');
+								var y = $(this).attr('y');
+								var map = showMap($(this).attr('vcaption'));
 
-							map.setCenter(SanMap.getLatLngFromPos(x, y));
-							addMarker(map, x, y, null, null);
-						});
-					} else {
-						block.find('.show-map').addClass('disabled');
-						new Foundation.Tooltip(block.find('.show-map'), {tipText: "GPS가 부착되지 않은 차량입니다." });
+								map.setCenter(SanMap.getLatLngFromPos(x, y));
+								addMarker(map, x, y, null, null);
+							});
+							break;
+						case 2:
+							block.find('.show-map').addClass('disabled');
+							new Foundation.Tooltip(block.find('.show-map'), {tipText: "GPS가 부착되지 않은 차량입니다." });
+							break;
+						case 3:
+							block.find('.show-map').addClass('disabled');
+							new Foundation.Tooltip(block.find('.show-map'), {tipText: "추적 불가능한 위치에 있습니다." });
+							break;
 					}
 
 					var obj;
