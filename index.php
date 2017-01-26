@@ -11,7 +11,7 @@ require("classes/Notice.class.php");
 	<link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />
 	<title>LA:RP Information Website</title>
 	<link rel="stylesheet" href="css/foundation.css">
-	<link rel="stylesheet" href="css/app.css">
+	<link rel="stylesheet" href="css/app.css?time=<?=time()?>">
 </head>
 
 <body>
@@ -388,10 +388,10 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 	</script>
 </body>
 
-<script src="js/size.js"></script>
-<script src="js/signin.js"></script>
-<script src="js/playerinformation.js"></script>
-<script src="js/serverstatus.js"></script>
-<script src="js/map.js"></script>
+<script src="js/size.js?time=<?=time()?>"></script>
+<script src="js/signin.js?time=<?=time()?>"></script>
+<script src="js/playerinformation.js?time=<?=time()?>"></script>
+<script src="js/serverstatus.js?time=<?=time()?>"></script>
+<script src="js/map.js?time=<?=time()?>"></script>
 
 </html>
