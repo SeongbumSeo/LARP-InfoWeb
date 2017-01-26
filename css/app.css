@@ -401,7 +401,7 @@ hr {
 }
 .reveal {
 	max-height: 75%;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 @media screen and (max-width: 39.9375em) {
 	.reveal {
