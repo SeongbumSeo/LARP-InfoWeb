@@ -61,6 +61,7 @@ if($data = $presult->fetch_array()) {
 	$money = '$'.number_format($data['Money']);
 	$bank = '$'.number_format($data['Bank']);
 	$bankbook = sprintf("%03d-%03d", $data['Bankbook']/1000, $data['Bankbook']%1000);
+	$position = explode(',', $data['LastPos']);
 
 	$returns = "1|";
 
@@ -70,6 +71,8 @@ if($data = $presult->fetch_array()) {
 	$returns .= $data['Skin']."|";
 	$returns .= $data['Health']."|";
 	$returns .= $data['Hunger']."|";
+	$returns .= $position[0]."|";
+	$returns .= $position[1]."|";
 
 	$returns .= "<div>\n";
 	$returns .= addData("나이", $data['Age']);

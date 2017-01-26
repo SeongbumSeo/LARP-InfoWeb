@@ -3,6 +3,15 @@ $(document).ready(function () {
 		showItemData("내 아이템", 2, null);
 	});
 
+	$('#profile .show-map').on('click', function() {
+		var x = $(this).attr('x');
+		var y = $(this).attr('y');
+		var map = showMap("내 위치");
+
+		map.setCenter(SanMap.getLatLngFromPos(x, y));
+		addMarker(map, x, y, null, null);
+	});
+
 	$('#profile .show-usagelog').on('click', function() {
 		showUsageLog();
 	});
@@ -33,6 +42,8 @@ function loadPlayerInformation() {
 				$('#profile .img img').attr('src', 'images/skins/' + (skinid = data_splited[i++]) + '.png');
 				$('#profile .health').css('width', data_splited[i++] + '%');
 				$('#profile .hunger').css('width', data_splited[i++] + '%');
+				$('#profile .show-map').attr('x', data_splited[i++]);
+				$('#profile .show-map').attr('y', data_splited[i++]);
 				$('#profile .status-details').html(data_splited[i++]);
 
 				new Foundation.Tooltip($('#profile .img img'), { tipText: "스킨 " + skinid });
@@ -64,7 +75,7 @@ function loadPlayerInformation() {
 					block.find('.status-details').html(data_splited[i++]);
 
 					var obj;
-					obj = block.find('img');
+					obj = block.find('.img img');
 					new Foundation.Tooltip(obj, { tipText: modelname });
 					obj = block.find('h3').addClass('top');
 					new Foundation.Tooltip(obj, { tipText: "기종" });
@@ -76,36 +87,6 @@ function loadPlayerInformation() {
 				break;
 			case 2:
 				setTimeout("loadPlayerInformation()", 1000);
-				break;
-		}
-	});
-}
-
-function showUsageLog() {
-	$.ajax({
-		type: "get",
-		url: "functions/usagelog.php",
-		cache: false
-	}).done(function(data) {
-		switch(parseInt(data)) {
-			case 0:
-				updateSignedStatus();
-				break;
-			case 1:
-				var i = 1;
-				var data_splited = data.split('|');
-
-				$('.usagelog-data > tr').not($('.hide')).remove();
-				while(data_splited.length > i+3) {
-					var block = $('.usagelog-data tr.hide').clone().appendTo('.usagelog-data').removeClass('hide');
-
-					block.find('td:first-child').css('color', data_splited[i++]);
-					block.find('td:first-child').html(data_splited[i++]);
-					block.find('td:nth-child(2)').html(data_splited[i++]);
-					block.find('td:nth-child(3)').html(data_splited[i++]);
-				}
-
-				$('#usagelog').foundation('open');
 				break;
 		}
 	});
@@ -151,6 +132,36 @@ function showItemData(caption, status, statusdata) {
 				}
 
 				$('#items').foundation('open');
+				break;
+		}
+	});
+}
+
+function showUsageLog() {
+	$.ajax({
+		type: "get",
+		url: "functions/usagelog.php",
+		cache: false
+	}).done(function(data) {
+		switch(parseInt(data)) {
+			case 0:
+				updateSignedStatus();
+				break;
+			case 1:
+				var i = 1;
+				var data_splited = data.split('|');
+
+				$('.usagelog-data > tr').not($('.hide')).remove();
+				while(data_splited.length > i+3) {
+					var block = $('.usagelog-data tr.hide').clone().appendTo('.usagelog-data').removeClass('hide');
+
+					block.find('td:first-child').css('color', data_splited[i++]);
+					block.find('td:first-child').html(data_splited[i++]);
+					block.find('td:nth-child(2)').html(data_splited[i++]);
+					block.find('td:nth-child(3)').html(data_splited[i++]);
+				}
+
+				$('#usagelog').foundation('open');
 				break;
 		}
 	});

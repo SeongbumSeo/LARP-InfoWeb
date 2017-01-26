@@ -44,6 +44,11 @@ table tbody tr:nth-last-of-type(n+1) {
 	font-size: 1.5rem;
 }
 
+#map-canvas {
+	width: 100%;
+	padding-top: 56.25%;
+}
+
 /* Top Bar */
 @media screen and (max-width: 39.9375em) {
 	.top-bar-background,
@@ -266,14 +271,14 @@ hr {
 	margin-right: .5rem;
 }
 
-@media screen and (max-width: 63.9375em) {
+@media screen and (max-width: 39.9375em) {
 	#profile,
 	#vehicles,
 	#world {
 		font-size: .9rem;
 	}
 }
-@media screen and (min-width: 64em) {
+@media screen and (min-width: 40em) {
 	#profile,
 	#vehicles,
 	#world {	
@@ -426,6 +431,13 @@ hr {
 #items .hidden {
 	color: #AABBBB;
 	font-size: .9rem;
+}
+
+#map {
+	width: auto;
+	height: auto;
+	min-height: auto;
+	max-height: none;
 }
 
 #usagelog td:first-of-type {

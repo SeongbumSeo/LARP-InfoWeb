@@ -171,6 +171,15 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 			</button>
 		</div>
 
+		<div id="map" class="reveal show-signedin hide" data-reveal>
+			<h3><!--js/map.js--></h3>
+			<div id="map-canvas">
+			</div>
+			<button class="close-button" data-close type="button">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+
 		<div id="usagelog" class="reveal show-signedin hide" data-reveal>
 			<h3>이용 로그</h3>
 			<table>
@@ -228,7 +237,7 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 										<img src="images/icons/backpack.png" />
 										<span>아이템</span>
 									</button>
-									<button type="button" class="show-map button disabled">
+									<button type="button" class="show-map button">
 										<img src="images/icons/map.png" />
 										<span>위치</span>
 									</button>
@@ -274,7 +283,7 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 										<img src="images/icons/backpack.png" />
 										<span>아이템</span>
 									</button>
-									<button type="button" class="show-map button disabled">
+									<button type="button" class="show-map button">
 										<img src="images/icons/map.png" />
 										<span>위치</span>
 									</button>
@@ -363,6 +372,8 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 
 	<script src="js/vendor/jquery.js"></script>
 	<script src="js/vendor/foundation.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC391YhDTNz1a-8uQEUjFXuyPOHX48ugWg" defer></script>
+	<script src="js/SanMap/SanMap.min.js" defer></script>
 	<script>
 	$(document).foundation();
 	</script>
@@ -372,5 +383,6 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 <script src="js/signin.js"></script>
 <script src="js/playerinformation.js"></script>
 <script src="js/serverstatus.js"></script>
+<script src="js/map.js"></script>
 
 </html>
