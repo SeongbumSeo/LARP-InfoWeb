@@ -54,6 +54,7 @@ function loadPlayerInformation() {
 					i++;
 					var block = $('.each-vehicle div.vblock.hide').clone().appendTo('.each-vehicle').removeClass('hide');
 					var modelname;
+					var gps;
 
 					if(num_vehs == 1)
 						block.addClass('large-centered').css('float', 'none');
@@ -63,16 +64,34 @@ function loadPlayerInformation() {
 						$('.each-vehicle div.vmargin.hide').clone().appendTo('.each-vehicle').removeClass('hide');
 
 					block.find('.show-item-list').attr('vid', data_splited[i++]);
-					block.find('.show-item-list').attr('vname', data_splited[i++]);
-					block.find('.show-item-list').on('click', function() {
-						showItemData($(this).attr('vname'), 3, $(this).attr('vid'));
-					});
+					block.find('.show-item-list, .show-map').attr('vcaption', data_splited[i++]);
 					block.find('h3').html(modelname = data_splited[i++]);
 					block.find('.img img')
 						.attr('src', 'http://weedarr.wdfiles.com/local--files/veh/' + data_splited[i++] + '.png');
 					block.find('.health').css('width', data_splited[i++] + '%');
 					block.find('.fuel').css('width', data_splited[i++] + '%');
+					gps = data_splited[i++];
+					block.find('.show-map').attr('x', data_splited[i++]);
+					block.find('.show-map').attr('y', data_splited[i++]);
 					block.find('.status-details').html(data_splited[i++]);
+
+					block.find('.show-item-list').on('click', function() {
+						showItemData($(this).attr('vcaption'), 3, $(this).attr('vid'));
+					});
+
+					if(gps == 1){
+						block.find('.show-map').on('click', function() {
+							var x = $(this).attr('x');
+							var y = $(this).attr('y');
+							var map = showMap($(this).attr('vcaption'));
+
+							map.setCenter(SanMap.getLatLngFromPos(x, y));
+							addMarker(map, x, y, null, null);
+						});
+					} else {
+						block.find('.show-map').addClass('disabled');
+						new Foundation.Tooltip(block.find('.show-map'), {tipText: "GPS가 부착되지 않은 차량입니다." });
+					}
 
 					var obj;
 					obj = block.find('.img img');
