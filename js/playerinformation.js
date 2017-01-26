@@ -25,69 +25,80 @@ function loadPlayerInformation() {
 		url: "functions/playerinfo.php",
 		cache: false
 	}).done(function(data) {
-		switch(parseInt(data)) {
-			case 0:
+		switch(data) {
+			case "Session Error":
 				updateSignedStatus();
 				break;
-			case 1:
-				var i = 1;
-				var cnt;
+			case "No Data":
+				setTimeout("loadPlayerInformation()", 1000);
+				break;
+			default:
 				var skinid;
-				var trackable;
-				var data_splited = data.split('|');
+				var player = $(data).find('Player');
 
-				$('#profile .username').html(data_splited[i++]);
-				$('#profile .badge.level').html(data_splited[i++]);
-				if(data_splited[i++].length > 0)
-					$('#profile .label.party').removeClass('hide').html(data_splited[i-1]);
+				$('#profile .username').html(player.find('Username').text());
+				$('#profile .badge.level').html(player.find('Level').text());
+				if(player.find('Party').text().length > 0)
+					$('#profile .label.party').removeClass('hide').html(player.find('Party').text());
 				else
 					$('#profile .label.party').addClass('hide');
-				$('#profile .img img').attr('src', 'images/skins/' + (skinid = data_splited[i++]) + '.png');
-				$('#profile .health').css('width', data_splited[i++] + '%');
-				$('#profile .hunger').css('width', data_splited[i++] + '%');
-				trackable = data_splited[i++];
-				$('#profile .show-map').attr('x', data_splited[i++]);
-				$('#profile .show-map').attr('y', data_splited[i++]);
-				$('#profile .status-details').html(data_splited[i++]);
+				$('#profile .img img').attr('src', 'images/skins/' + (skinid = parseInt(player.find('Skin').text())) + '.png');
+				$('#profile .health').css('width', parseFloat(player.find('Health').text()) + '%');
+				$('#profile .hunger').css('width', parseFloat(player.find('Hunger').text()) + '%');
+				$('#profile .show-map').attr('x', player.find('PositionX').text());
+				$('#profile .show-map').attr('y', player.find('PositionY').text());
+				$('#profile .status-details').html(
+					"<div>" + player.find('Age').text() + player.find('PhoneNumber').text() + player.find('Origin').text() + "</div>" +
+					"<div>" + player.find('Money').text() + player.find('Bank').text() + player.find('Bankbook').text() + "</div>" + 
+					"<div>" + player.find('FactionName').text() + player.find('Job').text() + "</div>" +
+					"<div>" + player.find('Warns').text() + player.find('Praises').text() + "</div>" + 
+					"<div>" + player.find('Location').text() + "</div>"
+				);
 
-				if(trackable != 1)
+				if(parseInt(player.find('Trackable').text()) != 1) 
 					$('#profile .show-map').addClass('disabled');
 				else if($('#profile .show-map').hasClass('disabled'))
 					$('#profile .show-map').removeClass('disabled');
 
 				new Foundation.Tooltip($('#profile .img img'), { tipText: "스킨 " + skinid });
 
-				var num_vehs = parseInt(data_splited[i++]);
 				$('.each-vehicle > div').not($('.hide')).remove();
-				for(cnt = 1; data_splited[i] == 'vehicle'; cnt++) {
-					i++;
+				var num_vehs = parseInt(player.find('NumVehicles').text());
+				for(var i = 0; i < num_vehs; i++) {
+					var vehicle = $(data).find('Vehicle' + i);
 					var block = $('.each-vehicle div.vblock.hide').clone().appendTo('.each-vehicle').removeClass('hide');
 					var modelname;
 
 					if(num_vehs == 1)
 						block.addClass('large-centered').css('float', 'none');
-					else if(cnt == num_vehs)
+					else if(i == num_vehs)
 						block.addClass('end');
 					else
 						$('.each-vehicle div.vmargin.hide').clone().appendTo('.each-vehicle').removeClass('hide');
 
-					block.find('.show-item-list').attr('vid', data_splited[i++]);
-					block.find('.show-item-list, .show-map').attr('vcaption', data_splited[i++]);
-					block.find('h3').html(modelname = data_splited[i++]);
+					block.find('.show-item-list').attr('vid', vehicle.find('ID').text());
+					block.find('.show-item-list, .show-map').attr('vcaption', vehicle.find('Caption').text());
+					block.find('h3').html(modelname = vehicle.find('Modelname').text());
 					block.find('.img img')
-						.attr('src', 'http://weedarr.wdfiles.com/local--files/veh/' + data_splited[i++] + '.png');
-					block.find('.health').css('width', data_splited[i++] + '%');
-					block.find('.fuel').css('width', data_splited[i++] + '%');
-					trackable = data_splited[i++];
-					block.find('.show-map').attr('x', data_splited[i++]);
-					block.find('.show-map').attr('y', data_splited[i++]);
-					block.find('.status-details').html(data_splited[i++]);
+						.attr('src', 'http://weedarr.wdfiles.com/local--files/veh/' + vehicle.find('Model').text() + '.png');
+					block.find('.health').css('width', parseFloat(vehicle.find('Health').text()) + '%');
+					block.find('.fuel').css('width', parseFloat(vehicle.find('Fuel').text()) + '%');
+					block.find('.show-map').attr('x', vehicle.find('PositionX').text());
+					block.find('.show-map').attr('y', vehicle.find('PositionY').text());
+					block.find('.status-details').html(
+						vehicle.find('NumberPlate').text() +
+						vehicle.find('Engine').text() +
+						vehicle.find('Active').text() +
+						vehicle.find('Locked').text() +
+						vehicle.find('BlowedCnt').text() +
+						vehicle.find('Location').text()
+					);
 
 					block.find('.show-item-list').on('click', function() {
 						showItemData($(this).attr('vcaption'), 3, $(this).attr('vid'));
 					});
 
-					switch(parseInt(trackable)) {
+					switch(parseInt(vehicle.find('Trackable').text())) {
 						case 1:
 							block.find('.show-map').on('click', function() {
 								var x = $(this).attr('x');
@@ -119,9 +130,6 @@ function loadPlayerInformation() {
 					new Foundation.Tooltip(obj, { tipText: "체력" });
 				}
 				break;
-			case 2:
-				setTimeout("loadPlayerInformation()", 1000);
-				break;
 		}
 	});
 }
@@ -143,26 +151,22 @@ function showItemData(caption, status, statusdata) {
 			vid: statusdata
 		}
 	}).done(function(data) {
-		switch(parseInt(data)) {
-			case 0:
+		switch(data) {
+			case "Session Error":
 				updateSignedStatus();
 				break;
-			case 1:
-				var i = 1;
-				var cnt;
-				var data_splited = data.split('|');
-				var num_items = parseInt(data_splited[i++]);
-
+			default:
 				$('#items > h3').html(caption);
-
 				$('.item-data > tr').not($('.hide')).remove();
-				for(cnt = 1; data_splited[i] == 'item'; cnt++) {
-					i++;
+
+				var num_items = parseInt($(data).find('NumItems').text());
+				for(var i = 0; i < num_items; i++) {
+					var item = $(data).find('Item' + i);
 					var block = $('.item-data tr.hide').clone().appendTo('.item-data').removeClass('hide');
 
-					block.find('td:first-child').html(data_splited[i++]);
-					block.find('td:nth-child(2)').html(data_splited[i++]);
-					block.find('td:nth-child(3)').html(data_splited[i++]);
+					block.find('td:first-child').html(item.find('ID').text());
+					block.find('td:nth-child(2)').html(item.find('Amount').text());
+					block.find('td:nth-child(3)').html(item.find('Name').text());
 				}
 
 				$('#items').foundation('open');
@@ -177,22 +181,22 @@ function showUsageLog() {
 		url: "functions/usagelog.php",
 		cache: false
 	}).done(function(data) {
-		switch(parseInt(data)) {
-			case 0:
+		switch(data) {
+			case "Session Error":
 				updateSignedStatus();
 				break;
-			case 1:
-				var i = 1;
-				var data_splited = data.split('|');
-
+			default:
 				$('.usagelog-data > tr').not($('.hide')).remove();
-				while(data_splited.length > i+3) {
+
+				var num_rows = parseInt($(data).find('NumRows').text());
+				for(var i = 0; i < num_rows; i++) {
+					var row = $(data).find('Row' + i);
 					var block = $('.usagelog-data tr.hide').clone().appendTo('.usagelog-data').removeClass('hide');
 
-					block.find('td:first-child').css('color', data_splited[i++]);
-					block.find('td:first-child').html(data_splited[i++]);
-					block.find('td:nth-child(2)').html(data_splited[i++]);
-					block.find('td:nth-child(3)').html(data_splited[i++]);
+					block.find('td:first-child').css('color', row.find('TypeColor').text());
+					block.find('td:first-child').html(row.find('Type').text());
+					block.find('td:nth-child(2)').html(row.find('Contents').text());
+					block.find('td:nth-child(3)').html(row.find('Date').text());
 				}
 
 				$('#usagelog').foundation('open');

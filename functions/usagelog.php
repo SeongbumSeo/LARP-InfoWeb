@@ -1,11 +1,12 @@
 <?php
 session_start();
 
+require_once("../classes/XmlConstruct.class.php");
 require_once('../config.php');
 require_once('mysqli.php');
 
 if(!isset($_SESSION['id'])) {
-	print("0");
+	print("Session Error");
 	exit;
 }
 
@@ -86,13 +87,26 @@ $result = $mysqli->query("
 	) A
 	ORDER BY Time DESC");
 
-$returns = "1";
+$contents = array('NumRows' => $result->num_rows);
+
+$i = 0;
 while($data = $result->fetch_array()) {
 	$returns .= "|".$data['TypeColor'];
 	$returns .= "|".$data['Type'];
 	$returns .= "|".$data['Contents'];
 	$returns .= "|".$data['Date'];
-}
 
-print($returns);
+	$contents['Row'.$i] = array(
+		'TypeColor' => $data['TypeColor'],
+		'Type' => $data['Type'],
+		'Contents' => $data['Contents'],
+		'Date' => $data['Date']
+	);
+
+	unset($data);
+	$i++;
+}
+$xml = new XmlConstruct('UsageLog');
+$xml->fromArray($contents);
+$xml->output();
 ?>

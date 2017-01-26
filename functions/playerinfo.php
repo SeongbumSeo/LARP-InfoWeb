@@ -1,11 +1,12 @@
 <?php
 session_start();
 
+require_once("../classes/XmlConstruct.class.php");
 require_once('../config.php');
 require_once('mysqli.php');
 
 if(!isset($_SESSION['id'])) {
-	print("0");
+	print("Session Error");
 	exit;
 }
 
@@ -65,56 +66,47 @@ if($data = $presult->fetch_array()) {
 	$trackable = $position[4] != 0 || $position[5] != 0 ? 0 : 1;
 	$position = $trackable == 1 ? $position : array(0, 0);
 
-	$returns = "1|";
+	$contents = array(
+		'Player' => array(
+			'Username' => str_replace('_', ' ', $data['Username']),
+			'Level' => $data['Level'],
+			'Party' => $data['Party'],
+			'Skin' => $data['Skin'],
+			'Health' => $data['Health'],
+			'Hunger' => $data['Hunger'],
+			'PositionX' => $position[0],
+			'PositionY' => $position[1],
+			'Trackable' => $trackable,
 
-	$returns .= str_replace('_', ' ', $data['Username'])."|";
-	$returns .= $data['Level']."|";
-	$returns .= $data['Party']."|";
-	$returns .= $data['Skin']."|";
-	$returns .= $data['Health']."|";
-	$returns .= $data['Hunger']."|";
-	$returns .= $trackable."|";
-	$returns .= $position[0]."|";
-	$returns .= $position[1]."|";
+			'Age' => addData("나이", $data['Age']),
+			'PhoneNumber' => addData("전화번호", $pnumber),
+			'Origin' => addData("국적", $origin),
 
-	$returns .= "<div>\n";
-	$returns .= addData("나이", $data['Age']);
-	$returns .= addData("전화번호", $pnumber);
-	$returns .= addData("국적", $origin);
-	$returns .= "</div>\n";
+			'Money' => addData("소지금", $money),
+			'Bank' => addData("은행", $bank),
+			'Bankbook' => addData("계좌번호", $bankbook),
 
-	$returns .= "<div>\n";
-	$returns .= addData("소지금", $money);
-	$returns .= addData("은행", $bank);
-	$returns .= addData("계좌번호", $bankbook);
-	$returns .= "</div>\n";
+			'FactionName' => addData("팩션", $data['FactionName']),
+			'Job' => addData("직업", getJobName($data['Job'])),
 
-	$returns .= "<div>\n";
-	$returns .= addData("팩션", $data['FactionName']);
-	$returns .= addData("직업", getJobName($data['Job']));
-	$returns .= "</div>\n";
+			'Warns' => addData("경고", $data['Warns']."/7"),
+			'Praises' => addData("칭찬", $data['Praises']."/3"),
 
-	$returns .= "<div>\n";
-	$returns .= addData("경고", $data['Warns']."/7");
-	$returns .= addData("칭찬", $data['Praises']."/3");
-	$returns .= "</div>\n";
+			'Location' => addData("위치", getLocationName($data['LastPos']), "white-space: normal;"),
 
-	$returns .="<div>\n";
-	$returns .= addData("위치", getLocationName($data['LastPos']), "white-space: normal;");
-	$returns .= "</div>\n";
+			'NumVehicles' => $cresult->num_rows
+		)
+	);
 
 	unset($data);
-
-	$returns .= "|".$cresult->num_rows;
+	
+	$i = 0;
 	while($data = $cresult->fetch_array()) {
 		$model = getVehicleModelName($data['Model']);
 		$caption = sprintf("%s <span>(%s)</span>", $model, $data['NumberPlate']);
 		$position = explode(',', $data['LastPos']);
 		$trackable = $data['GPS'] == 0 ? 2 : $position[4] != 0 || $position[5] != 0 ? 3 : 1;
 		$position = $trackable == 1 ? $position : array(0, 0);
-		$engine = $data['Engine'] ? "켜져있음" : "꺼져있음";
-		$active = $data['Active'] ? "꺼내져있음" : "넣어져있음";
-		$locked = $data['Locked'] ? "잠겨있음" : "열려있음";
 		if($data['Towed'])
 			$location = "<u>견인 차량 보관소</u>";
 		else if($data['Blowed'])
@@ -124,32 +116,34 @@ if($data = $presult->fetch_array()) {
 		else
 			$location = getLocationName($data['LastPos']);
 
-		$returns .= "|vehicle|";
+		$contents['Vehicle'.$i] = array(
+			'ID' => $data['ID'],
+			'Caption' => $caption,
+			'Modelname' => $model,
+			'Model' => $data['Model'],
+			'Health' => $data['Health'] / 10,
+			'Fuel' => $data['Fuel'] / 100000,
+			'PositionX' => $position[0],
+			'PositionY' => $position[1],
+			'Trackable' => $trackable,
 
-		$returns .= $data['ID']."|";
-		$returns .= $caption."|";
-		$returns .= $model."|";
-		$returns .= $data['Model']."|";
-		$returns .= ($data['Health']/10)."|";
-		$returns .= ($data['Fuel']/100000)."|";
-		$returns .= $trackable."|";
-		$returns .= $position[0]."|";
-		$returns .= $position[1]."|";
-
-		$returns .= addData("번호판", $data['NumberPlate']);
-		$returns .= addData("시동", $engine);
-		$returns .= addData("상태", $active);
-		$returns .= addData("잠금여부", $locked);
-		$returns .= addData("블로우", $data['BlowedCnt']."회");
-		$returns .= addData("위치", $location, "white-space: normal;");
+			'NumberPlate' => addData("번호판", $data['NumberPlate']),
+			'Engine' => addData("시동", $data['Engine'] ? "켜져있음" : "꺼져있음"),
+			'Active' => addData("상태", $data['Active'] ? "꺼내져있음" : "넣어져있음"),
+			'Locked' => addData("잠금여부", $data['Locked'] ? "잠겨있음" : "열려있음"),
+			'BlowedCnt' => addData("블로우", $data['BlowedCnt']."회"),
+			'Location' => addData("위치", $location, "white-space: normal;")
+		);
 
 		unset($data);
+		$i++;
 	}
-
-	print($returns);
+	$xml = new XmlConstruct('PlayerInformation');
+	$xml->fromArray($contents);
+	$xml->output();
 }
 else
-	print("2");
+	print("No Data");
 
 function addData($key, $value, $style=null) {
 	if($style != null)

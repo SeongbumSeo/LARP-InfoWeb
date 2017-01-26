@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+require_once("../classes/XmlConstruct.class.php");
 require_once('../config.php');
 require_once('mysqli.php');
 
@@ -11,7 +12,7 @@ define("ITEM_STATUS_PLAYER",	2);
 define("ITEM_STATUS_VEHICLE",	3);
 
 if(!isset($_SESSION['id'])) {
-	print("0");
+	print("Session Error");
 	exit;
 }
 
@@ -23,7 +24,9 @@ if($cmd == CMD_PLAYER)
 else if($cmd == CMD_VEHICLE)
 	$result = itemListSQL($mysqli, ITEM_STATUS_VEHICLE, (int)$_POST['vid']);
 
-$returns = "1|".$result->num_rows;
+$contents = array('NumItems' => $result->num_rows);
+
+$i = 0;
 while($data = $result->fetch_array()) {
 	$name = $data['Name'];
 	$input = $data['Data'];
@@ -86,18 +89,21 @@ while($data = $result->fetch_array()) {
 	if(isset($str_hidden) && strlen($str_hidden))
 		$name .= " <span class=\"hidden\">($str_hidden)</span>";
 
-	$returns .= "|item|";
-
-	$returns .= $data['ID']."|";
-	$returns .= $data['Amount'].$data['Unit']."|";
-	$returns .= $name;
+	$contents['Item'.$i] = array(
+		'ID' => $data['ID'],
+		'Amount' => $data['Amount'].$data['Unit'],
+		'Name' => $name
+	);
 
 	unset($str_name);
 	unset($str_hidden);
 	unset($exploded);
 	unset($data);
+	$i++;
 }
-print($returns);
+$xml = new XmlConstruct('Items');
+$xml->fromArray($contents);
+$xml->output();
 
 function itemListSQL($db, $status, $statusdata) {
 	$result = $db->query("

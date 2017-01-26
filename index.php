@@ -325,7 +325,16 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 							</tr>
 						</table>
 						<table class="playerlist">
-							<!--js/serverstatus.js-->
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>닉네임</th>
+									<th>핑</th>
+								</tr>
+							</thead>
+							<tbody>
+								<!--js/serverstatus.js-->
+							</tbody>
 						</table>
 					</div>
 				</div>
