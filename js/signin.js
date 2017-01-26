@@ -4,76 +4,12 @@ $(document).ready(function () {
 	updateSignedStatus();
 	setInterval("updateSignedStatus()", 10000);
 
-	$('.signin-submit').on('click', function() {
-		if(!signedin) {
-			var username = $('input.username').val(),
-				password = $('input.password').val();
-
-			$('input.username').val("");
-			$('input.password').val("");
-
-			$('.signin-submit').css('disabled', true);
-			$('.blackscreen > div').html("로그인 처리중입니다.");
-			$('.blackscreen').css('display', 'block');
-			$('.blackscreen').fadeTo('slow', 1, function() {
-				$.ajax({
-					type: "post",
-					url: "functions/signin.php",
-					cache: false,
-					data: {
-						cmd: 1,
-						username: username,
-						password: password
-					}
-				}).done(function(data) {
-					switch(parseInt(data)) {
-						case 0:
-							var data_splited = data.split('|');
-							$('.signin-alert p').html(data_splited[1]);
-							$('.signin-alert').css('display', 'block');
-							break;
-						case 1:
-							signedin = true;
-							setSignedDisplay();
-							break;
-					}
-				}).always(function() {
-					$(document).scrollTop($('#profile').offset().top-$('.top-bar').height());
-					$('.blackscreen').fadeTo('slow', 0, function() {
-						$('.blackscreen').css('display', 'none');
-					});
-				});
-			});
-		}
+	$('.signin-submit').on('click', function() { signIn() });
+	$('#signin .input-group-field').on('keypress', function(e) {
+		if(e.keyCode == 13)
+			signIn();
 	});
-	$('.signin-button').on('click', function() {
-		if(signedin) {
-			$('.signin-submit').prop('disabled', true);
-			$('.blackscreen > div').html("로그아웃 처리중입니다.");
-			$('.blackscreen').css('display', 'block');
-			$('.blackscreen').fadeTo('slow', 1, function() {	
-				$.ajax({
-					type: "post",
-					url: "functions/signin.php",
-					cache: false,
-					data: {
-						cmd: 2
-					}
-				}).done(function(data) {
-					if(parseInt(data) == 1) {
-						signedin = false;
-						setSignedDisplay();
-					}
-				}).always(function() {
-					$(document).scrollTop($('#signin').offset().top-$('.top-bar').height());
-					$('.blackscreen').fadeTo('slow', 0, function() {
-						$('.signin-submit').prop('disabled', false);
-						$('.blackscreen').css('display', 'none');
-					});
-				});
-			});
-		}
-	});
+	$('.signin-button').on('click', function() { signOut() });
 });
 
 function updateSignedStatus() {
@@ -104,5 +40,77 @@ function setSignedDisplay() {
 		$('.signin-button').html("로그인");
 		$('.show-signedin').addClass('hide');
 		$('.hide-signedin').removeClass('hide');
+	}
+}
+
+function signIn() {
+	if(!signedin) {
+		var username = $('input.username').val(),
+			password = $('input.password').val();
+
+		$('input.username').val("");
+		$('input.password').val("");
+
+		$('.signin-submit').css('disabled', true);
+		$('.blackscreen > div').html("로그인 처리중입니다.");
+		$('.blackscreen').css('display', 'block');
+		$('.blackscreen').fadeTo('slow', 1, function() {
+			$.ajax({
+				type: "post",
+				url: "functions/signin.php",
+				cache: false,
+				data: {
+					cmd: 1,
+					username: username,
+					password: password
+				}
+			}).done(function(data) {
+				switch(parseInt(data)) {
+					case 0:
+						var data_splited = data.split('|');
+						$('.signin-alert p').html(data_splited[1]);
+						$('.signin-alert').css('display', 'block');
+						break;
+					case 1:
+						signedin = true;
+						setSignedDisplay();
+						break;
+				}
+			}).always(function() {
+				$(document).scrollTop($('#profile').offset().top-$('.top-bar').height());
+				$('.blackscreen').fadeTo('slow', 0, function() {
+					$('.blackscreen').css('display', 'none');
+				});
+			});
+		});
+	}
+}
+
+function signOut() {
+	if(signedin) {
+		$('.signin-submit').prop('disabled', true);
+		$('.blackscreen > div').html("로그아웃 처리중입니다.");
+		$('.blackscreen').css('display', 'block');
+		$('.blackscreen').fadeTo('slow', 1, function() {	
+			$.ajax({
+				type: "post",
+				url: "functions/signin.php",
+				cache: false,
+				data: {
+					cmd: 2
+				}
+			}).done(function(data) {
+				if(parseInt(data) == 1) {
+					signedin = false;
+					setSignedDisplay();
+				}
+			}).always(function() {
+				$(document).scrollTop($('#signin').offset().top-$('.top-bar').height());
+				$('.blackscreen').fadeTo('slow', 0, function() {
+					$('.signin-submit').prop('disabled', false);
+					$('.blackscreen').css('display', 'none');
+				});
+			});
+		});
 	}
 }
