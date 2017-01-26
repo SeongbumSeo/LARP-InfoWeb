@@ -11,7 +11,7 @@ function createMap() {
 		? "images/maps/tiles/map.outer.png" 
 		: "images/maps/tiles/map." + zoom + "." + x + "." + y + ".png";
 	});
-	return SanMap.createMap(document.getElementById('map-canvas'), { 'Map': mapType }, 3, null, false, 'Map');
+	return SanMap.createMap(document.getElementById('map-canvas'), { '위성': mapType }, 3);
 }
 
 function addMarker(map, x, y, icon, content) {
