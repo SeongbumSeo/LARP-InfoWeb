@@ -2,7 +2,7 @@ var signedin = false;
 
 $(document).ready(function () {
 	updateSignedStatus();
-	setInterval("updateSignedStatus()", 60000);
+	setInterval("updateSignedStatus()", 10000);
 
 	$('.signin-submit').on('click', function() {
 		if(!signedin) {
