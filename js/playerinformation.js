@@ -64,6 +64,7 @@ function loadPlayerInformation() {
 
 				var blocks = $('.each-vehicle > div').not($('.hide'));
 				blocks.each(function() {
+					$('#'+$(this).find('.show-map').attr('aria-describedby')).remove();
 					$('#'+$(this).find('.img img').attr('aria-describedby')).remove();
 					$('#'+$(this).find('h3').attr('aria-describedby')).remove();
 					$('#'+$(this).find('.fuel').attr('aria-describedby')).remove();
