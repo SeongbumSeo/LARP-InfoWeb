@@ -120,11 +120,11 @@ function loadPlayerInformation() {
 							break;
 						case 2:
 							block.find('.show-map').addClass('disabled');
-							new Foundation.Tooltip(block.find('.show-map'), {tipText: "GPS가 부착되지 않은 차량입니다." });
+							new Foundation.Tooltip(block.find('.show-map'), { tipText: "GPS가 부착되지 않은 차량입니다." });
 							break;
 						case 3:
 							block.find('.show-map').addClass('disabled');
-							new Foundation.Tooltip(block.find('.show-map'), {tipText: "추적 불가능한 위치에 있습니다." });
+							new Foundation.Tooltip(block.find('.show-map'), { tipText: "추적 불가능한 위치에 있습니다." });
 							break;
 					}
 
