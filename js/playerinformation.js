@@ -172,6 +172,8 @@ function showItemData(caption, status, statusdata) {
 				$('#items').foundation('open');
 				break;
 		}
+	}).fail(function() {
+		alert("아이템 데이터를 불러오지 못하였습니다.");
 	});
 }
 
@@ -202,5 +204,7 @@ function showUsageLog() {
 				$('#usagelog').foundation('open');
 				break;
 		}
+	}).fail(function() {
+		alert("이용 로그를 불러오지 못하였습니다.");
 	});
 }

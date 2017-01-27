@@ -76,6 +76,9 @@ function signIn() {
 						setSignedDisplay();
 						break;
 				}
+			}).fail(function() {
+				$('.signin-alert p').html("시스템 오류가 발생하여 로그인에 실패하였습니다.");
+				$('.signin-alert').css('display', 'block');
 			}).always(function() {
 				$(document).scrollTop($('#profile').offset().top-$('.top-bar').height());
 				$('.blackscreen').fadeTo('slow', 0, function() {
@@ -102,12 +105,14 @@ function signOut() {
 			}).done(function(data) {
 				if(parseInt(data) == 1) {
 					signedin = false;
+					$('.signin-submit').prop('disabled', false);
+					$(document).scrollTop($('#signin').offset().top-$('.top-bar').height());
 					setSignedDisplay();
 				}
+			}).fail(function() {
+				alert("시스템 오류가 발생하여 로그아웃에 실패하였습니다.");
 			}).always(function() {
-				$(document).scrollTop($('#signin').offset().top-$('.top-bar').height());
 				$('.blackscreen').fadeTo('slow', 0, function() {
-					$('.signin-submit').prop('disabled', false);
 					$('.blackscreen').css('display', 'none');
 				});
 			});

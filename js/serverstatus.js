@@ -53,5 +53,9 @@ function updateServerStatus() {
 			$('.serverstatus-offline').addClass('hide');
 			$('.serverstatus-online').removeClass('hide');
 		}
+	}).fail(function() {
+		$('.serverstatus-loading').addClass('hide');
+		$('.serverstatus-offline').removeClass('hide');
+		$('.serverstatus-online').addClass('hide');
 	});
 }
