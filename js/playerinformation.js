@@ -62,7 +62,15 @@ function loadPlayerInformation() {
 
 				new Foundation.Tooltip($('#profile .img img'), { tipText: "스킨 " + skinid });
 
-				$('.each-vehicle > div').not($('.hide')).remove();
+				var blocks = $('.each-vehicle > div').not($('.hide'));
+				blocks.each(function() {
+					$('#'+$(this).find('.img img').attr('aria-describedby')).remove();
+					$('#'+$(this).find('h3').attr('aria-describedby')).remove();
+					$('#'+$(this).find('.fuel').attr('aria-describedby')).remove();
+					$('#'+$(this).find('.health').attr('aria-describedby')).remove();
+					$(this).remove();
+				});
+
 				var num_vehs = parseInt(player.find('NumVehicles').text());
 				for(var i = 0; i < num_vehs; i++) {
 					var vehicle = $(data).find('Vehicle' + i);
