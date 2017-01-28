@@ -11,6 +11,7 @@ class Notice {
             $subject = explode("<a href=\"javascript:;\"", $this->getContentsFromPart($line, "td", 2))[0];
 			$subject = str_replace("href=\"", "href=\"http://cafe.daum.net", $subject);
 			$subject = str_replace("<a ", "<a target=\"_blank\" ", $subject);
+			$subject = str_replace("color=\"#000000\"", "", $subject);
 			$date = $this->getContentsFromPart($line, "td", $date_index);
 			$this->notice[$i] = array('subject' => $subject, 'date' => $date);
 		}
