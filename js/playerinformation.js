@@ -1,3 +1,5 @@
+const tooltipSelector = 'aria-describedby';
+
 $(document).ready(function () {
 	$('#profile .show-item-list').on('click', function() {
 		showItemData("내 아이템", 2, null);
@@ -34,6 +36,7 @@ function loadPlayerInformation() {
 				break;
 			default:
 				var skinid;
+				var obj;
 				var player = $(data).find('Player');
 
 				$('#profile .username').html(player.find('Username').text());
@@ -55,20 +58,25 @@ function loadPlayerInformation() {
 					"<div>" + player.find('Location').text() + "</div>"
 				);
 
-				if(parseInt(player.find('Trackable').text()) != 1) 
-					$('#profile .show-map').addClass('disabled');
-				else if($('#profile .show-map').hasClass('disabled'))
-					$('#profile .show-map').removeClass('disabled');
+				obj = $('#profile .show-map');
+				$('#'+obj.attr(tooltipSelector)).remove();
+				if(parseInt(player.find('Trackable').text()) != 1) {
+					obj.addClass('disabled');
+					new Foundation.Tooltip(obj, { tipText: "추적 불가능한 위치에 있습니다." });
+				} else if(obj.hasClass('disabled'))
+					obj.removeClass('disabled');
 
-				new Foundation.Tooltip($('#profile .img img'), { tipText: "스킨 " + skinid });
+				obj = $('#profile .img img');
+				$('#'+obj.attr(tooltipSelector)).remove();
+				new Foundation.Tooltip(obj, { tipText: "스킨 " + skinid });
 
-				var blocks = $('.each-vehicle > div').not($('.hide'));
+				var blocks = $('.each-vehicle div.vblock').not($('.hide'));
 				blocks.each(function() {
 					$('#'+$(this).find('.show-map').attr('aria-describedby')).remove();
 					$('#'+$(this).find('.img img').attr('aria-describedby')).remove();
 					$('#'+$(this).find('h3').attr('aria-describedby')).remove();
-					$('#'+$(this).find('.fuel').attr('aria-describedby')).remove();
-					$('#'+$(this).find('.health').attr('aria-describedby')).remove();
+					$('#'+$(this).find('.fuel').parent().attr('aria-describedby')).remove();
+					$('#'+$(this).find('.health').parent().attr('aria-describedby')).remove();
 					$(this).remove();
 				});
 
@@ -119,16 +127,15 @@ function loadPlayerInformation() {
 							});
 							break;
 						case 2:
-							block.find('.show-map').addClass('disabled');
-							new Foundation.Tooltip(block.find('.show-map'), { tipText: "GPS가 부착되지 않은 차량입니다." });
+							obj = block.find('.show-map').addClass('disabled');
+							new Foundation.Tooltip(obj, { tipText: "GPS가 부착되지 않은 차량입니다." });
 							break;
 						case 3:
-							block.find('.show-map').addClass('disabled');
-							new Foundation.Tooltip(block.find('.show-map'), { tipText: "추적 불가능한 위치에 있습니다." });
+							obj = block.find('.show-map').addClass('disabled');
+							new Foundation.Tooltip(obj, { tipText: "추적 불가능한 위치에 있습니다." });
 							break;
 					}
 
-					var obj;
 					obj = block.find('.img img');
 					new Foundation.Tooltip(obj, { tipText: modelname });
 					obj = block.find('h3').addClass('top');
