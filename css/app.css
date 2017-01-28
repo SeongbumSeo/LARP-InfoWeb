@@ -214,8 +214,20 @@ hr {
 		font-size: .9rem;
 	}
 }
-#notice .row div:nth-child(2) {
-	text-align: right;
+#notice table tbody {
+	border: none;
+	background-color: inherit;
+}
+#notice table tbody tr {
+	background-color: inherit;
+}
+#notice table tbody tr:last-child {
+	border-bottom: none;
+}
+#notice table tbody tr td:last-child {
+	text-align: center;
+	padding-left: 0;
+	padding-right: 0;
 }
 #notice a {
 	transition: 1s;

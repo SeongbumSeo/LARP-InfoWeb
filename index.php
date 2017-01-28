@@ -69,6 +69,8 @@ require("classes/Notice.class.php");
 		<div id="notice" class="row content">
 			<div class="small-12 medium-6 columns">
 				<h1>공지사항</h1>
+				<table>
+					<tbody>
 <?php
 $notice_array = new Notice(URL_NOTICE, DATE_INDEX_NOTICE, MAX_NOTICES);
 for($i = 0; $i < MAX_NOTICES; $i++) {
@@ -76,19 +78,21 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 	$date = $notice_array->getNotice()[$i]['date'];
 	if(strcmp($subject, "&nbsp;") != 0 && strlen($subject) > 0) {
 ?>
-				<div class="row">
-					<div class="small-9 columns">
-						<a><?=$subject?></a>
-					</div>
-					<div class="small-3 columns"><?=$date?></div>
-				</div>
+						<tr>
+							<td><?=$subject?></td>
+							<td><?=$date?></td>
+						</tr>
 <?php
 	}
 }
 ?>
+					</tbody>
+				</table>
 			</div>
 			<div class="small-12 medium-6 columns">
 				<h1>이벤트</h1>
+				<table>
+					<tbody>
 <?php
 $event_array = new Notice(URL_EVENT, DATE_INDEX_EVENT, MAX_NOTICES);
 for($i = 0; $i < MAX_NOTICES; $i++) {
@@ -96,16 +100,16 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 	$date = $event_array->getNotice()[$i]['date'];
 	if(strcmp($subject, "&nbsp;") != 0 && strlen($subject) > 0) {
 ?>
-				<div class="row">
-					<div class="small-9 columns">
-						<a><?=$subject?></a>
-					</div>
-					<div class="small-3 columns"><?=$date?></div>
-				</div>
+						<tr>
+							<td><?=$subject?></td>
+							<td><?=$date?></td>
+						</tr>
 <?php
 	}
 }
 ?>
+					</tbody>
+				</table>
 			</div>
 		</div>
 
