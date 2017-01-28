@@ -72,11 +72,11 @@ function loadPlayerInformation() {
 
 				var blocks = $('.each-vehicle div.vblock').not($('.hide'));
 				blocks.each(function() {
-					$('#'+$(this).find('.show-map').attr('aria-describedby')).remove();
-					$('#'+$(this).find('.img img').attr('aria-describedby')).remove();
-					$('#'+$(this).find('h3').attr('aria-describedby')).remove();
-					$('#'+$(this).find('.fuel').parent().attr('aria-describedby')).remove();
-					$('#'+$(this).find('.health').parent().attr('aria-describedby')).remove();
+					$('#'+$(this).find('.show-map').attr(tooltipSelector)).remove();
+					$('#'+$(this).find('.img img').attr(tooltipSelector)).remove();
+					$('#'+$(this).find('h3').attr(tooltipSelector)).remove();
+					$('#'+$(this).find('.fuel').parent().attr(tooltipSelector)).remove();
+					$('#'+$(this).find('.health').parent().attr(tooltipSelector)).remove();
 					$(this).remove();
 				});
 
