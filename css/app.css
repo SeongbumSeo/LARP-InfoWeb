@@ -14,6 +14,7 @@ table tbody tr:nth-child(n) {
 	background-color: #FCFFFF;
 }
 table tbody tr td {
+	color: #667777;
 	padding: .3rem .625rem;
 }
 table tbody tr:nth-last-of-type(n+1) {

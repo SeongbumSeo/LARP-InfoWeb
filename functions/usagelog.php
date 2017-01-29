@@ -17,10 +17,10 @@ $password = $_SESSION['password'];
 $result = $mysqli->query("
 	SELECT
 		CASE LEFT(Type, 2)
-			WHEN '칭찬' THEN '#00CC00'
-			WHEN '경고' THEN '#CC0000'
-			WHEN '차감' THEN '#0000CC'
-			ELSE '000'
+			WHEN '칭찬' THEN '#33CC33'
+			WHEN '경고' THEN '#CC3333'
+			WHEN '차감' THEN '#3333CC'
+			ELSE '#333'
 		END TypeColor,
 		A.*,
 		SUBSTRING_INDEX(Time, ' ', 1) Date
