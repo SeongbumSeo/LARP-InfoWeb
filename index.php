@@ -70,44 +70,22 @@ require("classes/Notice.class.php");
 			<div class="small-12 medium-6 columns">
 				<h1>공지사항</h1>
 				<table>
-					<tbody>
-<?php
-$notice_array = new Notice(URL_NOTICE, DATE_INDEX_NOTICE, MAX_NOTICES);
-for($i = 0; $i < MAX_NOTICES; $i++) {
-	$subject = $notice_array->getNotice()[$i]['subject'];
-	$date = $notice_array->getNotice()[$i]['date'];
-	if(strcmp($subject, "&nbsp;") != 0 && strlen($subject) > 0) {
-?>
-						<tr>
-							<td><?=$subject?></td>
-							<td><?=$date?></td>
+					<tbody class="notice-list">
+						<tr class="hide">
+							<td><!--js/notice.js--></td>
+							<td><!--js/notice.js--></td>
 						</tr>
-<?php
-	}
-}
-?>
 					</tbody>
 				</table>
 			</div>
 			<div class="small-12 medium-6 columns">
 				<h1>이벤트</h1>
 				<table>
-					<tbody>
-<?php
-$event_array = new Notice(URL_EVENT, DATE_INDEX_EVENT, MAX_NOTICES);
-for($i = 0; $i < MAX_NOTICES; $i++) {
-	$subject = $event_array->getNotice()[$i]['subject'];
-	$date = $event_array->getNotice()[$i]['date'];
-	if(strcmp($subject, "&nbsp;") != 0 && strlen($subject) > 0) {
-?>
-						<tr>
-							<td><?=$subject?></td>
-							<td><?=$date?></td>
+					<tbody class="event-list">
+						<tr class="hide">
+							<td><!--js/notice.js--></td>
+							<td><!--js/notice.js--></td>
 						</tr>
-<?php
-	}
-}
-?>
 					</tbody>
 				</table>
 			</div>
@@ -392,6 +370,7 @@ for($i = 0; $i < MAX_NOTICES; $i++) {
 </body>
 
 <script src="js/size.js?time=<?=time()?>"></script>
+<script src="js/notice.js?time<?=time()?>"></script>
 <script src="js/signin.js?time=<?=time()?>"></script>
 <script src="js/playerinformation.js?time=<?=time()?>"></script>
 <script src="js/serverstatus.js?time=<?=time()?>"></script>
