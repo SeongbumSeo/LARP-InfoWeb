@@ -37,30 +37,30 @@ function loadPlayerInformation() {
 			default:
 				var skinid;
 				var obj;
-				var player = $(data).find('Player');
+				var json = JSON.parse(data);
 
-				$('#profile .username').html(player.find('Username').text());
-				$('#profile .badge.level').html(player.find('Level').text());
-				if(player.find('Party').text().length > 0)
-					$('#profile .label.party').removeClass('hide').html(player.find('Party').text());
+				$('#profile .username').html(json.Player.Username);
+				$('#profile .badge.level').html(json.Player.Level);
+				if(json.Player.Party.length > 0)
+					$('#profile .label.party').removeClass('hide').html(json.Player.Party);
 				else
 					$('#profile .label.party').addClass('hide');
-				$('#profile .img img').attr('src', 'images/skins/' + (skinid = parseInt(player.find('Skin').text())) + '.png');
-				$('#profile .health').css('width', parseFloat(player.find('Health').text()) + '%');
-				$('#profile .hunger').css('width', parseFloat(player.find('Hunger').text()) + '%');
-				$('#profile .show-map').attr('x', player.find('PositionX').text());
-				$('#profile .show-map').attr('y', player.find('PositionY').text());
+				$('#profile .img img').attr('src', 'images/skins/' + (skinid = parseInt(json.Player.Skin)) + '.png');
+				$('#profile .health').css('width', parseFloat(json.Player.Health) + '%');
+				$('#profile .hunger').css('width', parseFloat(json.Player.Hunger) + '%');
+				$('#profile .show-map').attr('x', json.Player.PositionX);
+				$('#profile .show-map').attr('y', json.Player.PositionY);
 				$('#profile .status-details').html(
-					"<div>" + player.find('Age').text() + player.find('PhoneNumber').text() + player.find('Origin').text() + "</div>" +
-					"<div>" + player.find('Money').text() + player.find('Bank').text() + player.find('Bankbook').text() + "</div>" + 
-					"<div>" + player.find('FactionName').text() + player.find('Job').text() + "</div>" +
-					"<div>" + player.find('Warns').text() + player.find('Praises').text() + "</div>" + 
-					"<div>" + player.find('Location').text() + "</div>"
+					"<div>" + json.Player.Age + json.Player.PhoneNumber + json.Player.Origin + "</div>" +
+					"<div>" + json.Player.Money + json.Player.Bank + json.Player.Bankbook + "</div>" + 
+					"<div>" + json.Player.FactionName + json.Player.Job + "</div>" +
+					"<div>" + json.Player.Warns + json.Player.Praises + "</div>" + 
+					"<div>" + json.Player.Location + "</div>"
 				);
 
 				obj = $('#profile .show-map');
 				$('#'+obj.attr(tooltipSelector)).remove();
-				if(parseInt(player.find('Trackable').text()) != 1) {
+				if(parseInt(json.Player.Trackable) != 1) {
 					obj.addClass('disabled');
 					new Foundation.Tooltip(obj, { tipText: "추적 불가능한 위치에 있습니다." });
 				} else if(obj.hasClass('disabled'))
@@ -80,9 +80,8 @@ function loadPlayerInformation() {
 					$(this).remove();
 				});
 
-				var num_vehs = parseInt(player.find('NumVehicles').text());
+				var num_vehs = json.Vehicle.length;
 				for(var i = 0; i < num_vehs; i++) {
-					var vehicle = $(data).find('Vehicle' + i);
 					var block = $('.each-vehicle div.vblock.hide').clone().appendTo('.each-vehicle').removeClass('hide');
 					var modelname;
 
@@ -93,29 +92,29 @@ function loadPlayerInformation() {
 					else
 						$('.each-vehicle div.vmargin.hide').clone().appendTo('.each-vehicle').removeClass('hide');
 
-					block.find('.show-item-list').attr('vid', vehicle.find('ID').text());
-					block.find('.show-item-list, .show-map').attr('vcaption', vehicle.find('Caption').text());
-					block.find('h3').html(modelname = vehicle.find('Modelname').text());
+					block.find('.show-item-list').attr('vid', json.Vehicle[i].ID);
+					block.find('.show-item-list, .show-map').attr('vcaption', json.Vehicle[i].Caption);
+					block.find('h3').html(modelname = json.Vehicle[i].Modelname);
 					block.find('.img img')
-						.attr('src', 'http://weedarr.wdfiles.com/local--files/veh/' + vehicle.find('Model').text() + '.png');
-					block.find('.health').css('width', parseFloat(vehicle.find('Health').text()) + '%');
-					block.find('.fuel').css('width', parseFloat(vehicle.find('Fuel').text()) + '%');
-					block.find('.show-map').attr('x', vehicle.find('PositionX').text());
-					block.find('.show-map').attr('y', vehicle.find('PositionY').text());
+						.attr('src', 'http://weedarr.wdfiles.com/local--files/veh/' + json.Vehicle[i].Model + '.png');
+					block.find('.health').css('width', parseFloat(json.Vehicle[i].Health) + '%');
+					block.find('.fuel').css('width', parseFloat(json.Vehicle[i].Fuel) + '%');
+					block.find('.show-map').attr('x', json.Vehicle[i].PositionX);
+					block.find('.show-map').attr('y', json.Vehicle[i].PositionY);
 					block.find('.status-details').html(
-						vehicle.find('NumberPlate').text() +
-						vehicle.find('Engine').text() +
-						vehicle.find('Active').text() +
-						vehicle.find('Locked').text() +
-						vehicle.find('BlowedCnt').text() +
-						vehicle.find('Location').text()
+						json.Vehicle[i].NumberPlate +
+						json.Vehicle[i].Engine +
+						json.Vehicle[i].Active +
+						json.Vehicle[i].Locked +
+						json.Vehicle[i].BlowedCnt +
+						json.Vehicle[i].Location
 					);
 
 					block.find('.show-item-list').on('click', function() {
 						showItemData($(this).attr('vcaption'), 3, $(this).attr('vid'));
 					});
 
-					switch(parseInt(vehicle.find('Trackable').text())) {
+					switch(parseInt(json.Vehicle[i].Trackable)) {
 						case 1:
 							block.find('.show-map').on('click', function() {
 								var x = $(this).attr('x');
@@ -175,15 +174,16 @@ function showItemData(caption, status, statusdata) {
 				$('#items > h3').html(caption);
 				$('.item-data > tr').not($('.hide')).remove();
 
-				var num_items = parseInt($(data).find('NumItems').text());
-				for(var i = 0; i < num_items; i++) {
-					var item = $(data).find('Item' + i);
+				var json = JSON.parse(data);
+				for(var i = 0; i < json.length; i++) {
 					var block = $('.item-data tr.hide').clone().appendTo('.item-data').removeClass('hide');
 
-					block.find('td:first-child').html(item.find('ID').text());
-					block.find('td:nth-child(2)').html(item.find('Amount').text());
-					block.find('td:nth-child(3)').html(item.find('Name').text());
+					block.find('td:first-child').html(json[i].ID);
+					block.find('td:nth-child(2)').html(json[i].Amount);
+					block.find('td:nth-child(3)').html(json[i].Name);
 				}
+				if(i == 0)
+					$('.item-data').append("<tr><td colspan=\"3\">아이템이 없습니다.</td></tr>");
 
 				$('#items').foundation('open');
 				break;
@@ -206,16 +206,17 @@ function showUsageLog() {
 			default:
 				$('.usagelog-data > tr').not($('.hide')).remove();
 
-				var num_rows = parseInt($(data).find('NumRows').text());
-				for(var i = 0; i < num_rows; i++) {
-					var row = $(data).find('Row' + i);
+				var json = JSON.parse(data);
+				for(var i = 0; i < json.length; i++) {
 					var block = $('.usagelog-data tr.hide').clone().appendTo('.usagelog-data').removeClass('hide');
 
-					block.find('td:first-child').css('color', row.find('TypeColor').text());
-					block.find('td:first-child').html(row.find('Type').text());
-					block.find('td:nth-child(2)').html(row.find('Contents').text());
-					block.find('td:nth-child(3)').html(row.find('Date').text());
+					block.find('td:first-child').css('color', json[i].TypeColor);
+					block.find('td:first-child').html(json[i].Type);
+					block.find('td:nth-child(2)').html(json[i].Contents);
+					block.find('td:nth-child(3)').html(json[i].Date);
 				}
+				if(i == 0)
+					$('.item-data').append("<tr><td colspan=\"3\">이용 로그가 비어있습니다.</td></tr>");
 
 				$('#usagelog').foundation('open');
 				break;

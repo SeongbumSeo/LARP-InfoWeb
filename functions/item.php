@@ -24,9 +24,8 @@ if($cmd == CMD_PLAYER)
 else if($cmd == CMD_VEHICLE)
 	$result = itemListSQL($mysqli, ITEM_STATUS_VEHICLE, (int)$_POST['vid']);
 
-$contents = array('NumItems' => $result->num_rows);
-
 $i = 0;
+$contents = array();
 while($data = $result->fetch_array()) {
 	$name = $data['Name'];
 	$input = $data['Data'];
@@ -89,7 +88,7 @@ while($data = $result->fetch_array()) {
 	if(isset($str_hidden) && strlen($str_hidden))
 		$name .= " <span class=\"hidden\">($str_hidden)</span>";
 
-	$contents['Item'.$i] = array(
+	$contents[$i] = array(
 		'ID' => $data['ID'],
 		'Amount' => $data['Amount'].$data['Unit'],
 		'Name' => $name
@@ -101,9 +100,7 @@ while($data = $result->fetch_array()) {
 	unset($data);
 	$i++;
 }
-$xml = new XmlConstruct('Items');
-$xml->fromArray($contents);
-$xml->output();
+print(json_encode($contents));
 
 function itemListSQL($db, $status, $statusdata) {
 	$result = $db->query("

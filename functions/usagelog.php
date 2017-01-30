@@ -87,16 +87,10 @@ $result = $mysqli->query("
 	) A
 	ORDER BY Time DESC");
 
-$contents = array('NumRows' => $result->num_rows);
-
 $i = 0;
+$contents = array();
 while($data = $result->fetch_array()) {
-	$returns .= "|".$data['TypeColor'];
-	$returns .= "|".$data['Type'];
-	$returns .= "|".$data['Contents'];
-	$returns .= "|".$data['Date'];
-
-	$contents['Row'.$i] = array(
+	$contents[$i] = array(
 		'TypeColor' => $data['TypeColor'],
 		'Type' => $data['Type'],
 		'Contents' => $data['Contents'],
@@ -106,7 +100,5 @@ while($data = $result->fetch_array()) {
 	unset($data);
 	$i++;
 }
-$xml = new XmlConstruct('UsageLog');
-$xml->fromArray($contents);
-$xml->output();
+print(json_encode($contents));
 ?>

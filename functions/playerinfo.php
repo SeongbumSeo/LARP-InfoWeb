@@ -55,6 +55,8 @@ $cresult = $mysqli->query("
 		a.OwnerType = 1
 		AND b.ID = $id
 	ORDER BY a.CreatedTime ASC");
+
+$contents = array();
 if($data = $presult->fetch_array()) {
 	$pnumber = $data['PhoneNumber'] == 0 ? "없음" : $data['PhoneNumber'];
 	$origins = Array("미국", "한국", "이탈리아", "일본", "스페인", "러시아", "프랑스", "중국", "이라크", "독일", "영국");
@@ -66,36 +68,32 @@ if($data = $presult->fetch_array()) {
 	$trackable = $position[4] != 0 || $position[5] != 0 ? 0 : 1;
 	$position = $trackable == 1 ? $position : array(0, 0);
 
-	$contents = array(
-		'Player' => array(
-			'Username' => str_replace('_', ' ', $data['Username']),
-			'Level' => $data['Level'],
-			'Party' => $data['Party'],
-			'Skin' => $data['Skin'],
-			'Health' => $data['Health'],
-			'Hunger' => $data['Hunger'],
-			'PositionX' => $position[0],
-			'PositionY' => $position[1],
-			'Trackable' => $trackable,
+	$contents['Player'] = array(
+		'Username' => str_replace('_', ' ', $data['Username']),
+		'Level' => $data['Level'],
+		'Party' => $data['Party'],
+		'Skin' => $data['Skin'],
+		'Health' => $data['Health'],
+		'Hunger' => $data['Hunger'],
+		'PositionX' => $position[0],
+		'PositionY' => $position[1],
+		'Trackable' => $trackable,
 
-			'Age' => addData("나이", $data['Age']),
-			'PhoneNumber' => addData("전화번호", $pnumber),
-			'Origin' => addData("국적", $origin),
+		'Age' => addData("나이", $data['Age']),
+		'PhoneNumber' => addData("전화번호", $pnumber),
+		'Origin' => addData("국적", $origin),
 
-			'Money' => addData("소지금", $money),
-			'Bank' => addData("은행", $bank),
-			'Bankbook' => addData("계좌번호", $bankbook),
+		'Money' => addData("소지금", $money),
+		'Bank' => addData("은행", $bank),
+		'Bankbook' => addData("계좌번호", $bankbook),
 
-			'FactionName' => addData("팩션", $data['FactionName']),
-			'Job' => addData("직업", getJobName($data['Job'])),
+		'FactionName' => addData("팩션", $data['FactionName']),
+		'Job' => addData("직업", getJobName($data['Job'])),
 
-			'Warns' => addData("경고", $data['Warns']."/7"),
-			'Praises' => addData("칭찬", $data['Praises']."/3"),
+		'Warns' => addData("경고", $data['Warns']."/7"),
+		'Praises' => addData("칭찬", $data['Praises']."/3"),
 
-			'Location' => addData("위치", getLocationName($data['LastPos']), "white-space: normal;"),
-
-			'NumVehicles' => $cresult->num_rows
-		)
+		'Location' => addData("위치", getLocationName($data['LastPos']), "white-space: normal;")
 	);
 
 	unset($data);
@@ -116,7 +114,7 @@ if($data = $presult->fetch_array()) {
 		else
 			$location = getLocationName($data['LastPos']);
 
-		$contents['Vehicle'.$i] = array(
+		$contents['Vehicle'][$i] = array(
 			'ID' => $data['ID'],
 			'Caption' => $caption,
 			'Modelname' => $model,
@@ -138,9 +136,7 @@ if($data = $presult->fetch_array()) {
 		unset($data);
 		$i++;
 	}
-	$xml = new XmlConstruct('PlayerInformation');
-	$xml->fromArray($contents);
-	$xml->output();
+	print(json_encode($contents));
 }
 else
 	print("No Data");
