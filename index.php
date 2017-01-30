@@ -1,7 +1,3 @@
-<?php
-require("config.php");
-require("classes/Notice.class.php");
-?>
 <!doctype html>
 <html class="no-js" lang="ko">
 
@@ -290,12 +286,13 @@ require("classes/Notice.class.php");
 			<div class="row">
 				<div class="small-12 medium-7 large-5 medium-centered columns">
 					<div class="serverstatus-loading hide">로딩중</div>
+					<div class="serverstatus-error hide">월드 데이터를 불러오지 못하였습니다.</div>
 					<div class="serverstatus-offline hide">게임 서버 점검중</div>
 					<div class="serverstatus-online hide">
 						<table class="serverinfo">
 							<tr>
 								<th>주소</th>
-								<td><?=GAME_HOST?>:<?=GAME_PORT?></td>
+								<td class="gameaddress"><!--js/serverstatus.js--></td>
 							</tr>
 							<tr>
 								<th>인원</th>

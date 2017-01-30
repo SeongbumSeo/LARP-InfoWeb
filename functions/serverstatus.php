@@ -5,10 +5,11 @@ require("../config.php");
 
 $query = new SampQuery(GAME_HOST, GAME_PORT); 
 if(!$query->connect())
-	die("closed");
+	die("Closed");
 
 $info = $query->getInfo();
 $contents = array(
+	'Address' => GAME_HOST.":".GAME_PORT,
 	'Players' => $info['players'],
 	'MaxPlayers' => $info['maxplayers'],
 	'GameMode' => $info['gamemode']
@@ -19,7 +20,7 @@ if($info['players'] < 100)
 	$players = $query->getDetailedPlayers();
 	$i = 0;
 	foreach($players as $value)
-		$contents['Player'.$i++] = array(
+		$contents['PlayerList'][$i++] = array(
 			'ID' => $value['playerid'],
 			'Nickname' => $value['nickname'],
 			'Ping' => $value['ping']
@@ -28,7 +29,5 @@ if($info['players'] < 100)
 
 $query->close();
 
-$xml = new XmlConstruct('ServerStatus');
-$xml->fromArray($contents);
-$xml->output();
+print(json_encode($contents));
 ?>

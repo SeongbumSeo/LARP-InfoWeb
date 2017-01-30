@@ -1,10 +1,8 @@
+var gameAddress = "";
 var gamePlayers = 0;
 var gameMaxPlayers = 0;
-var gameMode = null;
-var playerList = null;
-var playerIdArr = new Array();
-var playerNameArr = new Array();
-var playerPingArr = new Array();
+var gameMode = "";
+var playerList = "";
 
 $(document).ready(function () {
 	updateServerStatus();
@@ -12,50 +10,58 @@ $(document).ready(function () {
 });
 
 function updateServerStatus() {
+	gameAddress = "";
+	gamePlayers = 0;
+	gameMaxPlayers = 0;
+	gameMode = "";
+	playerList = "";
+
 	$.ajax({
 		type: "get",
 		url: "functions/serverstatus.php",
 		cache: false
 	}).done(function(data) {
-		gamePlayers = parseInt($(data).find('Players').text());
-		gameMaxPlayers = parseInt($(data).find('MaxPlayers').text());
-		gameMode = $(data).find('GameMode').text();
+		var json = JSON.parse(data);
 
-		playerList = "";
-		for(var i = 0; i < gamePlayers; i++) {
-			var player = $(data).find('Player' + i);
+		gameAddress = json.Address;
+		gamePlayers = parseInt(json.Players);
+		gameMaxPlayers = parseInt(json.MaxPlayers);
+		gameMode = json.GameMode;
 
-			playerIdArr[i] = parseInt(player.find('ID').text());
-			playerNameArr[i] = player.find('Nickname').text();
-			playerPingArr[i] = parseInt(player.find('Ping').text());
+		for(var i = 0; i < json.PlayerList.length; i++) {
 			playerList +=
 				"<tr>" +
-				"<td>" + playerIdArr[i] + "</td>" +
-				"<td>" + playerNameArr[i] + "</td>" +
-				"<td>" + playerPingArr[i] + "</td>" +
+				"<td>" + parseInt(json.PlayerList[i].ID) + "</td>" +
+				"<td>" + json.PlayerList[i].Nickname + "</td>" +
+				"<td>" + parseInt(json.PlayerList[i].Ping) + "</td>" +
 				"</tr>";
 		}
-
-		if(gameMode == "") {
+	}).always(function(data) {
+		if(data.readyState === 4) {
 			$('.serverstatus-loading').addClass('hide');
+			$('.serverstatus-error').removeClass('hide');
+			$('.serverstatus-offline').addClass('hide');
+			$('.serverstatus-online').addClass('hide');
+		} else if(data == "Closed") {
+			$('.serverstatus-loading').addClass('hide');
+			$('.serverstatus-error').addClass('hide');
 			$('.serverstatus-offline').removeClass('hide');
 			$('.serverstatus-online').addClass('hide');
-		} else if(gameMaxPlayers == 0) {
+		} else if(gameAddress === "") {
 			$('.serverstatus-loading').removeClass('hide');
+			$('.serverstatus-error').addClass('hide');
 			$('.serverstatus-offline').addClass('hide');
 			$('.serverstatus-online').addClass('hide');
 		} else {
-			$("td.gameplayers").html(gamePlayers + "/" + gameMaxPlayers);
-			$("td.gamemode").html(gameMode);
-			$("table.playerlist tbody").html(playerList);
+			$('td.gameaddress').html(gameAddress);
+			$('td.gameplayers').html(gamePlayers + "/" + gameMaxPlayers);
+			$('td.gamemode').html(gameMode);
+			$('table.playerlist tbody').html(playerList);
 
 			$('.serverstatus-loading').addClass('hide');
+			$('.serverstatus-error').addClass('hide');
 			$('.serverstatus-offline').addClass('hide');
 			$('.serverstatus-online').removeClass('hide');
 		}
-	}).fail(function() {
-		$('.serverstatus-loading').addClass('hide');
-		$('.serverstatus-offline').removeClass('hide');
-		$('.serverstatus-online').addClass('hide');
 	});
 }
