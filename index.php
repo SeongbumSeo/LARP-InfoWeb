@@ -377,6 +377,7 @@
 						<li><a href="http://cafe.daum.net/LAPD-website">L.A.P.D</a></li>
 						<li><a href="http://cafe.daum.net/lafdwebsite">L.A.F.D</a></li>
 						<li><a href="http://cafe.daum.net/LADAEMYUNG">대명회</a></li>
+						<li><a href="http://cafe.daum.net/Coosana">C.C.G</a></li>
 					</ul>
 				</div>
 			</div>
