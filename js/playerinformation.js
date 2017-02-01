@@ -267,7 +267,7 @@ function showCarBlowLog(caption, vid) {
 						button.on('click', function() {
 							var x = $(this).attr('x');
 							var y = $(this).attr('y');
-							var map = showMap($(this).attr('caption') + "블로우 위치");
+							var map = showMap($(this).attr('caption') + " 블로우 위치");
 
 							map.setCenter(SanMap.getLatLngFromPos(x, y));
 							addMarker(map, x, y, null, null);
