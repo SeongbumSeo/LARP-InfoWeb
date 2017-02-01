@@ -1,7 +1,6 @@
 <?php
-require_once("../classes/XmlConstruct.class.php");
-require("../classes/SampQuery.class.php");
-require("../config.php");
+require_once("../classes/SampQuery.class.php");
+require_once("../config.php");
 
 $query = new SampQuery(GAME_HOST, GAME_PORT); 
 if(!$query->connect())

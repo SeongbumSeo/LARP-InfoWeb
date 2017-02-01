@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-require_once("../classes/XmlConstruct.class.php");
 require_once('../config.php');
 require_once('mysqli.php');
 
