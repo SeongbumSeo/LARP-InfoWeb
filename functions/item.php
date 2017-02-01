@@ -87,7 +87,7 @@ while($data = $result->fetch_array()) {
 	if(isset($str_hidden) && strlen($str_hidden))
 		$name .= " <span class=\"hidden\">($str_hidden)</span>";
 
-	$contents[$i] = array(
+	$contents[$i++] = array(
 		'ID' => $data['ID'],
 		'Amount' => $data['Amount'].$data['Unit'],
 		'Name' => $name
@@ -97,7 +97,6 @@ while($data = $result->fetch_array()) {
 	unset($str_hidden);
 	unset($exploded);
 	unset($data);
-	$i++;
 }
 print(json_encode($contents));
 

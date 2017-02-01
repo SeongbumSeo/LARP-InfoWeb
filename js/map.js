@@ -1,5 +1,8 @@
 function showMap(caption) {
 	$('#map > h3').html(caption);
+	$('#map > .goback-button').addClass('hide');
+	$('#map > .goback-button').attr('command', null);
+	$('#map > .goback-button').unbind('click');
 	$('#map').foundation('open');
 	
 	return createMap();

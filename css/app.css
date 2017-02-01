@@ -430,12 +430,32 @@ hr {
 .reveal h3 {
 	font-weight: 800;
 	color: #77AAAA;
-	padding-left: .5rem;
+	text-align: center;
 }
 .reveal h3 span {
 	font-weight: 600;
 	color: #99CCCC;
-	font-size: 1.5rem;
+}
+@media screen and (max-width: 39.9375em) {
+	.reveal h3 span {
+		font-size: 1rem;
+	}
+}
+@media screen and (min-width: 40em) {
+	.reveal h3 span {
+		font-size: 1.5rem;
+	}
+}
+.reveal .goback-button {
+	position: absolute;
+	color: #8a8a8a;
+	top: 0.5rem;
+	font-size: 2em;
+	line-height: 1;
+	cursor: pointer;
+}
+.reveal .goback-button:hover {
+	color: #000;
 }
 
 #items td:first-of-type,
@@ -459,6 +479,11 @@ hr {
 	text-align: center;
 }
 #usagelog td:last-of-type {
+	text-align: center;
+}
+
+#carblowlog td:first-of-type,
+#carblowlog td:nth-of-type(3) {
 	text-align: center;
 }
 

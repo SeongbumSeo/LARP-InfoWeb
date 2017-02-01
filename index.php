@@ -153,6 +153,9 @@
 			<h3><!--js/map.js--></h3>
 			<div id="map-canvas">
 			</div>
+			<button class="goback-button" type="button">
+				<span aria-hidden="true">&lt;</span>
+			</button>
 			<button class="close-button" data-close type="button">
 				<span aria-hidden="true">&times;</span>
 			</button>
@@ -169,6 +172,29 @@
 					</tr>
 				</thead>
 				<tbody class="usagelog-data">
+					<tr class="hide">
+						<td><!--js/playerinformation.js--></td>
+						<td><!--js/playerinformation.js--></td>
+						<td><!--js/playerinformation.js--></td>
+					</tr>
+				</tbody>
+			</table>
+			<button class="close-button" data-close type="button">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+
+		<div id="carblowlog" class="reveal show-signedin hide" data-reveal>
+			<h3><!--js/playerinformation.js--></h3>
+			<table>
+				<thead>
+					<tr>
+						<th>사고자</th>
+						<th>위치</th>
+						<th>날짜</th>
+					</tr>
+				</thead>
+				<tbody class="carblowlog-data">
 					<tr class="hide">
 						<td><!--js/playerinformation.js--></td>
 						<td><!--js/playerinformation.js--></td>
@@ -264,6 +290,10 @@
 									<button type="button" class="show-map button">
 										<img src="images/icons/map.png" />
 										<span>위치</span>
+									</button>
+									<button type="button" class="show-carblowlog button">
+										<img src="images/icons/explosion.png" />
+										<span>블로우 로그</span>
 									</button>
 								</div>
 							</div>

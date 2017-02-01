@@ -92,8 +92,8 @@ function loadPlayerInformation() {
 					else
 						$('.each-vehicle div.vmargin.hide').clone().appendTo('.each-vehicle').removeClass('hide');
 
-					block.find('.show-item-list').attr('vid', json.Vehicle[i].ID);
-					block.find('.show-item-list, .show-map').attr('vcaption', json.Vehicle[i].Caption);
+					block.find('.button-group').attr('vid', json.Vehicle[i].ID);
+					block.find('.button-group').attr('vcaption', json.Vehicle[i].Caption);
 					block.find('h3').html(modelname = json.Vehicle[i].Modelname);
 					block.find('.img img')
 						.attr('src', 'http://weedarr.wdfiles.com/local--files/veh/' + json.Vehicle[i].Model + '.png');
@@ -111,7 +111,10 @@ function loadPlayerInformation() {
 					);
 
 					block.find('.show-item-list').on('click', function() {
-						showItemData($(this).attr('vcaption'), 3, $(this).attr('vid'));
+						showItemData($(this).parent().attr('vcaption'), 3, $(this).parent().attr('vid'));
+					});
+					block.find('.show-carblowlog').on('click', function() {
+						showCarBlowLog($(this).parent().attr('vcaption'), $(this).parent().attr('vid'));
 					});
 
 					switch(parseInt(json.Vehicle[i].Trackable)) {
@@ -119,7 +122,7 @@ function loadPlayerInformation() {
 							block.find('.show-map').on('click', function() {
 								var x = $(this).attr('x');
 								var y = $(this).attr('y');
-								var map = showMap($(this).attr('vcaption'));
+								var map = showMap($(this).parent().attr('vcaption'));
 
 								map.setCenter(SanMap.getLatLngFromPos(x, y));
 								addMarker(map, x, y, null, null);
@@ -223,5 +226,68 @@ function showUsageLog() {
 		}
 	}).fail(function() {
 		alert("이용 로그를 불러오지 못하였습니다.");
+	});
+}
+
+function showCarBlowLog(caption, vid) {
+	$.ajax({
+		type: "post",
+		url: "functions/carblowlog.php",
+		cache: false,
+		data: {
+			vid: vid
+		}
+	}).done(function(data) {
+		switch(data) {
+			case "Session Error":
+				updateSignedStatus();
+				break;
+			default:
+				$('#carblowlog > h3').html(caption);
+				$('.carblowlog-data > tr').not($('.hide')).remove();
+
+				var json = JSON.parse(data);
+				for(var i = 0; i < json.length; i++) {
+					var block = $('.carblowlog-data tr.hide').clone().appendTo('.carblowlog-data').removeClass('hide');
+
+					block.find('td:first-child').html(json[i].User);
+					block.find('td:nth-child(2)').html(json[i].Location);
+					block.find('td:nth-child(3)').html(json[i].Time);
+
+					var html;
+					if(parseInt(json[i].Trackable) == 1) {
+						var button = block.find('td:nth-child(2)');
+
+						button.addClass('.show-carblowlog-map');
+						button.css('cursor', 'pointer');
+						button.attr('x', json[i].PositionX);
+						button.attr('y', json[i].PositionY);
+						button.attr('caption', caption);
+						button.attr('vid', vid);
+						button.on('click', function() {
+							var x = $(this).attr('x');
+							var y = $(this).attr('y');
+							var map = showMap($(this).attr('caption') + "블로우 위치");
+
+							map.setCenter(SanMap.getLatLngFromPos(x, y));
+							addMarker(map, x, y, null, null);
+
+							var command = "showCarBlowLog(\"" + $(this).attr('caption') + "\", " + $(this).attr('vid') + ");";
+							$('#map > .goback-button').removeClass('hide');
+							$('#map > .goback-button').attr('command', command);
+							$('#map > .goback-button').on('click', function() {
+								eval($(this).attr('command'));
+							});
+						});
+					}
+				}
+				if(i == 0)
+					$('.carblowlog-data').append("<tr><td colspan=\"3\">차량 블로우 로그가 비어있습니다.</td></tr>");
+
+				$('#carblowlog').foundation('open');
+				break;
+		}
+	}).fail(function() {
+		alert("차량 블로우 로그를 불러오지 못하였습니다.");
 	});
 }
