@@ -9,12 +9,20 @@ function showMap(caption) {
 }
 
 function createMap() {
-	var mapType = new SanMapType(0, 3, function (zoom, x, y) {
-		return x == -1 && y == -1 
-		? "images/maps/tiles/map.outer.png" 
-		: "images/maps/tiles/map." + zoom + "." + x + "." + y + ".png";
+	var mapType_Normal = new SanMapType(0, 4, function(zoom, x, y) {
+		return x == -1 && y == -1
+		? "images/maps/tiles/normal.outer.png"
+		: "images/maps/tiles/normal." + zoom + "." + x + "." + y + ".png";
 	});
-	return SanMap.createMap(document.getElementById('map-canvas'), { '위성': mapType }, 3);
+	var mapType_Satellite = new SanMapType(0, 3, function (zoom, x, y) {
+		return x == -1 && y == -1 
+		? "images/maps/tiles/satellite.outer.png" 
+		: "images/maps/tiles/satellite." + zoom + "." + x + "." + y + ".png";
+	});
+	return SanMap.createMap(document.getElementById('map-canvas'), {
+		'일반': mapType_Normal,
+		'위성': mapType_Satellite
+	}, 3, null, false, '일반');
 }
 
 function addMarker(map, x, y, icon, content) {
