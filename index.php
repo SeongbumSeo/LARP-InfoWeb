@@ -300,8 +300,6 @@
 						</div>
 					</div>
 				</div>
-				<div class="small-12 hide-for-large columns hide vmargin">
-				</div>
 			</div>
 		</div>
 
