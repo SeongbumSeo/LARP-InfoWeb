@@ -65,10 +65,15 @@ function loadPlayerInformation() {
 					new Foundation.Tooltip(obj, { tipText: "추적 불가능한 위치에 있습니다." });
 				} else if(obj.hasClass('disabled'))
 					obj.removeClass('disabled');
-
 				obj = $('#profile .img img');
 				$('#'+obj.attr(tooltipSelector)).remove();
 				new Foundation.Tooltip(obj, { tipText: "스킨 " + skinid });
+				obj = $('#profile .hunger').parent();
+				$('#'+obj.attr(tooltipSelector)).remove();
+				new Foundation.Tooltip(obj, { tipText: "허기 " + json.Player.Hunger + "/100" })
+				obj = $('#profile .health').parent();
+				$('#'+obj.attr(tooltipSelector)).remove();
+				new Foundation.Tooltip(obj, { tipText: "체력 " + json.Player.Health + "/" + json.Player.MaxHealth });
 
 				var blocks = $('.each-vehicle div.vblock').not($('.hide'));
 				blocks.each(function() {
@@ -97,7 +102,7 @@ function loadPlayerInformation() {
 					block.find('h3').html(modelname = json.Vehicle[i].Modelname);
 					block.find('.img img')
 						.attr('src', 'http://weedarr.wdfiles.com/local--files/veh/' + json.Vehicle[i].Model + '.png');
-					block.find('.health').css('width', parseFloat(json.Vehicle[i].Health) + '%');
+					block.find('.health').css('width', parseFloat(json.Vehicle[i].Health/10) + '%');
 					block.find('.fuel').css('width', parseFloat(json.Vehicle[i].Fuel) + '%');
 					block.find('.show-map').attr('x', json.Vehicle[i].PositionX);
 					block.find('.show-map').attr('y', json.Vehicle[i].PositionY);
@@ -106,7 +111,7 @@ function loadPlayerInformation() {
 						json.Vehicle[i].Engine +
 						json.Vehicle[i].Active +
 						json.Vehicle[i].Locked +
-						json.Vehicle[i].BlowedCnt +
+						json.Vehicle[i].BlowedCnt_ +
 						json.Vehicle[i].Location
 					);
 
@@ -143,9 +148,9 @@ function loadPlayerInformation() {
 					obj = block.find('h3').addClass('top');
 					new Foundation.Tooltip(obj, { tipText: "기종" });
 					obj = block.find('.fuel').parent().addClass('top');
-					new Foundation.Tooltip(obj, { tipText: "연료" });
+					new Foundation.Tooltip(obj, { tipText: "연료 " + parseInt(json.Vehicle[i].Fuel) + "/100" });
 					obj = block.find('.health').parent();
-					new Foundation.Tooltip(obj, { tipText: "체력" });
+					new Foundation.Tooltip(obj, { tipText: "체력 " + json.Vehicle[i].Health + "/" + (1000-50*json.Vehicle[i].BlowedCnt) });
 				}
 				break;
 		}

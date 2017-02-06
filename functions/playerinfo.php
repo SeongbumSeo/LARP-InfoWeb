@@ -74,6 +74,7 @@ if($data = $presult->fetch_array()) {
 		'Party' => $data['Party'],
 		'Skin' => $data['Skin'],
 		'Health' => $data['Health'],
+		'MaxHealth' => $data['MaxHealth'],
 		'Hunger' => $data['Hunger'],
 		'PositionX' => $position[0],
 		'PositionY' => $position[1],
@@ -119,17 +120,18 @@ if($data = $presult->fetch_array()) {
 			'Caption' => $caption,
 			'Modelname' => $model,
 			'Model' => $data['Model'],
-			'Health' => $data['Health'] / 10,
+			'Health' => $data['Health'],
 			'Fuel' => $data['Fuel'] / 100000,
 			'PositionX' => $position[0],
 			'PositionY' => $position[1],
 			'Trackable' => $trackable,
+			'BlowedCnt' => $data['BlowedCnt'],
 
 			'NumberPlate' => addData("번호판", $data['NumberPlate']),
 			'Engine' => addData("시동", $data['Engine'] ? "켜져있음" : "꺼져있음"),
 			'Active' => addData("상태", $data['Active'] ? "꺼내져있음" : "넣어져있음"),
 			'Locked' => addData("잠금여부", $data['Locked'] ? "잠겨있음" : "열려있음"),
-			'BlowedCnt' => addData("블로우", $data['BlowedCnt']."회"),
+			'BlowedCnt_' => addData("블로우", $data['BlowedCnt']."회"),
 			'Location' => addData("위치", $location, "white-space: normal;")
 		);
 

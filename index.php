@@ -226,10 +226,10 @@
 								<span class="username left" data-tooltip title="닉네임"><!--js/playerinformation.js--></span>
 								<span class="badge level right" data-tooltip title="레벨"><!--js/playerinformation.js--></span>
 							</h3>
-							<div class="success progress top" data-tooltip title="허기">
+							<div class="success progress top">
 								<div class="progress-meter hunger"><!--js/playerinformation.js--></div>
 							</div>
-							<div class="alert progress" data-tooltip title="체력">
+							<div class="alert progress">
 								<div class="progress-meter health"><!--js/playerinformation.js--></div>
 							</div>
 							<div class="status-details-wrapper">
