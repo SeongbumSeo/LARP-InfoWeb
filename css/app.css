@@ -329,7 +329,7 @@ hr {
 }
 @media screen and (max-width: 39.9375em) {
 	#profile .progress {
-		height: .7rem;
+		height: .9rem;
 	}
 }
 @media screen and (min-width: 40em) {
@@ -355,16 +355,7 @@ hr {
 }
 #vehicles .progress {
 	margin: 0 auto;
-}
-@media screen and (max-width: 39.9375em) {
-	#vehicles .progress {
-		height: .6em;
-	}
-}
-@media screen and (min-width: 40em) {
-	#vehicles .progress {
-		height: .8em;
-	}
+	height: .9rem;
 }
 #vehicles .progress:first-of-type {
 	margin-bottom: 0;
