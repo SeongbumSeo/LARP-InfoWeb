@@ -1,4 +1,4 @@
-const tooltipSelector = 'aria-describedby';
+var tooltipSelector = 'aria-describedby';
 
 $(document).ready(function () {
 	$('#profile .show-item-list').on('click', function() {
