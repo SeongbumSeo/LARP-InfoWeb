@@ -28,14 +28,15 @@ function updateServerStatus() {
 		gameMaxPlayers = parseInt(json.MaxPlayers);
 		gameMode = json.GameMode;
 
-		for(var i = 0; i < json.PlayerList.length; i++) {
-			playerList +=
-				"<tr>" +
-				"<td>" + parseInt(json.PlayerList[i].ID) + "</td>" +
-				"<td>" + json.PlayerList[i].Nickname + "</td>" +
-				"<td>" + parseInt(json.PlayerList[i].Ping) + "</td>" +
-				"</tr>";
-		}
+		if(json.PlayerList != undefined)
+			for(var i = 0; i < json.PlayerList.length; i++) {
+				playerList +=
+					"<tr>" +
+					"<td>" + parseInt(json.PlayerList[i].ID) + "</td>" +
+					"<td>" + json.PlayerList[i].Nickname + "</td>" +
+					"<td>" + parseInt(json.PlayerList[i].Ping) + "</td>" +
+					"</tr>";
+			}
 	}).always(function(data) {
 		if(data.readyState === 4) {
 			$('.serverstatus-loading').addClass('hide');
