@@ -1,3 +1,6 @@
+<?php
+include("config.php");
+?>
 <!doctype html>
 <html class="no-js" lang="ko">
 
@@ -388,7 +391,7 @@
 
 	<script src="js/vendor/jquery.js"></script>
 	<script src="js/vendor/foundation.js"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC391YhDTNz1a-8uQEUjFXuyPOHX48ugWg" defer></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=<?=GOOGLE_API_KEY?>" defer></script>
 	<script src="js/SanMap/SanMap.min.js" defer></script>
 	<script>
 	$(document).foundation();
