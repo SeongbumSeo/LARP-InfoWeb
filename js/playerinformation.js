@@ -70,7 +70,7 @@ function loadPlayerInformation() {
 				new Foundation.Tooltip(obj, { tipText: "스킨 " + skinid });
 				obj = $('#profile .hunger').parent();
 				$('#'+obj.attr(tooltipSelector)).remove();
-				new Foundation.Tooltip(obj, { tipText: "허기 " + json.Player.Hunger + "/100" })
+				new Foundation.Tooltip(obj, { tipText: "허기 " + json.Player.Hunger + "/100" });
 				obj = $('#profile .health').parent();
 				$('#'+obj.attr(tooltipSelector)).remove();
 				new Foundation.Tooltip(obj, { tipText: "체력 " + json.Player.Health + "/" + json.Player.MaxHealth });
