@@ -24,7 +24,7 @@ $(document).ready(function () {
 function loadPlayerInformation() {
 	$.ajax({
 		type: "get",
-		url: "functions/playerinfo.php",
+		url: "functions/playerinformation.php",
 		cache: false
 	}).done(function(data) {
 		switch(data) {
