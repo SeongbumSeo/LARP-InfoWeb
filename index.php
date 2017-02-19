@@ -39,7 +39,11 @@ include("config.php");
 
 	<div class="orbit topOrbit" role="region" data-orbit data-auto-play="false">
 		<ul class="orbit-container">
-			<img class="capital" src="images/logos/LARose_Transparent.png" />
+			<div class="capital">
+				<h1>로스앤젤레스 역할 연기</h1>
+				<hr />
+				<h2>Realization of Imagination</h2>
+			</div>
 			<li class="orbit-slide is-active">
 				<img class="poster" src="images/posters/Nightsky.jpg" />
 			</li>

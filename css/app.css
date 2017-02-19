@@ -154,9 +154,53 @@ table tbody tr:nth-last-of-type(n+1) {
 	width: 50%;
 	left: 0;
 	right: 0;
-	top: 0;
+	top: 30%;
 	bottom: 0;
 	margin: auto;
+}
+.topOrbit .capital * {
+	color: white;
+	margin: 0;
+}
+.topOrbit .capital h1 {
+    font-weight: 100;
+    letter-spacing: -0.0375rem;
+}
+.topOrbit .capital h2 {
+    font-weight: 700;
+    letter-spacing: .1rem;
+    text-transform: uppercase;
+    line-height: 1;
+}
+@media screen and (max-width: 39.9375em) {
+	.topOrbit .capital h1 {
+		font-size: 1.2rem;
+		text-align: center;
+	}
+	.topOrbit .capital h2 {
+		font-size: 1rem;
+		text-align: center;
+	}
+}
+@media screen and (min-width: 40em) and (max-width: 63.9375em) {
+	.topOrbit .capital h1 {
+		font-size: 2rem;
+		text-align: center;
+	}
+	.topOrbit .capital h2 {
+		font-size: 1.5rem;
+		text-align: center;
+	}
+}
+@media screen and (min-width: 64em) {
+	.topOrbit .capital h1 {
+		font-size: 3rem;
+		text-align: left;
+	}
+	.topOrbit .capital h2 {
+		font-size: 2.5rem;
+		text-align: right;
+	}
 }
 .topOrbit .poster {
 	width: 100%;
