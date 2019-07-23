@@ -82,9 +82,9 @@ include("config.php");
 				</table>
 			</div>
 			<div class="small-12 medium-6 columns">
-				<h1>이벤트</h1>
+				<h1>업데이트</h1>
 				<table>
-					<tbody class="event-list">
+					<tbody class="update-list">
 						<tr class="hide">
 							<td><!--js/notice.js--></td>
 							<td><!--js/notice.js--></td>

@@ -1,13 +1,13 @@
 $(document).ready(function() {
 	Notice.getNotice(Notice.URL_NOTICE, '.notice-list');
-	Notice.getNotice(Notice.URL_EVENT, '.event-list');
+	Notice.getNotice(Notice.URL_UPDATE, '.update-list');
 });
 
 function Notice() { }
 
 Notice.MAX_NOTICES = 10;
 Notice.URL_NOTICE = "http://cafe.daum.net/_c21_/bbs_list?grpid=1GYY4&mgrpid=&fldid=F0AS";
-Notice.URL_EVENT = "http://cafe.daum.net/_c21_/bbs_list?grpid=1GYY4&mgrpid=&fldid=FEBW";
+Notice.URL_UPDATE = "http://cafe.daum.net/_c21_/bbs_list?grpid=1GYY4&mgrpid=&fldid=F41s";
 
 Notice.getNotice = function(url, selector) {
 	$.ajax({
