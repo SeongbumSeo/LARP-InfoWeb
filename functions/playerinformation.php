@@ -57,6 +57,7 @@ $cresult = $mysqli->query("
 	ORDER BY a.CreatedTime ASC");
 
 $contents = array();
+$contents['Player'] = array();
 if($data = $presult->fetch_array()) {
 	$pnumber = $data['PhoneNumber'] == 0 ? "없음" : $data['PhoneNumber'];
 	$origins = Array("미국", "한국", "이탈리아", "일본", "스페인", "러시아", "프랑스", "중국", "이라크", "독일", "영국");
@@ -100,6 +101,7 @@ if($data = $presult->fetch_array()) {
 	unset($data);
 	
 	$i = 0;
+	$contents['Vehicle'] = array();
 	while($data = $cresult->fetch_array()) {
 		$model = getVehicleModelName($data['Model']);
 		$caption = sprintf("%s <span>(%s)</span>", $model, $data['NumberPlate']);

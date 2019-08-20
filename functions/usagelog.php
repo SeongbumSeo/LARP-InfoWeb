@@ -34,7 +34,7 @@ $result = $mysqli->query("
 			Contents,
 			Time
 		FROM
-			".DB_LARP_LOG.".log_admin
+			".DB_LARP_LOG."._log_admin
 		WHERE
 			IF(
 				Type = 21 AND DestID = 0 AND Contents = '악의적 잠수',
@@ -52,7 +52,7 @@ $result = $mysqli->query("
 			SUBSTRING_INDEX(SUBSTRING_INDEX(Contents, '/', 5), '/', -1) Contents,
 			Time
 		FROM
-			".DB_LARP_LOG.".log_infoweb_admin
+			".DB_LARP_LOG."._log_infoweb_admin
 		WHERE
 			Succeed = 1
 			AND (
@@ -66,7 +66,7 @@ $result = $mysqli->query("
 			SUBSTRING_INDEX(Contents, '(', 1) Contents,
 			Time
 		FROM
-			".DB_LARP_LOG.".log_user
+			".DB_LARP_LOG."._log_user
 		WHERE
 			UserID = $id
 			AND Type = 5

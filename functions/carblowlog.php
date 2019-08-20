@@ -24,7 +24,7 @@ $result = $mysqli->query("
 		a.Reverted,
 		Time
 	FROM
-		".DB_LARP_LOG.".log_carblow a
+		".DB_LARP_LOG."._log_carblow a
 	INNER JOIN
 		".DB_LARP.".car_data b
 		ON a.CarID = b.ID

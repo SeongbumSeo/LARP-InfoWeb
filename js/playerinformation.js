@@ -41,10 +41,10 @@ function loadPlayerInformation() {
 
 				$('#profile .username').html(json.Player.Username);
 				$('#profile .badge.level').html(json.Player.Level);
-				if(json.Player.Party.length > 0)
+				/*if(json.Player.Party.length > 0)
 					$('#profile .label.party').removeClass('hide').html(json.Player.Party);
-				else
-					$('#profile .label.party').addClass('hide');
+				else*/
+				$('#profile .label.party').addClass('hide');
 				$('#profile .img img').attr('src', 'images/skins/' + (skinid = parseInt(json.Player.Skin)) + '.png');
 				$('#profile .health').css('width', parseFloat(json.Player.Health) + '%');
 				$('#profile .hunger').css('width', parseFloat(json.Player.Hunger) + '%');
@@ -86,6 +86,7 @@ function loadPlayerInformation() {
 				});
 
 				var num_vehs = json.Vehicle.length;
+				$('#vehicles').toggleClass('hide', (num_vehs == 0));
 				for(var i = 0; i < num_vehs; i++) {
 					var block = $('.each-vehicle div.vblock.hide').clone().appendTo('.each-vehicle').removeClass('hide');
 					var modelname;
