@@ -47,23 +47,6 @@ include("config.php");
 			<li class="orbit-slide is-active">
 				<img class="poster" src="images/posters/hoil-ryu-38187.jpg" />
 			</li>
-			<!--<button class="orbit-previous" aria-label="previous"><span class="show-for-sr">Previous Slide</span>&#9664;</button>
-			<button class="orbit-next" aria-label="next"><span class="show-for-sr">Next Slide</span>&#9654;</button>
-			<li class="orbit-slide is-active">
-				<video poster="images/posters/shining_sun.jpg" class="poster">
-					<source src="videos/shining_sun.mp4" type="video/mp4" />
-				</video>
-			</li>
-			<li class="orbit-slide">
-				<video poster="images/posters/여자친구(GFRIEND) - 너 그리고 나 (NAVILLERA).jpg" class="poster">
-					<source src="videos/여자친구(GFRIEND) - 너 그리고 나 (NAVILLERA).mp4" type="video/mp4" />
-				</video>
-			</li>
-			<li class="orbit-slide">
-				<video poster="images/posters/Adam Levine - Lost Stars.jpg" class="poster">
-					<source src="videos/Adam Levine - Lost Stars.mp4" type="video/mp4" />
-				</video>
-			</li>-->
 		</ul>
 	</div>
 
