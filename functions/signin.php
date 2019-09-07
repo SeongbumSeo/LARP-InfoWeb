@@ -34,8 +34,9 @@ switch((int)$_POST['cmd']) {
 	case CMD_REQUEST_SIGN_IN:
 		$username = $mysqli->real_escape_string(str_replace(' ', '_', $_POST['username']));
 		$password = $mysqli->real_escape_string($_POST['password']);
+		$ip = $_SERVER['REMOTE_ADDR'];
 
-		$result = $mysqli->query("
+		$loginResult = $mysqli->query("
 			SELECT
 				ID,
 				Username,
@@ -51,25 +52,34 @@ switch((int)$_POST['cmd']) {
 				AND Password = SHA1('$password')
 			ORDER BY CreatedTime ASC
 			LIMIT 1");
-		if(isset($_SESSION['logintry']) && $_SESSION['logintry'] > 3)
+		$loginTryResult = $mysqli->query("
+			SELECT
+				COUNT(*)
+			FROM
+				".DB_LARP.".infoweb_login_try_data
+			WHERE
+				IP = '$ip'
+				AND TIMESTAMPDIFF(MINUTE, NOW(), Time) < 10");
+		$numLoginTry = $loginTryResult->fetch_array()[0];
+
+		if(isset($numLoginTry) && $numLoginTry > 3) {
 			print("0|로그인을 3회 이상 실패하였습니다.");
-		else if(strlen($username) < 1 && strlen($password) < 1)
+		} else if(strlen($username) < 1 && strlen($password) < 1) {
 			print("0|닉네임과 비밀번호를 입력하십시오.");
-		else if(strlen($username) < 1)
+		} else if(strlen($username) < 1) {
 			print("0|닉네임을 입력하십시오.");
-		else if(strlen($password) < 1)
+		} else if(strlen($password) < 1) {
 			print("0|비밀번호를 입력하십시오.");
-		else if($data = $result->fetch_array()) {
+		} else if($data = $loginResult->fetch_array()) {
 			$_SESSION['id'] = $data['ID'];
 			$_SESSION['username'] = $data['Username'];
 			$_SESSION['password'] = $data['Password'];
 			print("1");
-		}
-		else {
-			if(!isset($_SESSION['logintry']))
-				$_SESSION['logintry'] = 0;
-			$_SESSION['logintry']++;
-			printf("0|닉네임 혹은 비밀번호를 확인하십시오. (%d/3회)", $_SESSION['logintry']);
+		} else {
+			$mysqli->query("
+				INSERT INTO ".DB_LARP.".infoweb_login_try_data (IP, Username)
+				VALUES ('$ip', '$username')");
+			printf("0|닉네임 혹은 비밀번호를 확인하십시오. (%d/3회)", ++$numLoginTry);
 		}
 		break;
 	case CMD_SIGN_OUT:
