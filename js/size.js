@@ -124,12 +124,12 @@ function setOrbitHeight() {
 function setTopSectionDisplay() {
 	var anchorTop = $('.topOrbit').height();
 	var scrollTop = $(document).scrollTop();
-	var capitalHeight = $('.topOrbit .capital').height();
+	//var capitalHeight = $('.topOrbit .capital').height();
 	var topbarOpacity = 1-(anchorTop-scrollTop)/anchorTop;
 
 	if(!isMobile.Any()) {
 		$('.topOrbit').css('top', -scrollTop/5);
-		$('.topOrbit .capital').css('top', -scrollTop/5 + anchorTop/2 - capitalHeight/2);
+		//$('.topOrbit .capital').css('top', -scrollTop/5 + anchorTop/2 - capitalHeight/2);
 		$('.topAnchor').css('top', anchorTop);
 	}
 
