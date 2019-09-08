@@ -380,7 +380,7 @@ include("config.php");
 	<script src="js/vendor/foundation.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=<?=GOOGLE_API_KEY?>" defer></script>
 	<script src="js/SanMap/SanMap.min.js" defer></script>
-	<script src="http://cdn.sobekrepository.org/includes/gmaps-markerwithlabel/1.9.1/gmaps-markerwithlabel-1.9.1.js" defer></script>
+	<script src="https://cdn.sobekrepository.org/includes/gmaps-markerwithlabel/1.9.1/gmaps-markerwithlabel-1.9.1.js" defer></script>
 	<script>
 	$(document).foundation();
 	</script>
