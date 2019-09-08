@@ -45,6 +45,15 @@ table tbody tr:nth-last-of-type(n+1) {
 	font-size: 1.5rem;
 }
 
+.orbit-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+.orbit-container .orbit-slide {
+	height: 100%;
+}
+
 #map-canvas {
 	width: 100%;
 	padding-top: 56.25%;
