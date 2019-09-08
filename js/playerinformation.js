@@ -7,12 +7,16 @@ $(document).ready(function () {
 
 	$('#profile .show-map').on('click', function() {
 		if(!$('#profile .show-map').hasClass('disabled')) {
-			var x = $(this).attr('x');
-			var y = $(this).attr('y');
+			var x = parseFloat($(this).attr('x'));
+			var y = parseFloat($(this).attr('y'));
+			var y = parseFloat($(this).attr('y'));
 			var map = showMap("내 위치");
 
 			map.setCenter(SanMap.getLatLngFromPos(x, y));
-			addMarker(map, x, y, null, null);
+			addMarker(map, x, y, 'marker_user_32', {
+				labelContent: '내 위치',
+				labelClass: 'map-label label-destination'
+			});
 		}
 	});
 
@@ -131,7 +135,7 @@ function loadPlayerInformation() {
 								var map = showMap($(this).parent().attr('vcaption'));
 
 								map.setCenter(SanMap.getLatLngFromPos(x, y));
-								addMarker(map, x, y, null, null);
+								addMarker(map, x, y, 'marker_placeholder_32', json.Vehicle[i].NumberPlate, null);
 							});
 							break;
 						case 2:
@@ -276,7 +280,7 @@ function showCarBlowLog(caption, vid) {
 							var map = showMap($(this).attr('caption') + " 블로우 위치");
 
 							map.setCenter(SanMap.getLatLngFromPos(x, y));
-							addMarker(map, x, y, null, null);
+							addMarker(map, x, y, 'marker_placeholder_32', json.Vehicle[i].NumberPlate, null);
 
 							var command = "showCarBlowLog(\"" + $(this).attr('caption') + "\", " + $(this).attr('vid') + ");";
 							$('#map > .goback-button').removeClass('hide');

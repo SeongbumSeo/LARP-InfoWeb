@@ -49,6 +49,24 @@ table tbody tr:nth-last-of-type(n+1) {
 	width: 100%;
 	padding-top: 56.25%;
 }
+#map-canvas .map-label {
+	transform: translateX(-50%);
+	font-weight: bold;
+	font-size: 11px;
+	text-shadow:
+		-1px -1px 0 white,  
+		1px -1px 0 white,
+		-1px 1px 0 white,
+		1px 1px 0 white;
+	color: black;
+	opacity: 0.5 !important;
+}
+#map-canvas .map-label.label-destination {
+	font-size: 13px;
+	font-weight: bold;
+	color: black;
+	opacity: 1 !important;
+}
 
 /* Top Bar */
 @media screen and (max-width: 39.9375em) {
