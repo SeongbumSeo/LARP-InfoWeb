@@ -59,7 +59,7 @@ switch((int)$_POST['cmd']) {
 				".DB_LARP.".infoweb_login_try_data
 			WHERE
 				IP = '$ip'
-				AND TIMESTAMPDIFF(MINUTE, NOW(), Time) < 10");
+				AND TIMESTAMPDIFF(MINUTE, Time, NOW()) < 10");
 		$numLoginTry = $loginTryResult->fetch_array()[0];
 
 		if(isset($numLoginTry) && $numLoginTry > 3) {
