@@ -141,7 +141,6 @@ include("config.php");
 
 		<div id="account" class="reveal show-signedin hide" data-reveal>
 			<h3>계좌</h3>
-
 			<div class="account-id">
 				<div class="caption">계좌번호</div>
 				<div class="result"><!--js/playerinformation.js--></div>
@@ -164,6 +163,9 @@ include("config.php");
 					</div>
 				</div>
 			</div>
+			<button class="close-button" data-close type="button">
+				<span aria-hidden="true">&times;</span>
+			</button>
 		</div>
 
 		<div id="map" class="reveal show-signedin hide" data-reveal>

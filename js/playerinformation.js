@@ -225,7 +225,8 @@ function showAccount() {
 
 				$('#account')
 					.find('.account-id > .result').text(json.Bankbook).end()
-					.find('.account-balance > .result').text("$" + numberFormat(json.Bank)).end();
+					.find('.account-balance > .result').text("$" + numberFormat(json.Bank)).end()
+					.find('.account-log .account-log-item').not($('.hide')).remove().end();
 				
 				var i;
 				for (i = 0; i < json.Log.length; i++) {
