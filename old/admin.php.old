@@ -1,0 +1,126 @@
+<?php
+include "./initial.inc.php";
+
+function AccessAdminKit($adminlevel, $accesslevel, $showmessage=true)
+{
+	if($adminlevel >= $accesslevel) return true;
+	else if($showmessage)
+	{
+		echo "<center>이 키트에 접근하려면 권한".$accesslevel." 이상 필요합니다.</center>";
+	}
+}
+?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ko">
+	<head>
+<?php
+include "./head.inc.php";
+?>
+		<title>Admin - LA:RP Information Website</title>
+		<script type="text/javascript">
+			var timer_firstout = false;
+			
+			$(document).ready(function()
+			{
+				Timer();
+				$(".navl_admin").addClass("active");
+				
+				$('#idunban_list').children().each(function(){
+					$(this).click(function(){
+						alert(($('#idunban_list').children().index(this)+1) + "번째 줄");
+					});
+				});
+			});
+			function Timer()
+			{
+				checkPlayer();
+				if(!timer_firstout) setTimeout("Timer()", 1);
+				else setTimeout("Timer()", 5000);
+				timer_firstout = true;
+			}
+		</script>
+	</head>
+
+	<body>
+<?php
+include "./navbar.inc.php";
+?>
+		<div id="contents">
+<?php
+include "./header.inc.php";
+?>
+			<div id="conbox" class="head" style="background-color: #DDD">
+				<h1>ID밴 조회/해제</h1>
+			</div>
+			<div id="conbox" class="body" style="background-color: #FFF;">
+<?php
+if(AccessAdminKit($data['Admin'], 5))
+{
+?>
+				<form name="idunbanfrm" action="admin.php?func=idunban" method="get">
+					<label for="idunban_inp_dest" class="unban_lbl">닉네임</label>
+					<input id="idunban_inp_dest" class="unban_inp" name="dest" type="text" />
+					<button class="unban_sub">조회</button>
+				</form>
+				<table class="contable unban">
+					<tbody id="idunban_list">
+						<tr>
+							<th>Username</th>
+							<th>IP</th>
+							<th>Reason</th>
+							<th>Host</th>
+							<th>Time</th>
+							<th>Until</th>
+							<th></th>
+						</tr>
+<?php
+	$banresult = @mysql_query("SELECT * FROM ban_data WHERE IDBan = 1 AND Valid = 1 ORDER BY Time DESC", $MySQL);
+	for($i = 0; $bandata[$i] = @mysql_fetch_array($banresult); $i++)
+	{
+?>
+						<tr onclick="OnRowClicked(this)">
+							<td><?=$bandata[$i]['Username']?></td>
+							<td><?=$bandata[$i]['IP']?></td>
+							<td><?=$bandata[$i]['Reason']?></td>
+							<td><?=$bandata[$i]['Host']?></td>
+							<td><?=$bandata[$i]['Time']?></td>
+							<td><?=((strcmp($bandata[$i]['Until'], "0000-00-00 00:00:00") == 0) ? "무기한" : $bandata[$i]['Until'])?></td>
+							<td>해제</td>
+						</tr>
+						<tr>
+						</tr>
+<?php
+	}
+}
+?>
+					</tbody>
+				</table>
+			</div>
+			
+			<div id="conbox" class="head" style="background-color: #DDD">
+				<h1>IP밴 조회/해제</h1>
+			</div>
+			
+			<div id="conbox" class="body" style="background-color: #FFF;">
+<?php
+if(AccessAdminKit($data['Admin'], 5))
+{
+?>
+				<form name="ipunbanfrm" action="admin.php?func=ipunban" method="get">
+					<label for="idunban_inp" class="unban_lbl">닉네임 혹은 IP</label>
+					<input id="ipunban_inp" class="unban_inp" name="dest" type="text" />
+					<button class="unban_sub">조회</button>
+				</form>
+<?php
+}
+?>
+			</div>
+<?php
+include "./footer.inc.php";
+?>
+		</div>
+	</body>
+</html>
+<?php
+mysql_close();
+?>

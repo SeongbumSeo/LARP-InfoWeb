@@ -1,0 +1,1031 @@
+/* 초기화 */
+* { margin: 0; padding: 0; border-radius: 0; }
+li { list-style: none; }
+a { text-decoration: none; max-width: 100%; color: #000; }
+img { border: none; }
+input, button { border: 1px solid #000; background-color: #FFF; }
+/* 초기화 */
+
+/* HTML5 */
+@keyframes open {
+	from {
+		margin-top: -1500px;
+	}
+	to {
+		margin-top: 0;
+	}
+}
+@-webkit-keyframes open {
+	from {
+		margin-top: -1500px;
+	}
+	to {
+		margin-top: 0;
+	}
+}
+/* HTML5 */
+
+html {
+	background-color: #FFF;
+	background: url("./images/nightsky.jpg") 50% 50% no-repeat;
+	background-size: 100% 100%;
+	background-attachment: fixed;
+	font-size: 1em;
+}
+
+html, body, input, select, option, button {
+	font-family: Helvetica, 맑은 고딕, 돋움;
+}
+
+h1 { font-size: 1.5em; }
+h2 {
+	font-size: 1.25em;
+	color: #FFF;
+	text-shadow:
+		0px 1px 0 #000,
+		0px -1px 0 #000,
+		1px 0px 0 #000,
+		-1px 0px 0 #000,
+		1px 1px 0 #000,
+		-1px -1px 0 #000,
+		1px -1px 0 #000,
+		-1px 1px 0 #000;
+}
+h3 {
+	font-size: 1.00em;
+	color: #FFF;
+	text-shadow:
+		0px 1px 0 #000,
+		0px -1px 0 #000,
+		1px 0px 0 #000,
+		-1px 0px 0 #000,
+		1px 1px 0 #000,
+		-1px -1px 0 #000,
+		1px -1px 0 #000,
+		-1px 1px 0 #000;
+}
+
+p {
+	font-size: 0.9em;
+}
+p.summary {
+	text-align: center;
+	color: #555;
+	margin-top: 2px;
+}
+
+table {
+	width: 100%;
+	border-spacing: 0;
+}
+
+iframe {
+	width: 100%;
+	border: none;
+}
+
+.smalltime, .smalltimestopped {
+	text-align: center;
+	color: #FFF;
+	text-shadow:
+		0px 1px 0 #555,
+		0px -1px 0 #555,
+		1px 0px 0 #555,
+		-1px 0px 0 #555,
+		1px 1px 0 #555,
+		-1px -1px 0 #555,
+		1px -1px 0 #555,
+		-1px 1px 0 #555;
+}
+
+#navbar {
+	z-index: 3;
+	position: fixed;
+	background-color: #434343;
+	width: 100%;
+	height: auto;
+	min-height: 45px;
+	max-height: 90px;
+	line-height: 45px;
+	overflow: hidden;
+	white-space: no-wrap;
+	border-bottom: 3px solid #5555FF;
+}
+#navbar ul li {
+	display: none;
+}
+#navbar .navbar-left {
+	height: 45px;
+	margin-left: 5px;
+	float: left;
+	font-size: 1em;
+	color: #AAA;
+	overflow: hidden;
+	white-space: no-wrap;
+}
+#navbar .navbar-left li {
+	white-space: nowrap;
+	word-wrap: normal;
+	padding-left: 15px;
+	padding-right: 15px;
+	float: left;
+}
+#navbar .navbar-left li a {
+	color: #AAA;
+}
+#navbar .navbar-right {
+	height: 45px;
+	margin-right: 5px;
+	float: right;
+	font-size: 0.9em;
+	color: #FFF;
+	overflow: hidden;
+	white-space: no-wrap;
+}
+#navbar .navbar-right li {
+	padding-left: 5px;
+	padding-right: 5px;
+	float: right;
+}
+#navbar .navbar-right li a {
+	color: #FFF;
+}
+#navbar .navbar-right li .frag {
+	width: 20px;
+	height: 20px;
+	vertical-align: middle;
+}
+#navbar ul {
+	list-style-type: none;
+	height: 100%;
+}
+#navbar ul .active {
+	background-color: #5555FF;
+	color: #FFF;
+}
+#navbar ul .active a {
+	color: #FFF;
+}
+#navbar ul li {
+	height: 100%;
+	vertical-align: middle;
+}
+
+#contents {
+	z-index: 2;
+	max-width: 700px;
+	padding: 55px 3% 0 3%;
+	margin: 0 auto 50px auto;
+	background-color: rgba(221, 221, 221, 0.5);
+	box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.5);
+}
+#conbox {
+	display: block;
+	margin: 10px auto;
+	margin-top: 0;
+	padding: 20px;
+	max-width: 700px;
+	box-shadow: 0 2px 0 0 rgba(153, 153, 153, 0.75);
+	border-radius: 5px;
+	text-align: center;
+	overflow: hidden;
+}
+#conbox.head {
+	box-shadow: none;
+	border-radius: 5px 5px 0 0;
+	margin-bottom: 0;
+	padding: 10px 20px;
+	color: #FFF;
+	text-shadow:
+		0px 1px 0 #555,
+		0px -1px 0 #555,
+		1px 0px 0 #555,
+		-1px 0px 0 #555,
+		1px 1px 0 #555,
+		-1px -1px 0 #555,
+		1px -1px 0 #555,
+		-1px 1px 0 #555;
+}
+#conbox.body {
+	text-align: left;
+	border-radius: 0 0 5px 5px;
+	margin-top: 0;
+}
+.playeronline, .playeroffline {
+	display: none;
+}
+#conbox.serveronline, #conbox.serveroffline {
+	display: none;
+	background: none no-repeat 50% 50%;
+	background-size: cover;
+}
+#conbox.serveronline, #conbox.serveroffline, #conbox.loadingstatus,
+#conbox.serveronline a, #conbox.serveroffline a, #conbox.loadingstatus a {
+	color: #FFF;
+}
+#conbox .chest {
+	text-shadow:
+		0px 1px 0 #555,
+		0px -1px 0 #555,
+		1px 0px 0 #555,
+		-1px 0px 0 #555,
+		1px 1px 0 #555,
+		-1px -1px 0 #555,
+		1px -1px 0 #555,
+		-1px 1px 0 #555;
+	text-align: left;
+	margin-bottom: 20px;
+	padding: 0 0 10px 5%;
+	border-bottom: 1px solid #FFF;
+}
+#conbox .contable tr th {
+	overflow: hidden;
+	white-space: nowrap;
+	word-wrap: normal;
+	font-weight: bolder;
+	background-color: rgba(221, 221, 255, 0.5);
+}
+#conbox .contable .charimg {
+	background: none no-repeat 50% 50%;
+	background-size: auto 100%;
+	width: 45%;
+	padding-right: 20px;
+	/*border: 3px solid #555;
+	border-radius: 100px;*/
+}
+#conbox .contable .carimg {
+	background: none no-repeat 50% 50%;
+	background-size: auto 100%;
+	/*background-size: 50% 75%;*/
+	width: 45%;
+	/*border: 3px solid #555;
+	border-radius: 100px;*/
+}
+#conbox .contable .licenses td {
+	width: 33%;
+	background: none no-repeat 50% 50%;
+	background-size: cover;
+}
+#conbox .contable .licenses td p {
+	height: 100%;
+	width: 100%;
+	padding: 20% 0 20% 0;
+	text-align: center;
+	font-weight: bolder;
+	font-size: 2em;
+	color: #FFF;
+	text-shadow:
+		0px 1px 0 #000,
+		0px -1px 0 #000,
+		1px 0px 0 #000,
+		-1px 0px 0 #000,
+		1px 1px 0 #000,
+		-1px -1px 0 #000,
+		1px -1px 0 #000,
+		-1px 1px 0 #000;
+}
+
+.#conbox .logintable {
+	height: 50px;
+	border: none;
+	background-color: #BBDDBB;
+}
+#conbox .login_inp {
+	width: 100%;
+	height: 25px;
+	padding-left: 10px;
+	font-size: 1em;
+	color: #005500;
+	text-shadow: 0 0 1px #555;
+	border: 1px solid #99BB99;
+	ime-mode: disabled;
+}
+#conbox .login_inp#login_inp_id {
+	border-bottom: none;
+}
+#conbox .login_inp#login_inp_pw {
+	border-top: none;
+}
+#conbox .login_lbl {
+	position: absolute;
+	padding-top: 2px;
+	padding-left: 10px;
+	font-size: 1em;
+	color: #AACCAA;
+	cursor: text;
+}
+#conbox .logintable td:first-child {
+	width: 60%;
+}
+#conbox .logintable td:nth-child(n+2) {
+	width: 20%;
+}
+#conbox .logintable button {
+	width: 100%;
+	height: 50px;
+	border: 1px solid #88AA88;
+	border-left: none;
+	overflow: hidden;
+	color: #336633;
+	background-color: #F9FFF9;
+	
+}
+#conbox .logintable .login_sub {
+	font-size: 1em;
+	font-weight: bolder;
+}
+#conbox .logintable .signup_sub {
+	font-size: 1em;
+	font-weight: normal;
+	border-radius: 0 5px 5px 0;
+}
+
+#conbox .noticetable tr td {
+    font-size: 0.9em;
+    font-weight: normal;
+}
+#conbox .noticetable tr td:last-child {
+    text-align: right;
+}
+
+#conbox .feedback tr td {
+	font-size: 0.8em;
+	padding: 15px 0;
+}
+#conbox .feedback tr td:nth-last-child(-n+3) {
+	text-align: center;
+}
+#conbox .feedback tr th:first-child {
+	font-size: 0.8em;
+	padding: 0 10px;
+	width: 10%;
+}
+#conbox .feedback tr td:nth-child(2) {
+	padding: 0 10px;
+	width: 55%;
+}
+#conbox .feedback tr td:nth-child(3) {
+	width: 15%;
+}
+#conbox .feedback tr td:nth-child(4) {
+	width: 10%;
+}
+#conbox .feedback tr td:nth-child(5) {
+	width: 10%;
+}
+#conbox #feedback_inp {
+	float: left;
+	width: 75%;
+	height: 50px;
+	padding-top: 5px;
+	padding-left: 10px;
+	overflow: hidden;
+	resize: none;
+	font-size: 0.9em;
+	color: #000;
+	border: 1px solid #99BBBB;
+}
+#conbox .feedback_sub {
+	display: inline;
+	width: 25%;
+	height: 50px;
+	border: 1px solid #88AAAA;
+	border-left: none;
+	border-radius: 0 5px 5px 0;
+	overflow: hidden;
+	font-size: 1em;
+	font-weight: bolder;
+	color: #336666;
+	background-color: #F9FFFF;
+}
+
+#conbox .setpw  {
+	border: 1px solid #555;
+}
+#conbox .setpw tr th {
+	background-color: #555;
+	color: #FFF;
+	font-size: 1em;
+}
+#conbox .setpw tr:first-child td {
+	border-bottom: 1px solid #555;
+}
+#conbox .setpw tr:first-child th:first-child {
+	width: 15%;
+}
+#conbox .setpw tr:first-child td:nth-child(2) {
+	width: 30%
+}
+#conbox .setpw tr:first-child th:nth-child(3) {
+	width: 15%;
+}
+#conbox .setpw tr:first-child td:nth-child(4) {
+	width: 40%;
+}
+#conbox .setpw tr td input {
+	border: none;
+	width: 100%;
+	padding: 0 5px;
+}
+#conbox .setpw_submit {
+	border: none;
+	width: 100%;
+	height: 22px;
+	background-color: #FFF;
+}
+
+#conbox .offlineprocesstable {
+	border: 1px solid #555;
+}
+#conbox .offlineprocesstable tr th {
+	background-color: #555;
+	color: #FFF;
+	font-size: 1em;
+}
+#conbox .offlineprocesstable tr:nth-last-child(n+2) td {
+	border-bottom: 1px solid #555;
+}
+#conbox .offlineprocesstable tr:first-child th:first-child {
+	width: 15%;
+}
+#conbox .offlineprocesstable tr:first-child td:nth-child(2) {
+	width: 30%;
+}
+#conbox .offlineprocesstable tr:first-child th:nth-child(3) {
+	width: 15%;
+}
+#conbox .offlineprocesstable tr:first-child td:nth-child(4) {
+	width: 15%;
+}
+#conbox .offlineprocesstable tr:first-child th:nth-child(5) {
+	width: 10%;
+}
+#conbox .offlineprocesstable tr:first-child td:nth-child(6) {
+	width: 15%;
+}
+#conbox .offlineprocesstable tr:nth-child(2) th:first-child {
+	width: 15%;
+}
+#conbox .offlineprocesstable tr:nth-child(2) td:nth-child(2) {
+	width: 85%;
+}
+#conbox .offlineprocesstable tr td input,
+#conbox .offlineprocesstable tr td select {
+	border: none;
+	width: 100%;
+	padding: 0 5px;
+}
+#conbox #offlineprocess_sub {
+	border: none;
+	width: 100%;
+	height: 22px;
+	background-color: #FFF;
+}
+
+.unban tr:nth-child(n+3):hover {
+	cursor: pointer;
+}
+.unban tr th {
+	background-color: #555;
+	color: #FFF;
+	font-size: 1em;
+}
+.unban tr:nth-child(3n+6) {
+	display: none;
+}
+.unban tr:nth-child(3n+4) td {
+	border-bottom: 1px dashed #AAA;
+}
+.unban tr:nth-child(3n+5) td {
+	border-bottom: 1px solid #555;
+}
+.unban tr:nth-child(3n+6) td {
+	border-bottom: 1px solid #555;
+}
+.unban tr td {
+	font-size: 0.8em;
+	text-align: center;
+	border-right: 1px dashed #AAA;
+}
+.unban tr td:last-child {
+	border-right: none;
+}
+.unban_inp {
+	padding-left: 5px;
+}
+.unban_list_nav {
+	text-align: center;
+}
+
+#conbox .ban {
+	border: 1px solid #555;
+}
+#conbox .ban tr:nth-last-child(n+2) td {
+	border-bottom: 1px solid #555;
+}
+#conbox .ban tr th {
+	background-color: #555;
+	color: #FFF;
+	font-size: 1em;
+}
+#conbox .ban tr th:nth-child(1) {
+	width: 100px;
+}
+#conbox .ban tr th:nth-child(3) {
+	width: 30px;
+}
+#conbox .ban tr th:nth-child(5) {
+	width: 77.5px;
+}
+#conbox .ban tr td {
+	font-size: 0.8em;
+
+}
+#conbox .ban tr td input {
+	border: none;
+	width: 100%;
+	padding: 0 5px;
+}
+#conbox .ban_sub, .ban_submit {
+	width: 100%;
+	height: 22px;
+	border: none;
+	background-color: #FFF;
+}
+#conbox .checkuserlog {
+	border: 1px solid #555;
+}
+#conbox .checkuserlog tr th {
+	background-color: #555;
+	color: #FFF;
+	font-size: 1em;
+}
+#conbox .checkuserlog tr td:first-child,
+#conbox .checkuserlog tr td:nth-child(2) {
+	width: 10%;
+}
+#conbox .checkuserlog tr td:nth-child(n+3) {
+	width: 20%;
+}
+#conbox .checkuserlog tr:nth-child(n+3) td {
+	border-left: 1px solid #555;
+	border-bottom: 1px solid #555;
+}
+#conbox .checkuserlog tr:nth-child(n+3) td:first-child {
+	border-left: none;
+}
+#conbox .checkuserlog tr:nth-last-child(1) td {
+	border-bottom: none;
+}
+#conbox .checkuserlog_lbl {
+}
+#conbox .checkuserlog_inp {
+	border: none;
+	width: 100%;
+	padding: 0 5px;
+}
+#conbox .checkuserlog_sub {
+	width: 100%;
+	height: 22px;
+	border: none;
+	background-color: #FFF;
+}
+
+#conbox .userlog {
+	border: none;
+}
+#conbox .userlog tr td:first-child,
+#conbox .userlog tr td:nth-child(2) {
+	width: 10%;
+}
+#conbox .userlog tr td:nth-child(n+3) {
+	width: 20%;
+}
+#conbox .userlog tr td {
+	font-size: 0.8em;
+	text-align: center;
+	border-left: 1px dashed #555;
+	border-bottom: 1px dashed #555;
+}
+#conbox .userlog tr td:first-child {
+	border-left: none;
+}
+#conbox .userlog tr:nth-child(2n-1) td:first-child {
+	font-weight: bold;
+	font-size: 0.9em;
+}
+#conbox .userlog tr:nth-child(2n) td {
+	border-bottom: 1px solid #555;
+}
+#conbox .userlog tr td input {
+	border: none;
+	width: 100%;
+	padding: 0 5px;
+}
+
+#conbox .loginsession  {
+	border: 1px solid #555;
+}
+#conbox .loginsession tr th {
+	background-color: #555;
+	color: #FFF;
+	font-size: 1em;
+}
+#conbox .loginsession tr td {
+	border: none;
+}
+#conbox .loginsession th:first-child {
+	width: 15%;
+}
+#conbox .loginsession tr td:nth-child(2) {
+	width: 70%
+}
+#conbox .loginsession tr td:nth-child(3) {
+	width: 15%;
+	border-left: 1px solid #555;
+}
+#conbox .loginsession tr td input {
+	border: none;
+	width: 100%;
+	padding: 0 5px;
+}
+#conbox .loginsession_submit {
+	border: none;
+	width: 100%;
+	height: 22px;
+	background-color: #FFF;
+}
+
+.useridtable {
+	width: 100%;
+}
+.useridtable tr td:first-child {
+	width: 90%;
+}
+.useridtable tr td:nth-child(2) {
+	width: 10%;
+}
+.userid_lbl {
+	position: absolute;
+	color: #AAA;
+	padding-left: 5px;
+	cursor: text;
+	font-size: 0.8em;
+}
+.userid_inp, .userid_sub {
+	width: 100%;
+	background-color: #FFF;
+	color: #000;
+}
+
+.killlog tr th {
+	background-color: #555;
+	color: #FFF;
+	font-size: 1em;
+	padding: 2px 0;
+}
+.killlog tr td {
+	text-align: center;
+	border-bottom: 1px solid #555;
+	border-left: 1px dashed #555;
+}
+.killlog tr td:first-child {
+	border-left: none;
+}
+.killlog tr:nth-child(2n+1) td {
+	border-bottom: 1px dashed #555;
+}
+
+.carblowlog tr th {
+	background-color: #555;
+	color: #FFF;
+	font-size: 1em;
+	padding: 2px 0;
+}
+.carblowlog tr td {
+	text-align: center;
+	border-bottom: 1px solid #555;
+	border-left: 1px dashed #555;
+}
+.carblowlog tr td:first-child {
+	border-left: none;
+}
+.carblowlog tr:nth-child(2n+1) td {
+	border-bottom: 1px dashed #555;
+}
+.carblowlog tr:nth-child(2n+1) td:first-child,
+.carblowlog tr:nth-child(2n+1) td:nth-child(3) {
+	font-weight: bolder;
+}
+
+.databaseview tr th {
+	background-color: #555;
+	color: #FFF;
+	font-size: 1em;
+	padding: 2px 0;
+}
+.databaseview tr td {
+	text-align: center;
+	border-bottom: 1px solid #555;
+	border-left: 1px dashed #555;
+}
+.databaseview tr td:first-child {
+	font-weight: bolder;
+	border-left: none;
+}
+
+.simpleform tr td {
+	border: none;
+	height: 22px;
+	border: 1px solid #555;
+}
+.simpleform tr th:first-child {
+	width: 20%;
+	background-color: #555;
+	color: #FFF;
+	border: 1px solid #555;
+}
+.simpleform tr td:first-child {
+	width: 80%;
+}
+.simpleform tr td:nth-child(2) {
+	border-left: none;
+	border-right: 1px solid #555;
+}
+.simpleform tr td:nth-child(3) {
+	width: 20%;
+	border-left: none;
+	border-right: 1px solid #555;
+}
+.simpleform tr td input{
+	padding-left: 5px;
+}
+.simpleform tr td input,
+.simpleform tr td button {
+	border: none;
+	width: 100%;
+	background-color: #FFF;
+}
+.normallbl {
+	position: absolute;
+	color: #AAA;
+	padding-left: 5px;
+	cursor: text;
+	font-size: 0.8em;
+}
+
+.signup_form {
+	width: 100%;
+}
+.signup_form tr th {
+	width: 20%;
+	color: #555;
+}
+.signup_form tr td input {
+	padding: 0 0 0 5px;
+}
+.signup_form tr td input {
+	width: 100%;
+	height: 25px;
+}
+.signup_username td,
+.signup_password td,
+.signup_password_reinput td {
+	padding: 20px 20px 10px 10px;
+}
+.signup_warn_username,
+.signup_warn_password,
+.signup_warn_password_reinput {
+	text-align: left;
+	font-size: 0.8em;
+	padding: 0 0 0 20px;
+}
+.signup_label {
+	display: none;
+}
+
+.auth_form {
+	display: none;
+	margin: 20px 0;
+}
+.auth_form tr td:first-child,
+.auth_form tr td:last-child {
+	width: 30%;
+	text-align: left;
+	color: #AA0000;
+	font-size: 0.8em;
+	padding: 0 0 0 10px;
+}
+.auth_form tr td:nth-child(2) {
+	width: 20%;
+	border: 1px solid #000;
+	border-right: none;
+}
+.auth_form tr td:nth-child(3) {
+	width: 20%;
+	border: 1px solid #000;
+}
+.auth_form input,
+.auth_form button {
+	border: none;
+	text-align: center;
+	width: 100%;
+}
+
+#serverstatusdata {
+	display: none;
+}
+#serverstatus {
+	margin: 0;
+	padding: 0;
+	text-shadow:
+		0px 1px 0 #555,
+		0px -1px 0 #555,
+		1px 0px 0 #555,
+		-1px 0px 0 #555,
+		1px 1px 0 #555,
+		-1px -1px 0 #555,
+		1px -1px 0 #555,
+		-1px 1px 0 #555;
+	overflow: auto;
+}
+#serverstatus table:first-child tr th {
+	width: 25%;
+}
+#serverstatus table:first-child td {
+	text-align: left;
+	padding-left: 2.5%;
+}
+#playerlist tr td {
+	text-align: center;
+}
+#playerlist tr td:nth-child(2) {
+	text-align: left;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	padding-left: 2.5%;
+}
+#checkplayer {
+	display: none;
+}
+
+#detail {
+	padding-left: 5%;
+	text-align: left;
+}
+#detail b {
+	margin-right: 2%;
+}
+#detail p span {
+	margin-right: 3%;
+	white-space: nowrap;
+}
+
+#conbox.factioninfo {
+	background-color: #FFF;
+	border-radius: 0;
+}
+.factioninfo h1 {
+	padding: 50px 0;
+	margin-bottom: 50px;
+	border-bottom: 1px solid #AAA;
+	font-size: 1.7em;
+	color: #000;
+}
+.factioninfo .factioninfotable {
+	margin-bottom: 25px;
+}
+.factioninfo .factioninfotable tr td {
+}
+.factioninfo .factioninfotable tr td:first-child {
+	width:40%;
+}
+.factioninfo .factioninfotable .factionmark {
+	background: none no-repeat 50% 50%;
+	background-size: auto 75%;
+	width: 100%;
+	//border: 1px solid #AAA;
+}
+.factioninfo .factioninfotable .factiondetailtable {
+}
+.factioninfo .factioninfotable .factiondetailtable tr:first-child th,
+.factioninfo .factioninfotable .factiondetailtable tr:first-child td {
+	border-top: 1px solid #999;
+}
+.factioninfo .factioninfotable .factiondetailtable tr:nth-child(n+2) th,
+.factioninfo .factioninfotable .factiondetailtable tr:nth-child(n+2) td {
+	border-top: 1px solid #CCC;
+}
+.factioninfo .factioninfotable .factiondetailtable tr:last-child th,
+.factioninfo .factioninfotable .factiondetailtable tr:last-child td {
+	border-bottom: 1px solid #999;
+}
+.factioninfo .factioninfotable .factiondetailtable tr th {
+	text-align: left;
+	padding: 7px 0;
+	padding-left: 20px;
+	color: #333;
+}
+.factioninfo .factioninfotable .factiondetailtable tr td {
+	padding: 7px 0;
+	color: #555;
+}
+.factioninfo .factionintroduction {
+	margin-bottom: 30px;
+	color: #999;
+	font-size: 0.8em;
+}
+
+.mdc_ident {
+	margin: 20px auto;
+	width: 75%;
+	border: 1px solid #999;
+}
+.mdc_ident .charimg {
+	background: none no-repeat 50% 50%;
+	background-size: auto 100%;
+	width: 30%;
+	/*border: 3px solid #555;
+	border-radius: 100px;*/
+}
+.mdc_ident tr th {
+	color: #000;
+}
+.mdc_ident tr th:first-child {
+	width: 30%;
+	padding: 10px 0 10px 50px;
+	font-weight: bold;
+	color: #333;
+}
+.mdc_ident tr th:nth-child(2) {
+	font-size: 1.2em;
+	padding: 10px 0;
+	border-left: 1px solid #999;
+	border-bottom: 1px solid #999;
+	background-color: #EEE;
+}
+.mdc_ident tr td:nth-child(n+2) {
+	text-align: center;
+	width: 40%;
+	color: #555;
+	padding: 0 50px 0 0;
+}
+
+.itemtable th {
+	font-weight: bolder;
+	background-color: #555;
+	color: #FFF;
+	padding: 2px 0;
+}
+.itemtable td {
+	text-align: center;
+	width: 15%;
+	border-right: 1px solid #555;
+	border-bottom: 1px dashed #555;
+}
+.itemtable td:first-child {
+	font-weight: bolder;
+}
+.itemtable td:last-child {
+	text-align: left;
+	width: 70%;
+	padding-left: 10px;
+	border-right: none;
+}
+.itemtable tr:last-child td {
+	border-bottom: none;
+}
+
+.userlogtable th {
+	font-weight: bolder;
+	background-color: #555;
+	color: #FFF;
+	padding: 2px 0;
+}
+.userlogtable td {
+	text-align: center;
+	border-right: 1px solid #555;
+	border-bottom: none;
+}
+.userlogtable td:first-child {
+	font-weight: bolder;
+	width: 15%;
+}
+.userlogtable td:nth-child(2) {
+	width: 65%;
+}
+.userlogtable td:last-child {
+	width: 20%;
+	border-right: none;
+}
+
+#databaseview {
+	overflow: auto;
+}
+#processlog td {
+	text-align: center;
+}
+#processlog_nav {
+	text-align: center;
+}

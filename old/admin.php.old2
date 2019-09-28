@@ -1,0 +1,795 @@
+<?php
+include "./initial.inc.php";
+?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ko">
+	<head>
+<?php
+include "./head.inc.php";
+?>
+		<title>Admin - LA:RP Information Website</title>
+		<script type="text/javascript">
+			var page = new Array();
+			var pagesize = 30;
+			
+			$(document).ready(function() {
+				$('.navl_admin').addClass("active");
+				
+				$('#idunban_list,#ipunban_list,#userlog_list').each(function() {
+					var table = $(this);
+					table.children().each(function() {
+						var eClick = false;
+						var eMouse = false;
+						var rows = 1;
+						switch(table.attr('id')) {
+							case 'idunban_list':
+								eClick = true;
+								eMouse = true;
+								rows = 3;
+								break;
+							case 'ipunban_list':
+								eClick = true;
+								eMouse = true;
+								rows = 3;
+								break;
+							case 'userlog_list':
+								eClick = false;
+								eMouse = true;
+								rows = 2;
+								break;
+						}
+						
+						var row = table.children().index(this);
+						if(eClick) {
+							$(this).click(function() {
+								var brow;
+								if(row % rows == rows - 1)
+									return;
+								else
+									brow = row + rows - (row % rows) - 1;
+								
+								if(table.children('tr').eq(brow).css("display") != "table-row")
+									table.children('tr').eq(brow).css("display","table-row");
+								else
+									table.children('tr').eq(brow).css("display","none");
+							});
+						}
+						if(eMouse) {
+							$(this).mouseover(function() {
+								for(var i = row - (row % rows); i < row - (row % rows) + rows; i++) {
+										table.children('tr').eq(i).css("background-color","#AAA");
+								}
+							});
+							$(this).mouseout(function() {
+								for(var i = row - (row % rows); i < row - (row % rows) + rows; i++) {
+									table.children('tr').eq(i).css("background-color","#FFF");
+								}
+							});
+						}
+					});
+				});
+				
+				$('button[id=connectiplog_sub]').click(function() {
+					$.ajax({
+						type: "get",
+						url: "adminparsing.php?func=connectiplog&name=" + $('#connectiplog_inp_dest').val(),
+						cahce: false,
+						headers: {
+							"cache-control": "no-cache",
+							"pragma": "no-cache"
+						},
+						success: function(data) {
+							$("#connectiplog").html(data);
+						}
+
+					});
+				});
+				$('button[id=changenamelog_sub]').click(function() {
+					$.ajax({
+						type: "get",
+						url: "adminparsing.php?func=changenamelog&name=" + $('#changenamelog_inp_dest').val(),
+						cahce: false,
+						headers: {
+							"cache-control": "no-cache",
+							"pragma": "no-cache"
+						},
+						success: function(data) {
+							$("#changenamelog").html(data);
+						}
+
+					});
+				});
+				$('button[id=checkuserdata_sub]').click(function() {
+					$.ajax({
+						type: "get",
+						url: "adminparsing.php?func=checkuserdata&name=" + $('#checkuserdata_inp_dest').val(),
+						cahce: false,
+						headers: {
+							"cache-control": "no-cache",
+							"pragma": "no-cache"
+						},
+						success: function(data) {
+							$("#checkuserdata").html(data);
+						}
+
+					});
+				});
+				
+				page = new Array(0,0);
+				LoadUnbanTable();
+			});
+			function LoadUnbanTable() {
+				var t = 0;
+				$('#idunban_list,#ipunban_list').each(function() {
+					var table = $(this);
+					var p = 0;
+					$('.unban_list_nav').eq(t).html("");
+					table.children().each(function() {
+						var row = table.children().index(this);
+						if(row >= 3) {
+							if((row-3)%pagesize == 0) {
+								p++;
+								var href = "javascript: page[" + t + "] = " + (p-1)+ "; LoadUnbanTable();";
+								var nav = (page[t] == p-1) ? "<b style=\"color: #AA0000\">" + p + "</b>" : "<a href=\"" + href + "\">" + p + "</a>";
+								$('.unban_list_nav').eq(t).html($('.unban_list_nav').eq(t).html() + "&nbsp;" + nav + "&nbsp;");
+							}
+							if(page[t]*pagesize > row-3 || (page[t]+1)*pagesize <= row-3) {
+								table.children('tr').eq(row).css("display","none");
+							}
+							else if(row%3 == 0 || row%3 == 1) {
+								table.children('tr').eq(row).css("display","table-row");
+							}
+						}
+					});
+					t++;
+				});
+			}
+		</script>
+	</head>
+
+	<body>
+<?php
+include "./navbar.inc.php";
+?>
+		<div id="contents">
+<?php
+include "./header.inc.php";
+?>
+			<div id="conbox" class="head" style="background-color: #DDD;">
+				<h1>비밀번호 변경</h1>
+			</div>
+			<div id="conbox" class="body" style="background-color: #FFF;">
+<?php
+if(AccessAdminKit($data['Admin'],5))
+{
+	if($_GET['func'] == "setpw")
+	{
+		$username = $DB->real_escape_string(htmlspecialchars_decode($_POST['setpw_dest']));
+		$password = $DB->real_escape_string(htmlspecialchars_decode($_POST['setpw_pw']));
+		$setpwresult = @$MySQL->query("UPDATE user_data SET Password = SHA1('".$password."') WHERE Username = '".$username."'");
+		$setpwresultstr = (!$setpwresult) ? "실패" : "성공";
+		InsertLog($data['Username'],"Admin","비밀번호 변경 ".$setpwresultstr.": ".$username,$MySQL);
+		echo "<script type=\"text/javascript\">alert(\"".$username." 비밀번호 변경 ".$setpwresultstr."\");</script>";
+	}
+?>
+				<form name="setpwfrm" action="admin.php?func=setpw" method="post">
+					<table class="setpw">
+						<tbody>
+							<tr>
+								<th>대상 닉네임</th>
+								<td><input id="setpw_dest" name="setpw_dest" type="text" /></td>
+								<th>비밀번호</th>
+								<td><input id="setpw_pw" name="setpw_pw" type="text" /></td>
+							</tr>
+							<tr>
+								<td colspan="4"><button class="setpw_submit">변경</button></td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+				<p class="summary">권한5 이상</p>
+<?php
+}
+?>
+			</div>
+			
+			<div id="conbox" class="head" style="background-color: #DDD;">
+				<h1>오프라인 프로세스</h1>
+			</div>
+			<div id="conbox" class="body" style="background-color: #FFF;">
+<?php
+if(AccessAdminKit($data['Admin'],6))
+{
+	if($_GET['func'] == "offlineprocess")
+	{
+		$olpsql = "INSERT INTO offline_process (Username,Confirmed,Contents,Function,Admin,Time) VALUES (";
+		$olpsql .= "'".$DB->real_escape_string(htmlspecialchars_decode($_POST['offlineprocess_username']))."',"; // Username
+		$olpsql .= "0,"; // Confirmed
+		$olpsql .= "'".$DB->real_escape_string(htmlspecialchars_decode($_POST['offlineprocess_reason']))."',"; // Contents
+		$olpsql .= "'".$DB->real_escape_string(htmlspecialchars_decode($_POST['offlineprocess_process'])).",".intval($_POST['offlineprocess_value'])."',"; // Function
+		$olpsql .= "'".$adminname."',"; // Admin
+		$olpsql .= "CURRENT_TIMESTAMP)"; // Time
+		$olpresult = @$MySQL->query($olpsql);
+		$olpresultstr = (!$olpresult) ? "실패" : "성공";
+		InsertLog($data['Username'],"Admin","오프라인 프로세스 ".$olpresultstr.": ".$_POST['offlineprocess_username']."에게 ".$_POST['offlineprocess_process']." (값: ".$_POST['offlineprocess_value'].",이유: ".$_POST['offlineprocess_reason'].")",$MySQL);
+		echo "<script type=\"text/javascript\">alert(\"".$_POST['offlineprocess_username']." 오프라인 프로세스 ".$olpresultstr."\");</script>";
+	}
+?>
+
+				<form name="offlineprocessfrm" action="admin.php?func=offlineprocess" method="post">
+					<table class="offlineprocess">
+						<tbody>
+							<tr>
+								<th>대상 닉네임</th>
+								<td><input id="offlineprocess_username" name="offlineprocess_username" type="text" /></td>
+								<th>처분 내용</th>
+								<td>
+									<select name="offlineprocess_process">
+										<option value="경고">경고</option>
+										<option value="차감">차감</option>
+										<option value="칭찬">칭찬</option>
+										<option value="돈지급">돈지급</option>
+										<option value="돈회수">돈회수</option>
+									</select>
+								</td>
+								<th>값</th>
+								<td><input id="offlineprocess_value" name="offlineprocess_value" type="text" /></td>
+							</tr>
+							<tr>
+								<th>사유</th>
+								<td colspan="5"><input id="offlineprocess_reason" name="offlineprocess_reason" type="text" /></td>
+							</tr>
+							<tr>
+								<td colspan="6"><button class="offlineprocess_submit">적용</button></td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+				<p class="summary">권한6 이상</p>
+				<p class="summary">값: <u>처분 횟수</u> 또는 <u>금액</u></p>
+<?php
+}
+?>
+			</div>
+
+			<div id="conbox" class="head" style="background-color: #DDD;">
+				<h1>ID밴 추가</h1>
+			</div>
+			<div id="conbox" class="body" style="background-color: #FFF;">
+<?php
+if(AccessAdminKit($data['Admin'],3))
+{
+	if($_GET['func'] == "idban")
+	{
+		$bansql = "INSERT INTO ban_data (Username,IP,IDBan,Reason,Host,Time,Until,Valid) VALUES (";
+		$bansql .= "'".$DB->real_escape_string(htmlspecialchars_decode($_POST['idban_username']))."',";
+		$bansql .= "'".$DB->real_escape_string(htmlspecialchars_decode($_POST['idban_ip']))."',";
+		$bansql .= "1,";
+		$bansql .= "'".$DB->real_escape_string(htmlspecialchars_decode($_POST['idban_reason']))."',";
+		$bansql .= "'".$adminname."',";
+		$bansql .= "CURRENT_TIMESTAMP,";
+		$bansql .= "'".$DB->real_escape_string(htmlspecialchars_decode((strcmp($_POST['idban_until'],"무기한") == 0) ? "0000-00-00 00:00:00" : $_POST['idban_until']))."',";
+		$bansql .= "1)";
+		$banresult = @$MySQL->query($bansql);
+		$banresultstr = ((!$banresult) ? "실패" : "성공");
+		InsertLog($data['Username'],"Admin","ID밴 ".$banresultstr.": ".$_POST['idban_username']." / ".$_POST['idban_ip']." / ".$_POST['idban_reason'],$MySQL);
+		echo "<script type=\"text/javascript\">alert(\"".$_POST['idban_username']." / ".$_POST['idban_ip']." ID밴 ".$banresultstr."\");</script>";
+	}
+?>
+				<form name="idbanfrm" action="admin.php?func=idban" method="post">
+					<table class="ban">
+						<tbody>
+							<tr>
+								<th>대상 닉네임</th>
+								<td><input id="idban_username" name="idban_username" type="text" /></td>
+								<th>IP</th>
+								<td><input id="idban_ip" name="idban_ip" type="text" /></td>
+								<th>만료기한</th>
+								<td><input id="idban_until" name="idban_until" type="text" /></td>
+							</tr>
+							<tr>
+								<th>차단사유</th>
+								<td colspan="5"><input id="idban_reason" name="idban_reason" type="text" /></td>
+							</tr>
+							<tr>
+								<td colspan="6"><button class="ban_submit">추가</button></td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+				<p class="summary">권한3 이상</p>
+				<p class="summary">만료기한은 <u>무기한</u> 혹은 <u>년-월-일 시:분:초</u>(ex.2009-01-12 21:15:00) 형식</p>
+<?php
+}
+?>
+			</div>
+			
+			<div id="conbox" class="head" style="background-color: #DDD;">
+				<h1>ID밴 조회/해제</h1>
+			</div>
+			<div id="conbox" class="body" style="background-color: #FFF;">
+<?php
+if(AccessAdminKit($data['Admin'],5))
+{
+	if($_GET['func'] == "idunban")
+	{
+		@$MySQL->query("UPDATE ban_data SET Valid = 0,Memo = '".$adminname.": ".$DB->real_escape_string(htmlspecialchars_decode($_POST['idunban_reason']))."' WHERE ID = ".(int)$_GET['dest']." AND IDBan = 1");
+		$unbanresult = @$MySQL->query("SELECT * FROM ban_data WHERE IDBan = 1 AND Valid = 0 AND ID = ".(int)$_GET['dest']);
+		if($unbandata = @$unbanresult->fetch_assoc())
+			InsertLog($data['Username'],"Admin","ID밴 해제: ".$unbandata['Username']." / ".$unbandata['IP']." / ".$unbandata['Memo'],$MySQL);
+		else
+			InsertLog($data['Username'],"Admin","ID밴 해제 실패: ".$unbandata['Username']." / ".$unbandata['IP']." / ".$unbandata['Memo'],$MySQL);
+	}
+	else if($_GET['func'] == "idbansearch")
+	{
+		$dest = $DB->real_escape_string(htmlspecialchars_decode($_POST['idunban_dest']));
+		InsertLog($data['Username'],"Admin","ID밴 조회: ".$dest,$MySQL);
+	}
+?>
+				<form name="idunbansearch" action="admin.php?func=idbansearch" method="post">
+					<table class="simpleform">
+						<tr>
+							<td>
+								<label for="idbansearch_inp_dest" class="unban_lbl normallbl"><?=(($_GET['func'] == "idbansearch") ? $dest : "닉네임")?></label>
+								<input id="idbansearch_inp_dest" class="unban_inp" name="idunban_dest" type="text" />
+							</td>
+							<td>
+								<button class="unban_sub">조회</button>
+							</td>
+						</tr>
+					</table>
+				</form>
+				<div style="height: 2px;">&nbsp;</div>
+				<table class="unban">
+					<tbody id="idunban_list">
+						<tr>
+							<th>Username</th>
+							<th>IP</th>
+							<th colspan="2">Reason</th>
+						</tr>
+						<tr>
+							<th>Host</th>
+							<th>Time</th>
+							<th>Until</th>
+							<th>Valid</th>
+						</tr>
+						<tr>
+						</tr>
+<?php
+	if($_GET['func'] == "idbansearch")
+		$unbanresult = @$MySQL->query("SELECT * FROM ban_data WHERE Username LIKE '".$dest."' AND IDBan = 1 ORDER BY Time DESC");
+	else
+		$unbanresult = @$MySQL->query("SELECT * FROM ban_data WHERE IDBan = 1 ORDER BY Time DESC LIMIT 100");
+		//$unbanresult = @$MySQL->query("SELECT * FROM ban_data WHERE IDBan = 1 AND (Until > CURRENT_TIMESTAMP OR Time > date_add(now(),INTERVAL -1 MONTH)) ORDER BY Time DESC");
+	$unbanrows = @$unbanresult->num_rows;
+	for($i = 0; $unbandata[$i] = @$unbanresult->fetch_array(); $i++)
+	{
+?>
+						<tr>
+							<td><?=$unbandata[$i]['Username']?></td>
+							<td><?=$unbandata[$i]['IP']?></td>
+							<td colspan="2"><?=$unbandata[$i]['Reason']?></td>
+						</tr>
+						<tr>
+							<td><?=$unbandata[$i]['Host']?></td>
+							<td><?=$unbandata[$i]['Time']?></td>
+							<td><?=((strcmp($unbandata[$i]['Until'],"0000-00-00 00:00:00") == 0) ? "무기한" : $unbandata[$i]['Until'])?></td>
+							<td><?=(($unbandata[$i]['Valid'] == 1) ? "유효함" : "해제됨(".htmlspecialchars(stripslashes($unbandata[$i]['Memo'])).")")?></td>
+						</tr>
+						<tr>
+							<td colspan="4">
+								<form name="idunban<?=$i?>frm" action="admin.php?func=idunban&dest=<?=$unbandata[$i]['ID']?>" method="post">
+									<table class="simpleform">
+										<tr>
+											<td>
+												<label for="idunban<?=$i?>_inp_reason" class="unban_lbl normallbl">해제 사유</label>
+												<input id="idunban<?=$i?>_inp_reason" class="unban_inp" name="idunban_reason" type="text" />
+											</td>
+											<td>
+												<button class="unban_submit">해제</button>
+											</td>
+										</tr>
+									</table>
+								</form>
+							</td>
+						</tr>
+<?php
+	}
+?>
+					</tbody>
+				</table>
+				<div class="unban_list_nav">
+				</div>
+				<p class="summary">권한5 이상</p>
+				<p class="summary">조회 시 LIKE 사용(대체문자 %)</p>
+<?php
+}
+?>
+			</div>
+			
+			<div id="conbox" class="head" style="background-color: #DDD;">
+				<h1>IP밴 추가</h1>
+			</div>
+			<div id="conbox" class="body" style="background-color: #FFF;">
+<?php
+if(AccessAdminKit($data['Admin'],3))
+{
+	if($_GET['func'] == "ipban")
+	{
+		$bansql = "INSERT INTO ban_data (Username,IP,IDBan,Reason,Host,Time,Until,Valid) VALUES (";
+		$bansql .= "'".$DB->real_escape_string(htmlspecialchars_decode($_POST['ipban_username']))."',";
+		$bansql .= "'".$DB->real_escape_string(htmlspecialchars_decode($_POST['ipban_ip']))."',";
+		$bansql .= "0,";
+		$bansql .= "'".$DB->real_escape_string(htmlspecialchars_decode($_POST['ipban_reason']))."',";
+		$bansql .= "'".$adminname."',";
+		$bansql .= "CURRENT_TIMESTAMP,";
+		$bansql .= "'".$DB->real_escape_string(htmlspecialchars_decode((strcmp($_POST['ipban_until'],"무기한") == 0) ? "0000-00-00 00:00:00" : $_POST['ipban_until']))."',";
+		$bansql .= "1)";
+		$banresult = @$MySQL->query($bansql);
+		$banresultstr = ((!$banresult) ? "실패" : "성공");
+		InsertLog($data['Username'],"Admin","IP밴 ".$banresultstr.": ".$_POST['idban_username']." / ".$_POST['ipban_ip']." / ".$_POST['ipban_reason'],$MySQL);
+		echo "<script type=\"text/javascript\">alert(\"".$_POST['ipban_username']." / ".$_POST['ipban_ip']." IP밴 ".$banresultstr."\");</script>";
+	}
+?>
+				<form name="ipbanfrm" action="admin.php?func=ipban" method="post">
+					<table class="ban">
+						<tbody>
+							<tr>
+								<th>대상 닉네임</th>
+								<td><input id="ipban_username" name="ipban_username" type="text" /></td>
+								<th>IP</th>
+								<td><input id="ipban_ip" name="ipban_ip" type="text" /></td>
+								<th>만료기한</th>
+								<td><input id="ipban_until" name="ipban_until" type="text" /></td>
+							</tr>
+							<tr>
+								<th>차단사유</th>
+								<td colspan="5"><input id="ipban_reason" name="ipban_reason" type="text" /></td>
+							</tr>
+							<tr>
+								<td colspan="6"><button class="ban_submit">추가</button></td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+				<p class="summary">권한3 이상</p>
+				<p class="summary">만료기한은 <u>무기한</u> 혹은 <u>년-월-일 시:분:초</u>(ex.2009-01-12 21:15:00) 형식</p>
+<?php
+}
+?>
+			</div>
+			
+			<div id="conbox" class="head" style="background-color: #DDD;">
+				<h1>IP밴 조회/해제</h1>
+			</div>
+			<div id="conbox" class="body" style="background-color: #FFF;">
+<?php
+if(AccessAdminKit($data['Admin'],5))
+{
+	if($_GET['func'] == "ipunban")
+	{
+		@$MySQL->query("UPDATE ban_data SET Valid = 0,Memo = '".$adminname.": ".$DB->real_escape_string(htmlspecialchars_decode($_POST['ipunban_reason']))."' WHERE ID = ".(int)$_GET['dest']." AND IDBan = 0");
+		$unbanresult = @$MySQL->query("SELECT * FROM ban_data WHERE IDBan = 0 AND Valid = 0 AND ID = ".(int)$_GET['dest']);
+		if($unbandata = @$unbanresult->fetch_assoc())
+			InsertLog($data['Username'],"Admin","IP밴 해제: ".$unbandata['Username']." / ".$unbandata['IP']." / ".$unbandata['Memo'],$MySQL);
+		else
+			InsertLog($data['Username'],"Admin","IP밴 해제 실패: ".$unbandata['Username']." / ".$unbandata['IP']." / ".$unbandata['Memo'],$MySQL);
+	}
+	else if($_GET['func'] == "ipbansearch")
+	{
+		$dest = $DB->real_escape_string(htmlspecialchars_decode($_POST['ipunban_dest']));
+		InsertLog($data['Username'],"Admin","IP밴 조회: ".$dest,$MySQL);
+	}
+?>
+				<form name="ipunbansearch" action="admin.php?func=ipbansearch" method="post">
+					<table class="simpleform">
+						<tr>
+							<td>
+								<label for="ipbansearch_inp_dest" class="unban_lbl normallbl"><?=(($_GET['func'] == "ipbansearch") ? $dest : "닉네임 혹은 IP")?></label>
+								<input id="ipbansearch_inp_dest" class="unban_inp" name="ipunban_dest" type="text" />
+							</td>
+							<td>
+								<button class="unban_sub">조회</button>
+							</td>
+						</tr>
+					</table>
+				</form>
+				<div style="height: 2px;">&nbsp;</div>
+				<table class="unban">
+					<tbody id="ipunban_list">
+						<tr>
+							<th>Username</th>
+							<th>IP</th>
+							<th colspan="2">Reason</th>
+						</tr>
+						<tr>
+							<th>Host</th>
+							<th>Time</th>
+							<th>Until</th>
+							<th>Valid</th>
+						</tr>
+						<tr>
+						</tr>
+<?php
+	if($_GET['func'] == "ipbansearch")
+		$unbanresult = @$MySQL->query("SELECT * FROM ban_data WHERE (Username LIKE '".$dest."' OR IP LIKE '".$dest."') AND IDBan = 0 ORDER BY Time DESC");
+	else
+		$unbanresult = @$MySQL->query("SELECT * FROM ban_data WHERE IDBan = 0 ORDER BY Time DESC LIMIT 100");
+		//$unbanresult = @$MySQL->query("SELECT * FROM ban_data WHERE IDBan = 0 AND (Until > CURRENT_TIMESTAMP OR Time > date_add(now(),INTERVAL -1 MONTH)) ORDER BY Time DESC");
+	for($i = 0; $unbandata[$i] = @$unbanresult->fetch_array(); $i++)
+	{
+?>
+						<tr>
+							<td><?=$unbandata[$i]['Username']?></td>
+							<td><?=$unbandata[$i]['IP']?></td>
+							<td colspan="2"><?=$unbandata[$i]['Reason']?></td>
+						</tr>
+						<tr>
+							<td><?=$unbandata[$i]['Host']?></td>
+							<td><?=$unbandata[$i]['Time']?></td>
+							<td><?=((strcmp($unbandata[$i]['Until'],"0000-00-00 00:00:00") == 0) ? "무기한" : $unbandata[$i]['Until'])?></td>
+							<td><?=(($unbandata[$i]['Valid'] == 1) ? "유효함" : "해제됨(".htmlspecialchars(stripslashes($unbandata[$i]['Memo'])).")")?></td>
+						</tr>
+						<tr>
+							<td colspan="4">
+								<form name="ipunban<?=$i?>frm" action="admin.php?func=ipunban&dest=<?=$unbandata[$i]['ID']?>" method="post">
+									<table class="simpleform">
+										<tr>
+											<td>
+												<label for="ipunban<?=$i?>_inp_reason" class="unban_lbl normallbl">해제 사유</label>
+												<input id="ipunban<?=$i?>_inp_reason" class="unban_inp" name="ipunban_reason" type="text" />
+											</td>
+											<td>
+												<button class="unban_submit">해제</button>
+											</td>
+										</tr>
+									</table>
+								</form>
+							</td>
+						</tr>
+<?php
+	}
+?>
+					</tbody>
+				</table>
+				<div class="unban_list_nav"></div>
+				<p class="summary">권한5 이상</p>
+				<p class="summary">조회 시 LIKE 사용(대체문자 %)</p>
+<?php
+}
+?>
+			</div>
+			
+			<div id="conbox" class="head" style="background-color: #DDD;">
+				<h1>접속IP 로그 조회</h1>
+			</div>
+			<div id="conbox" class="body" style="background-color: #FFF;">
+<?php
+if(AccessAdminKit($data['Admin'],3)) {
+?>
+				<table class="simpleform">
+					<tbody>
+						<tr>
+							<td>
+								<label for="connectiplog_inp_dest" class="connectiplog_lbl normallbl">닉네임 혹은 IP</label>
+								<input id="connectiplog_inp_dest" class="connectiplog_inp" name="connectiplog_dest" type="text" />
+							</td>
+							<td>
+								<button id="connectiplog_sub">조회</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div id="connectiplog" style="text-align: center;"></div>
+				<p class="summary">권한3 이상</p>
+				<p class="summary">조회 시 LIKE 사용(대체문자 %)</p>
+<?php
+}
+?>
+			</div>
+			
+			<div id="conbox" class="head" style="background-color: #DDD;">
+				<h1>개명 로그 조회</h1>
+			</div>
+			<div id="conbox" class="body" style="background-color: #FFF;">
+<?php
+if(AccessAdminKit($data['Admin'],6)) {
+?>
+				<table class="simpleform">
+					<tbody>
+						<tr>
+							<td>
+								<label for="changenamelog_inp_dest" class="changenamelog_lbl normallbl">닉네임 혹은 유저코드</label>
+								<input id="changenamelog_inp_dest" class="changenamelog_inp" name="changenamelog_dest" type="text" />
+							</td>
+							<td>
+								<button id="changenamelog_sub">조회</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div id="changenamelog" style="text-align: center;"></div>
+				<p class="summary">권한6 이상</p>
+				<p class="summary">조회 시 LIKE 사용(대체문자 %)</p>
+<?php
+}
+?>
+			</div>
+			
+			<div id="conbox" class="head" style="background-color: #DDD;">
+				<h1>계정 조회</h1>
+			</div>
+			<div id="conbox" class="body" style="background-color: #FFF;">
+<?php
+if(AccessAdminKit($data['Admin'],6)) {
+?>
+				<table class="simpleform">
+					<tbody>
+						<tr>
+							<td>
+								<label for="checkuserdata_inp_dest" class="checkuserdata_lbl normallbl">닉네임 혹은 유저코드</label>
+								<input id="checkuserdata_inp_dest" class="checkuserdata_inp" name="checkuserdata_dest" type="text" />
+							</td>
+							<td>
+								<button id="checkuserdata_sub">조회</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div id="checkuserdata" style="text-align: center;"></div>
+				<p class="summary">권한6 이상</p>
+				<p class="summary">조회 시 LIKE 사용(대체문자 %)</p>
+<?php
+}
+?>
+			</div>
+			
+			<!--<div id="conbox" class="head" style="background-color: #DDD;">
+				<h1>유저 로그 조회</h1>
+			</div>
+			<div id="conbox" class="body" style="background-color: #FFF;">
+<?php
+if(AccessAdminKit($data['Admin'],6)) {
+?>
+				<form name="checkuserlogfrm" action="admin.php?func=checkuserlog" method="post">
+					<table class="checkuserlog">
+						<tbody>
+							<tr>
+								<th>ID</th>
+								<th>Type</th>
+								<th>UserID</th>
+								<th>DestID</th>
+								<th>Value_A</th>
+								<th>Value_B</th>
+							</tr>
+							<tr>
+								<th colspan="4">Contents</th>
+								<th colspan="2">Time</th>
+							</tr>
+							<tr>
+								<td><input id="checkuserlog_inp_id" class="checkuserlog_inp" name="checkuserlog_id" type="text" /></td>
+								<td><input id="checkuserlog_inp_type" class="checkuserlog_inp" name="checkuserlog_type" type="text" /></td>
+								<td><input id="checkuserlog_inp_userid" class="checkuserlog_inp" name="checkuserlog_userid" type="text" /></td>
+								<td><input id="checkuserlog_inp_destid" class="checkuserlog_inp" name="checkuserlog_destid" type="text" /></td>
+								<td><input id="checkuserlog_inp_value_a" class="checkuserlog_inp" name="checkuserlog_value_a" type="text" /></td>
+								<td><input id="checkuserlog_inp_value_b" class="checkuserlog_inp" name="checkuserlog_value_b" type="text" /></td>
+							</tr>
+							<tr>
+								<td colspan="4"><input id="checkuserlog_inp_contents" class="checkuserlog_inp" name="checkuserlog_contents" type="text" /></td>
+								<td colspan="2"><input id="checkuserlog_inp_time" class="checkuserlog_inp" name="checkuserlog_time" type="text" /></td>
+							</tr>
+							<tr>
+								<td>
+									<label for="checkuserlog_inp_limit" class="checkuserlog_lbl">LIMIT</label>
+									<input id="checkuserlog_inp_limit" class="checkuserlog_inp" name="checkuserlog_limit" type="text" />
+								</td>
+								<td colspan="5"><button class="checkuserlog_sub">조회</button></td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+<?php
+	if($_GET['func'] == "checkuserlog")
+	{
+		$userlogsql = "SELECT * FROM log_user WHERE TRUE";
+		if(strlen($_POST['checkuserlog_id']) > 0)
+			$userlogsql .= " AND ID=".intval($_POST['checkuserlog_id']);
+		if(strlen($_POST['checkuserlog_type']) > 0)
+			$userlogsql .= " AND Type=".intval($_POST['checkuserlog_type']);
+		if(strlen($_POST['checkuserlog_userid']) > 0)
+			$userlogsql .= " AND UserID=".intval($_POST['checkuserlog_userid']);
+		if(strlen($_POST['checkuserlog_destid']) > 0)
+			$userlogsql .= " AND DestID=".intval($_POST['checkuserlog_destid']);
+		if(strlen($_POST['checkuserlog_value_a']) > 0)
+			$userlogsql .= " AND ValueA=".intval($_POST['checkuserlog_value_a']);
+		if(strlen($_POST['checkuserlog_value_b']) > 0)
+			$userlogsql .= " AND ValueB=".intval($_POST['checkuserlog_value_b']);
+		if(strlen($_POST['checkuserlog_contents']) > 0)
+			$userlogsql .= " AND Contents LIKE '".$DB->real_escape_string(htmlspecialchars_decode($_POST['checkuserlog_contents']))."'";
+		if(strlen($_POST['checkuserlog_time']) > 0)
+			$userlogsql .= " AND Time LIKE '".$DB->real_escape_string(htmlspecialchars_decode($_POST['checkuserlog_time']))."'";
+		$userlogsql .= " ORDER BY Time DESC LIMIT ".$DB->real_escape_string(htmlspecialchars_decode($_POST['checkuserlog_limit']));
+		$userlogresult = @$MySQL->query($userlogsql);
+		InsertLog($data['Username'],"Admin","유저 로그 조회(".$userlogsql.")",$MySQL);
+		if(@$userlogresult->num_rows > 0)
+		{
+?>
+				<table class="userlog">
+					<tbody id="userlog_list">
+<?php
+			for($i = 0; $userlogdata[$i] = @$userlogresult->fetch_array(); $i++)
+			{
+?>
+						<tr>
+							<td><?=$userlogdata[$i]['ID']?>&nbsp;</td>
+							<td><?=$userlogdata[$i]['Type']?>&nbsp;</td>
+							<td><?=$userlogdata[$i]['UserID']?>&nbsp;</td>
+							<td><?=$userlogdata[$i]['DestID']?>&nbsp;</td>
+							<td><?=$userlogdata[$i]['Value_A']?>&nbsp;</td>
+							<td><?=$userlogdata[$i]['Value_B']?>&nbsp;</td>
+						</tr>
+						<tr>
+							<td colspan="4"><?=$userlogdata[$i]['Contents']?>&nbsp;</td>
+							<td colspan="2"><?=$userlogdata[$i]['Time']?>&nbsp;</td>
+						</tr>
+<?php
+			}
+?>
+					</tbody>
+				</table>
+<?php
+		}
+	}
+?>
+				<p class="summary">조회 조건은 AND 연산자로 결합</p>
+				<p class="summary">Contents,Type은 LIKE 사용(대체문자 %)</p>
+<?php
+}
+?>
+			</div>-->
+			
+			<div id="conbox" class="head" style="background-color: #DDD;">
+				<h1>로그인 세션 변경</h1>
+			</div>
+			<div id="conbox" class="body" style="background-color: #FFF;">
+<?php
+if(AccessAdminKit($data['Admin'],7)) {
+	if($_GET['func'] == "loginsession") {
+		$dest = $DB->real_escape_string(htmlspecialchars_decode($_POST['loginsession_dest']));
+		$loginsessionresult = @$MySQL->query("SELECT Password,Username FROM user_data WHERE Username='".$dest."'");
+		if($loginsessiondata = @$loginsessionresult->fetch_row()) {
+			$_SESSION['password'] = $loginsessiondata[0];
+			$_SESSION['username'] = $loginsessiondata[1];
+			InsertLog($data['Username'],"Admin","로그인 세션 변경: ".$_SESSION['Username'],$MySQL);
+			echo "<script type=\"text/javascript\">alert(\"로그인 세션 변경: ".$_SESSION['username']."\");</script>";
+		}
+		else {
+			InsertLog($data['Username'],"Admin","로그인 세션 실패: ".$_SESSION['Username'],$MySQL);
+			echo "<script type=\"text/javascript\">alert(\"로그인 세션 변경 실패: ".$dest."\");</script>";
+		}
+	}
+?>
+				<form name="loginsessionfrm" action="admin.php?func=loginsession" method="post">
+					<table class="loginsession">
+						<tbody>
+							<tr>
+								<th>닉네임</th>
+								<td><input id="loginsession_dest" class="loginsession_inp" name="loginsession_dest" type="text" /></td>
+								<td><button class="loginsession_submit">변경</button></td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+<?php
+}
+?>
+			</div>
+<?php
+include "./footer.inc.php";
+?>
+		</div>
+	</body>
+</html>
+<?php
+mysql_close();
+?>

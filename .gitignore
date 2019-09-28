@@ -1,8 +1,12 @@
-# Old files
-old/
+# Launcher files
+Launcher/
+
+# Guide file
+about.html
 
 # Config files
 config.php
+old/defines.inc.php
 
 # Windows image file caches
 Thumbs.db
