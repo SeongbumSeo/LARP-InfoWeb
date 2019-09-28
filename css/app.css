@@ -523,6 +523,59 @@ hr {
 	font-size: .9rem;
 }
 
+#account .caption {
+	float: left;
+	color: #AAA;
+}
+#account .result {
+	text-align: right;
+}
+#account > div {
+	max-width: 300px;
+	margin: 0 auto;
+}
+#account .account-id {
+	margin-bottom: 10px;
+	border-bottom: 1px solid #AAA;
+}
+#account .account-id > .caption {
+	float: none;
+	color: inherit;
+}
+#account .account-id > .result {
+	padding: 10px 0;
+	font-size: 1.5em;
+	font-weight: bold;
+	letter-spacing: 1em;
+	text-align: center;
+}
+#account .account-balance > .result {
+	font-weight: bold;
+}
+#account .account-log {
+	margin-top: 10px;
+}
+#account .account-log .account-log-item {
+	padding: 10px 0;
+	border-top: 1px solid #AAA;
+}
+#account .account-log .account-log-item .time {
+	color: #AAA;
+}
+#account .account-log .account-log-item .contents {
+	font-size: 1.2em;
+	text-align: right;
+}
+#account .account-log .account-log-item .amount > .result {
+	font-weight: bold;
+}
+#account .account-log .account-log-item .amount > .result.withdraw {
+	color: #AA0A0A;
+}
+#account .account-log .account-log-item .amount > .result.deposit {
+	color: #0A0AAA;
+}
+
 #map {
 	width: auto;
 	height: auto;

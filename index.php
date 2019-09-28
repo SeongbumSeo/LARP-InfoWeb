@@ -139,6 +139,33 @@ include("config.php");
 			</button>
 		</div>
 
+		<div id="account" class="reveal show-signedin hide" data-reveal>
+			<h3>계좌</h3>
+
+			<div class="account-id">
+				<div class="caption">계좌번호</div>
+				<div class="result"><!--js/playerinformation.js--></div>
+			</div>
+			<div class="account-balance">
+				<div class="caption">잔액</div>
+				<div class="result"><!--js/playerinformation.js--></div>
+			</div>
+			<div class="account-log">
+				<div class="account-log-item hide">
+					<div class="time"><!--js/playerinformation.js--></div>
+					<div class="contents"><!--js/playerinformation.js--></div>
+					<div class="amount">
+						<div class="caption"><!--js/playerinformation.js--></div>
+						<div class="result"><!--js/playerinformation.js--></div>
+					</div>
+					<div class="balance">
+						<div class="caption">잔액</div>
+						<div class="result"><!--js/playerinformation.js--></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div id="map" class="reveal show-signedin hide" data-reveal>
 			<h3><!--js/map.js--></h3>
 			<div id="map-canvas">
@@ -230,6 +257,10 @@ include("config.php");
 									<button type="button" class="show-item-list button">
 										<img src="images/icons/backpack.png" />
 										<span>아이템</span>
+									</button>
+									<button type="button" class="show-account button">
+										<img src="images/icons/bankbook.png" />
+										<span>계좌</span>
 									</button>
 									<button type="button" class="show-map button">
 										<img src="images/icons/map.png" />

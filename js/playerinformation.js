@@ -5,6 +5,10 @@ $(document).ready(function () {
 		showItemData("내 아이템", 2, null);
 	});
 
+	$('#profile .show-account').on('click', function() {
+		showAccount();
+	});
+
 	$('#profile .show-map').on('click', function() {
 		if(!$('#profile .show-map').hasClass('disabled')) {
 			var x = parseFloat($(this).attr('x'));
@@ -206,6 +210,55 @@ function showItemData(caption, status, statusdata) {
 	});
 }
 
+function showAccount() {
+	$.ajax({
+		type: "post",
+		url: "functions/account.php",
+		cache: false
+	}).done(function(data) {
+		switch(data) {
+			case "Session Error":
+				updateSignedStatus();
+				break;
+			default:
+				var json = JSON.parse(data);
+
+				$('#account')
+					.find('.account-id > .result').text(json.Bankbook).end()
+					.find('.account-balance > .result').text("$" + numberFormat(json.Bank)).end();
+				
+				var i;
+				for (i = 0; i < json.Log.length; i++) {
+					var $block = $('#account .account-log .account-log-item.hide').clone()
+						.appendTo('#account .account-log').removeClass('hide');
+
+					$block
+						.find('.time').text(json.Log[i].Time).end()
+						.find('.contents').text(json.Log[i].Contents).end()
+						.find('.amount > .caption').text(json.Log[i].Type+"금액").end()
+						.find('.balance > .result').text("$" + numberFormat(json.Log[i].Balance)).end();
+					
+					if (json.Log[i].Type == "출금") {
+						$block.find('.amount .result')
+							.addClass('withdraw')
+							.text("$" + numberFormat(json.Log[i].Amount * (-1)));
+					} else {
+						$block.find('.amount .result')
+							.addClass('deposit')
+							.text("$" + numberFormat(json.Log[i].Amount));
+					}
+				}
+				if (i == 0)
+					$('#account .account-log').addClass('hide');
+				
+				$('#account').foundation('open');
+				break;
+		}
+	}).fail(function() {
+		alert("계좌 데이터를 불러오지 못하였습니다.");
+	});
+}
+
 function showUsageLog() {
 	$.ajax({
 		type: "get",
@@ -220,7 +273,8 @@ function showUsageLog() {
 				$('.usagelog-data > tr').not($('.hide')).remove();
 
 				var json = JSON.parse(data);
-				for(var i = 0; i < json.length; i++) {
+				var i;
+				for(i = 0; i < json.length; i++) {
 					var block = $('.usagelog-data tr.hide').clone().appendTo('.usagelog-data').removeClass('hide');
 
 					block.find('td:first-child').css('color', json[i].TypeColor);
@@ -300,4 +354,8 @@ function showCarBlowLog(caption, vid) {
 	}).fail(function() {
 		alert("차량 블로우 로그를 불러오지 못하였습니다.");
 	});
+}
+
+function numberFormat(value) {
+	return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
