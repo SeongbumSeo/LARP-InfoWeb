@@ -4,7 +4,7 @@ require_once("../config.php");
 
 $query = new SampQuery(GAME_HOST, GAME_PORT); 
 if(!$query->connect())
-	die("Closed");
+	die("0");
 
 $info = $query->getInfo();
 $contents = array(

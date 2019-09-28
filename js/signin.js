@@ -2,7 +2,6 @@ var signedin = false;
 
 $(document).ready(function () {
 	updateSignedStatus();
-	setInterval("updateSignedStatus()", 10000);
 
 	$('.signin-submit').on('click', function() { signIn() });
 	$('#signin .input-group-field').on('keypress', function(e) {
@@ -27,6 +26,8 @@ function updateSignedStatus() {
 		}
 		signedin = (parseInt(data) == 1) ? true : false;
 		setSignedDisplay();
+	}).always(function() {
+		setTimeout("updateSignedStatus()", 30000);
 	});
 }
 

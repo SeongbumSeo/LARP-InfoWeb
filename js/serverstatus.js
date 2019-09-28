@@ -6,7 +6,6 @@ var playerList = "";
 
 $(document).ready(function () {
 	updateServerStatus();
-	setInterval("updateServerStatus()", 2000);
 });
 
 function updateServerStatus() {
@@ -21,6 +20,9 @@ function updateServerStatus() {
 		url: "functions/serverstatus.php",
 		cache: false
 	}).done(function(data) {
+		if (parseInt(data) == 0)
+			return;
+		
 		var json = JSON.parse(data);
 
 		gameAddress = json.Address;
@@ -43,7 +45,7 @@ function updateServerStatus() {
 			$('.serverstatus-error').removeClass('hide');
 			$('.serverstatus-offline').addClass('hide');
 			$('.serverstatus-online').addClass('hide');
-		} else if(data == "Closed") {
+		} else if(parseInt(data) == 0) {
 			$('.serverstatus-loading').addClass('hide');
 			$('.serverstatus-error').addClass('hide');
 			$('.serverstatus-offline').removeClass('hide');
@@ -64,5 +66,7 @@ function updateServerStatus() {
 			$('.serverstatus-offline').addClass('hide');
 			$('.serverstatus-online').removeClass('hide');
 		}
+
+		setTimeout("updateServerStatus()", 5000);
 	});
 }
