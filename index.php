@@ -26,6 +26,7 @@ include("config.php");
 			<div id="responsive-menu">
 				<div class="top-bar-right">
 					<ul class="menu" data-magellan data-bar-offset="30">
+						<li><a href="./connect">IP등록</a></li>
 						<li><a href="#notice">공지사항</a></li>
 						<li class="show-signedin"><a href="#profile">프로필</a></li>
 						<li class="show-signedin"><a href="#world">월드</a></li>
