@@ -16,6 +16,7 @@ $accsql = accountSQL($mysqli, $id);
 $logsql = accountLogSQL($mysqli, $id);
 
 $data = $accsql->fetch_assoc();
+$data['Bankbook'] = sprintf("%03d-%03d", $data['Bankbook']/1000, $data['Bankbook']%1000);
 $data['Log'] = array();
 while ($datum = $logsql->fetch_assoc()) {
   array_push($data['Log'], $datum);
