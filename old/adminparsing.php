@@ -61,8 +61,13 @@ switch($_GET['func']) {
 				print("양식을 모두 입력하세요.");
 				exit;
 			}
+			if($process = "메시지") {
+				$value = $DB->real_escape_string($adminname);
+			} else {
+				$value = (int)$value;
+			}
 			
-			$logdata = sprintf("%s/%d/%s", str_replace('/', ',', $process), (int)$value, str_replace('/', ',', $reason));
+			$logdata = sprintf("%s/%d/%s", str_replace('/', ',', $process), $value, str_replace('/', ',', $reason));
 			$query = $DB->query(sprintf("SELECT ID, Username FROM user_data WHERE Username = '%s' OR ID = %d", $name, (int)$name));
 			if($query->num_rows < 1) {
 				InsertLog($UserData, "Admin", sprintf("오프라인 프로세스: NULL/%s/%s", $name, $logdata), false);
@@ -74,11 +79,10 @@ switch($_GET['func']) {
 			$destname = $data[1];
 			$query = $DB->query(sprintf("
 				INSERT INTO offline_process (UserID, Confirmed, Contents, Function, Admin, Time) VALUES (%d, 0, '%s', '%s, %s', '%s', CURRENT_TIMESTAMP)", 
-				$destid, $DB->real_escape_string($_GET['reason']), $DB->real_escape_string($_GET['process']), 
-				(int)$_GET['value'], $DB->real_escape_string($adminname)));
+				$destid, $reason, $process, $value, $DB->real_escape_string($adminname)));
 			InsertLog($UserData, "Admin", sprintf("오프라인 프로세스: %d/%s/%s", $destid, $destname, $logdata), ($query)? true: false);
 			if($query)
-				printf("오프라인 프로세스 성공: %s에게 %s (값: %d, 이유: %s)", $destname, $_GET['process'], (int)$_GET['value'], $_GET['reason']);
+				printf("오프라인 프로세스 성공: %s에게 %s (값: %s, 이유: %s)", $destname, $process, $value, $reason);
 			else
 				printf("오프라인 프로세스 실패");
 		}
