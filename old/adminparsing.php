@@ -53,13 +53,16 @@ switch($_GET['func']) {
 	case 'offlineprocess':
 		if(AccessAdminKit($UserData['Admin'], 5)) {
 			$name = str_replace('/', ',', $DB->real_escape_string($_GET['username']));
-			
-			if(strlen($name) < 1 || strlen($_GET['process']) < 1 || strlen($_GET['value']) < 1 || strlen($_GET['reason']) < 1) {
+			$process = $DB->real_escape_string($_GET['process']);
+			$value = $DB->real_escape_string($_GET['value']);
+			$reason = $DB->real_escape_string($_GET['reason']);
+
+			if(strlen($name) < 1 || strlen($process) < 1 || strlen($value) < 1 || strlen($reason) < 1) {
 				print("양식을 모두 입력하세요.");
 				exit;
 			}
 			
-			$logdata = sprintf("%s/%d/%s", str_replace('/', ',', $_GET['process']), (int)$_GET['value'], str_replace('/', ',', $_GET['reason']));
+			$logdata = sprintf("%s/%d/%s", str_replace('/', ',', $process), (int)$value, str_replace('/', ',', $reason));
 			$query = $DB->query(sprintf("SELECT ID, Username FROM user_data WHERE Username = '%s' OR ID = %d", $name, (int)$name));
 			if($query->num_rows < 1) {
 				InsertLog($UserData, "Admin", sprintf("오프라인 프로세스: NULL/%s/%s", $name, $logdata), false);

@@ -18,16 +18,23 @@ include "./head.inc.php";
 				
 				LoadProcessLog("null");
 				
-                $('button[id=mailaddress_sub]').click(function() {
-                   $.ajax({
-                      type: "get",
-                       url: "adminparsing.php?func=mailaddress&dest=" + $('#mailaddress_inp_dest').val(),
-                       cache: false,
-                       success: function(data) {
-                           $("#mailaddress").html(data);
-                       }
-                   });
-                });
+				$('button[id=mailaddress_sub]').click(function() {
+						$.ajax({
+							type: "get",
+								url: "adminparsing.php?func=mailaddress&dest=" + $('#mailaddress_inp_dest').val(),
+								cache: false,
+								success: function(data) {
+										$("#mailaddress").html(data);
+								}
+						});
+				});
+				$('#offlineprocess_process').change(function() {
+					var disabled = (this.value == "메시지");
+					$('#offlineprocess_value').prop('disabled', disabled);
+					if (disabled) {
+						$('#offlineprocess_value').val("<?=$adminname?>");
+					}
+				});
 				$('button[id=offlineprocess_sub]').click(function() {
 					$.ajax({
 						type: "get",
@@ -38,26 +45,26 @@ include "./head.inc.php";
 						}
 					});
 				});
-                $('button[id=killlog_user_sub]').click(function() {
-                   $.ajax({
-                       type: "get",
-                       url: "adminparsing.php?func=killlog&data=user&dest=" + $('#killlog_inp_user').val(),
-                       cache: false,
-                       success: function(data) {
-                           $("#killlog").html(data);
-                       }
-                   });
-                });
-                $('button[id=killlog_killer_sub]').click(function() {
-                   $.ajax({
-                       type: "get",
-                       url: "adminparsing.php?func=killlog&data=killer&dest=" + $('#killlog_inp_killer').val(),
-                       cache: false,
-                       success: function(data) {
-                           $("#killlog").html(data);
-                       }
-                   });
-                });
+				$('button[id=killlog_user_sub]').click(function() {
+						$.ajax({
+								type: "get",
+								url: "adminparsing.php?func=killlog&data=user&dest=" + $('#killlog_inp_user').val(),
+								cache: false,
+								success: function(data) {
+										$("#killlog").html(data);
+								}
+						});
+				});
+				$('button[id=killlog_killer_sub]').click(function() {
+						$.ajax({
+								type: "get",
+								url: "adminparsing.php?func=killlog&data=killer&dest=" + $('#killlog_inp_killer').val(),
+								cache: false,
+								success: function(data) {
+										$("#killlog").html(data);
+								}
+						});
+				});
 				$('button[id=carblowlog_vehicle_sub]').click(function() {
 					$.ajax({
 						type: "get",
@@ -335,6 +342,7 @@ if(AccessAdminKit($UserData['Admin'],5)) {
 									<option value="칭찬">칭찬</option>
 									<option value="돈지급">돈지급</option>
 									<option value="돈회수">돈회수</option>
+									<option value="메시지">메시지</option>
 								</select>
 							</td>
 							<th>값</th>
