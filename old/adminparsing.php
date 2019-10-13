@@ -61,7 +61,7 @@ switch($_GET['func']) {
 				print("양식을 모두 입력하세요.");
 				exit;
 			}
-			if($process = "메시지") {
+			if($process == "메시지") {
 				$value = $DB->real_escape_string($adminname);
 			} else {
 				$value = (int)$value;
