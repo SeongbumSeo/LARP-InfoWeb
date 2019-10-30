@@ -83,7 +83,13 @@ function AccessAdminKit($adminlevel,$limitedlevel,$showmessage=true)
 	if($adminlevel >= $limitedlevel) return true;
 	else if($showmessage)
 	{
-		echo "<center>이 키트에 접근하려면 권한".$limitedlevel." 이상 필요합니다.</center>";
+		echo "
+			<div id=\"conbox\" class=\"head\" style=\"background-color: #DDD;\">
+				<h1>...</h1>
+			</div>
+			<div id=\"conbox\" class=\"body\" style=\"background-color: #FFF;\">
+				<center>이 키트에 접근하려면 권한".$limitedlevel." 이상 필요합니다.</center>
+			</div>";
 	}
 }
 

@@ -221,10 +221,6 @@ include "./header.inc.php";
 				<p style="text-align: center; font-size: 1.2em;">현재 접속중인 IP는 <span style="color: #AA0000;"><?=$_SERVER['REMOTE_ADDR']?></span>입니다.</p>
 			</div>
 			
-			<div id="conbox" class="head" style="background-color: #DDD;">
-				<h1>비밀번호 변경</h1>
-			</div>
-			<div id="conbox" class="body" style="background-color: #FFF;">
 <?php
 if(AccessAdminKit($UserData['Admin'],5)) {
 	if($_GET['func'] == "setpw") {
@@ -235,6 +231,10 @@ if(AccessAdminKit($UserData['Admin'],5)) {
 		printf("<script type=\"text/javascript\">alert(\"%s 비밀번호 변경 %s\");</script>",$username,($setpwresult)? "성공": "실패");
 	}
 ?>
+			<div id="conbox" class="head" style="background-color: #DDD;">
+				<h1>비밀번호 변경</h1>
+			</div>
+			<div id="conbox" class="body" style="background-color: #FFF;">
 				<form name="setpwfrm" action="admin.php?func=setpw" method="post">
 					<table class="setpw">
 						<tbody>
@@ -251,46 +251,40 @@ if(AccessAdminKit($UserData['Admin'],5)) {
 					</table>
 				</form>
 				<p class="summary">권한5 이상</p>
+			</div>
 <?php
 }
+if(AccessAdminKit($UserData['Admin'],3)) {
 ?>
-			</div>
-            
-            <div id="conbox" class="head" style="background-color: #DDD;">
+			<div id="conbox" class="head" style="background-color: #DDD;">
 				<h1>메일주소 조회</h1>
 			</div>
 			<div id="conbox" class="body" style="background-color: #FFF;">
-<?php
-if(AccessAdminKit($UserData['Admin'],3)) {
-?>
-                <table class="simpleform">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <label for="mailaddress_inp_dest" class="normallbl">닉네임 혹은 유저코드 혹은 이메일</label>
-                                <input id="mailaddress_inp_dest" class="mailaddress_inp" type="text" />
-                            </td>
-                            <td>
-                                <button id="mailaddress_sub">조회</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+				<table class="simpleform">
+					<tbody>
+						<tr>
+							<td>
+								<label for="mailaddress_inp_dest" class="normallbl">닉네임 혹은 유저코드 혹은 이메일</label>
+								<input id="mailaddress_inp_dest" class="mailaddress_inp" type="text" />
+							</td>
+							<td>
+								<button id="mailaddress_sub">조회</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 				<div id="mailaddress" style="text-align: center;">
 				</div>
 				<p class="summary">권한3 이상</p>
+			</div>
 <?php
 }
+if(AccessAdminKit($UserData['Admin'],6)) {
 ?>
-            </div>
-			
 			<!--<div id="conbox" class="head" style="background-color: #DDD;">
 				<h1>프로세스 로그</h1>
 			</div>
 			<div id="conbox" class="body" style="background-color: #FFF;">
-<?php
-if(AccessAdminKit($UserData['Admin'],6)) {
-?>
 				<table class="simpleform">
 					<tbody>
 						<tr>
@@ -316,19 +310,15 @@ if(AccessAdminKit($UserData['Admin'],6)) {
 				<table id="processlog"></table>
 				<div id="processlog_nav"></div>
 				<p class="summary">미완성</p>
+			</div>-->
 <?php
 }
+if(AccessAdminKit($UserData['Admin'],5)) {
 ?>
-			</div>-->
-			
 			<div id="conbox" class="head" style="background-color: #DDD;">
 				<h1>오프라인 프로세스</h1>
 			</div>
 			<div id="conbox" class="body" style="background-color: #FFF;">
-<?php
-if(AccessAdminKit($UserData['Admin'],5)) {
-?>
-
 				<table class="offlineprocesstable">
 					<tbody>
 						<tr>
@@ -361,16 +351,9 @@ if(AccessAdminKit($UserData['Admin'],5)) {
 				</div>
 				<p class="summary">권한5 이상</p>
 				<p class="summary">값: <u>처분 횟수</u> 또는 <u>금액</u></p>
+			</div>
 <?php
 }
-?>
-			</div>
-
-			<div id="conbox" class="head" style="background-color: #DDD;">
-				<h1>ID밴 추가</h1>
-			</div>
-			<div id="conbox" class="body" style="background-color: #FFF;">
-<?php
 if(AccessAdminKit($UserData['Admin'],3)) {
 	if($_GET['func'] == "idban" && strlen($_POST['idban_username']) > 0) {
 		$bansql = "INSERT INTO ban_data (Username,IP,IDBan,Reason,Host,Time,Until,Valid) VALUES (";
@@ -385,9 +368,13 @@ if(AccessAdminKit($UserData['Admin'],3)) {
 		$banresult = $DB->query($bansql);
 		InsertLog($UserData,"Admin",sprintf("ID밴: %s / %s / %s",$_POST['idban_username'],$_POST['idban_ip'],$_POST['idban_reason']));
 		printf("<script type=\"text/javascript\">alert(\"%s / %s ID밴 %s\");</script>",
-  			addslashes($_POST['idban_username']),addslashes($_POST['idban_ip']),($banresult)? "성공": "실패");
+		addslashes($_POST['idban_username']),addslashes($_POST['idban_ip']),($banresult)? "성공": "실패");
 	}
 ?>
+			<div id="conbox" class="head" style="background-color: #DDD;">
+				<h1>ID밴 추가</h1>
+			</div>
+			<div id="conbox" class="body" style="background-color: #FFF;">
 				<form name="idbanfrm" action="admin.php?func=idban" method="post">
 					<table class="ban">
 						<tbody>
@@ -411,31 +398,21 @@ if(AccessAdminKit($UserData['Admin'],3)) {
 				</form>
 				<p class="summary">권한3 이상</p>
 				<p class="summary">만료기한은 <u>무기한</u> 혹은 <u>년-월-일 시:분:초</u>(ex.2009-01-12 21:15:00) 형식</p>
+			</div>
 <?php
 }
+if(AccessAdminKit($UserData['Admin'],5)) {
 ?>
-			</div>
-			
 			<div id="conbox" class="head" style="background-color: #DDD;">
 				<h1>ID밴 조회/해제</h1>
 			</div>
 			<div id="conbox" class="body" style="background-color: #FFF;">
-<?php
-if(AccessAdminKit($UserData['Admin'],5)) {
-?>
 				<iframe id="iframe_idunban_list" src="adminparsing.php?func=idunban&style=true"></iframe>
 				<p class="summary">권한5 이상</p>
 				<p class="summary">조회 시 LIKE 사용(대체문자 %)</p>
+			</div>
 <?php
 }
-?>
-			</div>
-			
-			<div id="conbox" class="head" style="background-color: #DDD;">
-				<h1>IP밴 추가</h1>
-			</div>
-			<div id="conbox" class="body" style="background-color: #FFF;">
-<?php
 if(AccessAdminKit($UserData['Admin'],3)) {
 	if($_GET['func'] == "ipban" && strlen($_POST['ipban_username']) > 0) {
 		$bansql = "INSERT INTO ban_data (Username,IP,IDBan,Reason,Host,Time,Until,Valid) VALUES (";
@@ -453,6 +430,10 @@ if(AccessAdminKit($UserData['Admin'],3)) {
   			addslashes($_POST['ipban_username']),addslashes($_POST['ipban_ip']),($banresult)? "성공": "실패");
 	}
 ?>
+			<div id="conbox" class="head" style="background-color: #DDD;">
+				<h1>IP밴 추가</h1>
+			</div>
+			<div id="conbox" class="body" style="background-color: #FFF;">
 				<form name="ipbanfrm" action="admin.php?func=ipban" method="post">
 					<table class="ban">
 						<tbody>
@@ -476,70 +457,61 @@ if(AccessAdminKit($UserData['Admin'],3)) {
 				</form>
 				<p class="summary">권한3 이상</p>
 				<p class="summary">만료기한은 <u>무기한</u> 혹은 <u>년-월-일 시:분:초</u>(ex.2009-01-12 21:15:00) 형식</p>
+			</div>
 <?php
 }
+if(AccessAdminKit($UserData['Admin'],5)) {
 ?>
-			</div>
-			
 			<div id="conbox" class="head" style="background-color: #DDD;">
 				<h1>IP밴 조회/해제</h1>
 			</div>
 			<div id="conbox" class="body" style="background-color: #FFF;">
-<?php
-if(AccessAdminKit($UserData['Admin'],5)) {
-?>
 				<iframe id="iframe_ipunban_list" src="adminparsing.php?func=ipunban&style=true"></iframe>
 				<p class="summary">권한5 이상</p>
 				<p class="summary">조회 시 LIKE 사용(대체문자 %)</p>
+			</div>
 <?php
 }
+if(AccessAdminKit($UserData['Admin'],3)) {
 ?>
-			</div>
-			
 			<div id="conbox" class="head" style="background-color: #DDD;">
 				<h1>킬 로그 조회</h1>
 			</div>
 			<div id="conbox" class="body" style="background-color: #FFF;">
-<?php
-if(AccessAdminKit($UserData['Admin'],3)) {
-?>
-                <table class="simpleform">
-                    <tbody>
-                        <tr>
-                            <td style="border-bottom: none;">
-                                <label for="killlog_inp_user" class="normallbl">피해자 닉네임 혹은 유저코드</label>
-                                <input id="killlog_inp_user" class="killlog_inp" type="text" />
-                            </td>
-                            <td style="border-bottom: none;">
-                                <button id="killlog_user_sub">조회</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label for="killlog_inp_killer" class="normallbl">가해자 닉네임 혹은 유저코드</label>
-                                <input id="killlog_inp_killer" class="killlog_inp" type="text" />
-                            </td>
-                            <td>
-                                <button id="killlog_killer_sub">조회</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+				<table class="simpleform">
+					<tbody>
+						<tr>
+							<td style="border-bottom: none;">
+								<label for="killlog_inp_user" class="normallbl">피해자 닉네임 혹은 유저코드</label>
+								<input id="killlog_inp_user" class="killlog_inp" type="text" />
+							</td>
+							<td style="border-bottom: none;">
+								<button id="killlog_user_sub">조회</button>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label for="killlog_inp_killer" class="normallbl">가해자 닉네임 혹은 유저코드</label>
+								<input id="killlog_inp_killer" class="killlog_inp" type="text" />
+							</td>
+							<td>
+								<button id="killlog_killer_sub">조회</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 				<div id="killlog" style="text-align: center;">
 				</div>
 				<p class="summary">권한3 이상</p>
+			</div>
 <?php
 }
+if(AccessAdminKit($UserData['Admin'],3)) {
 ?>
-			</div>
-			
 			<div id="conbox" class="head" style="background-color: #DDD;">
 				<h1>차량 파괴 로그 조회</h1>
 			</div>
 			<div id="conbox" class="body" style="background-color: #FFF;">
-<?php
-if(AccessAdminKit($UserData['Admin'],3)) {
-?>
 				<table class="simpleform">
 					<tbody>
 						<tr>
@@ -564,18 +536,15 @@ if(AccessAdminKit($UserData['Admin'],3)) {
 				</table>
 				<div id="carblowlog" style="text-align: center;"></div>
 				<p class="summary">권한3 이상</p>
+			</div>
 <?php
 }
+if(AccessAdminKit($UserData['Admin'],3)) {
 ?>
-			</div>
-			
 			<div id="conbox" class="head" style="background-color: #DDD;">
 				<h1>접속 로그 조회</h1>
 			</div>
 			<div id="conbox" class="body" style="background-color: #FFF;">
-<?php
-if(AccessAdminKit($UserData['Admin'],3)) {
-?>
 				<table class="simpleform">
 					<tbody>
 						<tr>
@@ -592,18 +561,15 @@ if(AccessAdminKit($UserData['Admin'],3)) {
 				<div id="connectiplog" style="text-align: center;"></div>
 				<p class="summary">권한3 이상</p>
 				<p class="summary">조회 시 LIKE 사용(대체문자 %)</p>
+			</div>
 <?php
 }
+if(AccessAdminKit($UserData['Admin'],3)) {
 ?>
-			</div>
-			
 			<div id="conbox" class="head" style="background-color: #DDD;">
 				<h1>개명 로그 조회</h1>
 			</div>
 			<div id="conbox" class="body" style="background-color: #FFF;">
-<?php
-if(AccessAdminKit($UserData['Admin'],3)) {
-?>
 				<table class="simpleform">
 					<tbody>
 						<tr>
@@ -621,18 +587,15 @@ if(AccessAdminKit($UserData['Admin'],3)) {
 				<p class="summary">권한3 이상</p>
 				<p class="summary">조회 시 LIKE 사용(대체문자 %)</p>
 				<p class="summary">범주: User, Admin 혹은 생략</p>
+			</div>
 <?php
 }
+if(AccessAdminKit($UserData['Admin'],6)) {
 ?>
-			</div>
-			
 			<div id="conbox" class="head" style="background-color: #DDD;">
 				<h1>계정 조회</h1>
 			</div>
 			<div id="conbox" class="body" style="background-color: #FFF;">
-<?php
-if(AccessAdminKit($UserData['Admin'],6)) {
-?>
 				<table class="simpleform">
 					<tbody>
 						<tr>
@@ -649,18 +612,15 @@ if(AccessAdminKit($UserData['Admin'],6)) {
 				<div id="checkuserdata" style="text-align: center;"></div>
 				<p class="summary">권한6 이상</p>
 				<p class="summary">조회 시 LIKE 사용(대체문자 %)</p>
+			</div>
 <?php
 }
+if($UserData['ID'] == ACCOUNT_ACU || $UserData['ID'] == ACCOUNT_WLABYR) {
 ?>
-			</div>
-			
 			<!--<div id="conbox" class="head" style="background-color: #DDD;">
 				<h1>데이터베이스 조회</h1>
 			</div>
 			<div id="conbox" class="body" style="background-color: #FFF;">
-<?php
-if($UserData['ID'] == ACCOUNT_ACU || $UserData['ID'] == ACCOUNT_WLABYR) {
-?>
 				<table class="simpleform">
 					<tbody>
 						<tr>
@@ -676,23 +636,15 @@ if($UserData['ID'] == ACCOUNT_ACU || $UserData['ID'] == ACCOUNT_WLABYR) {
 				</table>
 				<div id="databaseview" style="text-align: center;"></div>
 				<p class="summary">Acu, 서성범 전용</p>
-<?php
-}
-else {
-?>
-				<center>이 키트는 Acu, 서성범만 접근 가능합니다.</center>
-<?php
-}
-?>
 			</div>-->
-			
+<?php
+}
+if(AccessAdminKit($UserData['Admin'],6)) {
+?>
 			<!--<div id="conbox" class="head" style="background-color: #DDD;">
 				<h1>계정 삭제</h1>
 			</div>
 			<div id="conbox" class="body" style="background-color: #FFF;">
-<?php
-if(AccessAdminKit($UserData['Admin'],6)) {
-?>
 				<table class="simpleform">
 					<tbody>
 						<tr>
@@ -709,18 +661,15 @@ if(AccessAdminKit($UserData['Admin'],6)) {
 				<div id="deleteaccount" style="text-align: center;"></div>
 				<p class="summary">권한6 이상</p>
 				<p class="summary" style="color:#FF5555;">삭제 시 복구 불가능</p>
+			</div>-->
 <?php
 }
+if(AccessAdminKit($UserData['Admin'],6)) {
 ?>
-			</div>-->
-			
 			<!--<div id="conbox" class="head" style="background-color: #DDD;">
 				<h1>유저 로그 조회</h1>
 			</div>
 			<div id="conbox" class="body" style="background-color: #FFF;">
-<?php
-if(AccessAdminKit($UserData['Admin'],6)) {
-?>
 				<form name="checkuserlogfrm" action="admin.php?func=checkuserlog" method="post">
 					<table class="checkuserlog">
 						<tbody>
@@ -813,16 +762,9 @@ if(AccessAdminKit($UserData['Admin'],6)) {
 ?>
 				<p class="summary">조회 조건은 AND 연산자로 결합</p>
 				<p class="summary">Contents,Type은 LIKE 사용(대체문자 %)</p>
+			</div>-->
 <?php
 }
-?>
-			</div>-->
-			
-			<div id="conbox" class="head" style="background-color: #DDD;">
-				<h1>로그인 세션 변경</h1>
-			</div>
-			<div id="conbox" class="body" style="background-color: #FFF;">
-<?php
 if(AccessAdminKit($UserData['Admin'],7)) {
 	if($_GET['func'] == "loginsession") {
 		$dest = $DB->real_escape_string(htmlspecialchars_decode($_POST['loginsession_dest']));
@@ -839,6 +781,10 @@ if(AccessAdminKit($UserData['Admin'],7)) {
 		}
 	}
 ?>
+			<div id="conbox" class="head" style="background-color: #DDD;">
+				<h1>로그인 세션 변경</h1>
+			</div>
+			<div id="conbox" class="body" style="background-color: #FFF;">
 				<form name="loginsessionfrm" action="admin.php?func=loginsession" method="post">
 					<table class="loginsession">
 						<tbody>
@@ -851,10 +797,10 @@ if(AccessAdminKit($UserData['Admin'],7)) {
 					</table>
 				</form>
 				<p class="summary">권한7 이상</p>
+			</div>
 <?php
 }
 ?>
-			</div>
 <?php
 include "./footer.inc.php";
 ?>
