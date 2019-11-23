@@ -656,6 +656,39 @@ iframe {
 	background-color: #FFF;
 }
 
+#conbox .addoninsert_form {
+	border: 1px solid #555;
+}
+#conbox .addoninsert_form tr {
+	border-bottom: 1px solid #555;
+}
+#conbox .addoninsert_form tr:last-child {
+	border: none;
+}
+#conbox .addoninsert_form tr th {
+	width: 10%;
+	color: #FFF;
+	background-color: #555;
+}
+#conbox .addoninsert_form tr:first-child td {
+	width: 30%;
+}
+#conbox .addoninsert_form tr:last-child td {
+	width: 10%;
+}
+#conbox .addoninsert_form tr td input {
+	border: none;
+	width: 100%;
+	padding: 0 5px;
+}
+#conbox .
+#conbox .addoninsert_form tr td button {
+	width: 100%;
+	height: 22px;
+	background-color: #FFF;
+	border: none;
+}
+
 .useridtable {
 	width: 100%;
 }

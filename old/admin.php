@@ -615,6 +615,65 @@ if(AccessAdminKit($UserData['Admin'],6)) {
 			</div>
 <?php
 }
+if(AccessAdminKit($UserData['Admin'],7)) {
+?>
+			<div id="conbox" class="head" style="background-color: #DDD;">
+				<h1>애드온 등록</h1>
+			</div>
+			<div id="conbox" class="body" style="background-color: #FFF;">
+				<table class="addoninsert_form">
+					<tbody>
+						<tr>
+							<th>이름</th>
+							<td>
+								<label for="addoninsert_inp_name_dest" class="normallbl">이름</label>
+								<input id="addoninsert_inp_name" class="addoninsert_inp_name" name="addoninsert_inp_name" type="text" />
+							</td>
+							<th>식별자</th>
+							<td>
+								<label for="addoninsert_inp_identifier_dest" class="normallbl">식별자</label>
+								<input id="addoninsert_inp_identifier" class="addoninsert_inp_identifier" name="addoninsert_inp_identifier" type="text" />
+							</td>
+						</tr>
+						<tr>
+							<th>소개</th>
+							<td colspan="3">
+								<textarea></textarea>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="4">
+								<button id="checkuserdata_sub">등록</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<p class="summary">권한7 이상</p>
+			</div>
+<?php
+}
+if(AccessAdminKit($UserData['Admin'],7)) {
+?>
+			<div id="conbox" class="head" style="background-color: #DDD;">
+				<h1>애드온 삭제</h1>
+			</div>
+			<div id="conbox" class="body" style="background-color: #FFF;">
+				<iframe id="iframe_addon_list" src="adminparsing.php?func=addonlist&style=true"></iframe>
+				<p class="summary">권한7 이상</p>
+			</div>
+<?php
+}
+if(AccessAdminKit($UserData['Admin'],7)) {
+?>
+			<div id="conbox" class="head" style="background-color: #DDD;">
+				<h1>런처 구성 파일 관리자</h1>
+			</div>
+			<div id="conbox" class="body" style="background-color: #FFF;">
+				<iframe id="iframe_launcher_file_manage" src="http://launcher.la-rp.co.kr/manage.php"></iframe>
+				<p class="summary">권한7 이상</p>
+			</div>
+<?php
+}
 if($UserData['ID'] == ACCOUNT_ACU || $UserData['ID'] == ACCOUNT_WLABYR) {
 ?>
 			<!--<div id="conbox" class="head" style="background-color: #DDD;">

@@ -570,7 +570,7 @@ errHandler:
 			
             if(strlen($name))
                 InsertLog($UserData, "Admin", sprintf("프로세스 로그 조회(%s): %s", $type, $name), true);
-			printf("%d", $LOG->num_rows/$pagesize->query($sql));
+			printf("%d", $LOG->num_rows/$pagesize);
 			while($adata = $aquery->fetch_assoc()) {
 				$uquery = $DB->query("SELECT AdminName FROM user_data WHERE ID=".$adata['UserID']);
 				$dquery = $DB->query("SELECT Username FROM user_data WHERE ID=".$adata['DestID']);
@@ -579,6 +579,73 @@ errHandler:
 					$adata['Name'], str_replace('/', ',', $uquery->fetch_row()[0]), $dquery->fetch_row()[0], 
 			   		str_replace('/', ',', ($adata['Type'] == 23 || $adata['Type'] == 24)? $adata['Value']: $adata['Contents']));
 			}
+		}
+		break;
+	case 'addoninsert':
+		if (AccessAdminKit($UserData['Admin'], 7)) {
+			$type = intval($_POST['type']);
+			$name = $DB->real_escape_string($_POST['name']);
+			$source = $DB->real_escape_string($_POST['source']);
+			$description = $DB->real_escape_string($_POST['description']);
+			
+			$sql = sprintf("
+				INSERT INTO launcher_addon_data
+					(Type, Name, Source, Description)
+				VALUES
+					(%d, '%s', '%s', '%s')
+				", $type, $name, $source, $description);
+			$query = $DB->query($sql);
+			
+			InsertLog($UserData, "Admin", sprintf("애드온 추가: %s", $name), ($query) ? true : false);
+			if ($query)
+				printf("<b>%s</b> 애드온을 추가했습니다.", $name);
+			else
+				printf("<b>%s</b> 애드온을 추가하지 못했습니다.", $name);
+		}
+		break;
+	case 'addondelete':
+		if (AccessAdminKit($UserData['Admin'], 7)) {
+			$id = intval($_POST['id']);
+			$name = $_POST['name'];
+			
+			$sql = sprintf("SELECT Name FROM launcher_addon_data WHERE ID = %d", $id);
+			$query = $DB->query($sql);
+			if($query->num_rows < 1) {
+				InsertLog($UserData, "Admin", sprintf("애드온 삭제: %s", $name), false);
+				printf("<b>%s</b> 애드온을 찾을 수 없습니다.", $name);
+				exit;
+			}
+			$name = $query->fetch_row()[0];
+			
+			$sql = sprintf("DELETE FROM launcher_addon_data WHERE ID = %d", $id);
+			$query = $DB->query($sql);
+			
+			InsertLog($UserData, "Admin", sprintf("애드온 삭제: %s", $name), ($query) ? true : false);
+			if ($query)
+				printf("<b>%s</b> 애드온을 삭제했습니다.", $name);
+			else
+				printf("<b>%s</b> 애드온을 삭제하지 못했습니다.", $name);
+		}
+		break;
+	case 'addonlist':
+		if (AccessAdminKit($UserData['Admin'], 7)) {
+			$page = intval($_GET['page']);
+			$pagesize = 10;
+			
+			$sql = sprintf("
+				SELECT *
+				FROM launcher_addon_data
+				WHERE Deleted = 0
+				ORDER BY CreatedTime DESC
+				LIMIT %d, %d
+				", $page*$pagesize, $pagesize);
+			$query = $DB->query($sql);
+			
+			$data = [];
+			while ($datum = $query->fetch_assoc()) {
+				array_push($data, $datum);
+			}
+			print(json_encode($data));
 		}
 		break;
 	default:
